@@ -1,0 +1,142 @@
+.header {
+    padding: 10px 30px;
+    
+    img {
+        width: 250px;
+    }
+
+    .headerContent {
+        border-bottom: 2px solid var(--gray-300);
+        
+        .openResponsiveMenu {
+            display: none;
+        }
+
+        .iconsContainer {
+            color: #000;
+            .icon {
+                font-size: 30px;
+                cursor: pointer;
+                transition: 0.3s;
+
+                &:hover {
+                    color: var(--red-500);
+                }
+            }
+
+            .cartAmount {
+                background-color: var(--red-500);
+                width: 10px;
+                height: 10px;
+                padding: 10px;
+                border-radius: 50%;
+                position: absolute;
+                top: 35px;
+                right: 73px;
+                span {
+                    font-size: 12px;
+                    color: #fff;
+                }
+            }
+
+            .userBox {
+
+                .imgContainer {
+                    width: 60px;
+
+                    img {
+                        width: 100%;
+                        object-fit: cover;
+                    }
+                }
+
+                h4 {
+                    color: #000;
+                }
+                
+                
+                h5 {
+                    color: var(--red-600);
+                    font-weight: bold;
+                }
+
+                h6 {
+                    color: #000;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: 0.3s;
+
+                    &:hover {
+                        color: var(--red-500);
+                    }
+
+                    &:first-child {
+                        border-right: 1px solid var(--gray-300);
+                        padding-right: 10px;
+                    }
+                }
+            }
+        }
+    }
+
+    nav {
+        .active {   
+            color:var(--red-600);
+            border-bottom: 1px solid var(--red-600);
+        }
+
+        a{
+            font-weight: bold;
+            transition: 0.3s;
+            font-size: 18px;
+
+            &:hover {
+                color: var(--red-500);
+            }
+        }        
+    }
+}
+
+@media(max-width:750px) {
+    .header {
+        padding: 10px 15px;
+        .headerContent{
+           .responsiveIconBox {
+            display: flex;
+            gap: 20px; 
+            align-items: center;
+                img {
+                    width: 130px;
+                }
+
+            .openResponsiveMenu {
+                display: block;
+                cursor: pointer;
+            }
+           }
+
+            .iconsContainer {
+                .icon{
+                    display: none;
+                }
+                .cartAmount {
+                    display: none;
+                    background-color: transparent;
+                    span {
+                        display: none;
+                    }
+                }
+
+                .userBox {
+                    h5, h6 {
+                        font-size: 15px;
+                    }
+                }
+            }
+        }
+
+        nav {
+            display: none!important;
+        }
+    }
+}

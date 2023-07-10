@@ -1,0 +1,70 @@
+.limitedTimeOffer {
+    background: url('../../../public/images/limitedTimeOfferBackground.jpg');
+    width: 100%;
+    min-height: 500px;
+    margin-top: 100px;
+    background-size: cover;
+    color: #fff;
+
+    .limitedTimeOfferSubtitles {
+        padding: 0 30px;
+
+        h2 {
+            font-size: 40px;
+            font-family: 'Ultra', sans-serif;
+        }
+
+        .limitedTimeOfferBoxContainer {
+
+            .limitedTimeOfferBox {
+                background-color: var(--red-600);
+                color: #fff;
+                width: 100px;
+                height: 100px;
+                border-radius: 10px;
+
+                h5 {
+                    font-weight: bold;
+                    font-size: 18px;
+                }
+            }
+        }
+
+        button {
+            width: 250px;
+            height: 50px;
+            border: none;
+            border-radius:5px;
+            background-color: var(--red-600);
+            color: #fff;
+            font-weight: bold;
+            font-size: 20px;
+            transition: 0.3s;
+
+            &:hover {
+                filter: brightness(0.8);
+            }
+        }
+    }
+}
+
+@media(max-width:750px) {
+    .limitedTimeOffer {
+        .limitedTimeOfferSubtitles{
+            padding: 0 10px;
+            h2 {
+                font-size: 30px;
+            }
+            .limitedTimeOfferBoxContainer{
+                .limitedTimeOfferBox {
+                    width: 60px;
+                    height: 60px;
+
+                    h5 {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+}

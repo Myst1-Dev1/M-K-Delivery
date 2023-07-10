@@ -1,0 +1,108 @@
+.cart {
+    background-color: #fff;
+    width:450px;
+    padding: 20px;
+    min-height: 100vh;
+    position: fixed;
+    z-index: 1000;
+    box-shadow: 1px 1px 3px #000;
+    top: 0;
+    right: 0;
+    
+    .icon {
+        cursor: pointer;
+    }
+    
+    .cartContainer {
+        overflow-y: scroll;
+        height: 300px;
+
+        &::-webkit-scrollbar {
+            width: 8px; /* Largura da barra de rolagem */
+            background-color: #f5f5f5; /* Cor de fundo da barra de rolagem */
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--gray-300); /* Cor do indicador da barra de rolagem */
+            border-radius: 4px; /* Raio de borda do indicador */
+        }
+
+        .cartProductBox {
+            padding-right: 20px;
+    
+            .imgContainer {
+                width: 150px;
+                height: 100px;
+    
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+    
+            .cartProductBoxSubtitles {
+                h5 {
+                    max-width: 12ch;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                h6 {
+                    color: var(--gray-500);
+                    font-size: 15px;
+                }
+            }
+    
+            .amountContainer {
+    
+                .amountBox {
+                    width: 30px;
+                    height: 30px;
+                    border: 1px solid var(--gray-300);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+
+                    h3,h6 {
+                        font-size: 15px;
+                        font-weight: bold;
+                    }
+                }
+            }
+    
+            .icon {
+                color: var(--red-600);
+                cursor: pointer;
+            }
+        }
+    }
+
+    .totalContainer {
+        h6 {
+            color: var(--gray-500);
+            cursor: pointer;
+        }
+        h5 {
+            font-size: 14px;
+        }
+        span {
+            color: var(--gray-500);
+        }
+
+        button {
+            height: 40px;
+            width: 100%;
+            color: #fff;
+            background-color: var(--red-600);
+            border-radius: 5px;
+            border: none;
+            transition: 0.3s;
+
+            &:hover {
+                filter: brightness(0.8);
+            }
+        }
+    }
+}

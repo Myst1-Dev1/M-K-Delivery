@@ -1,0 +1,25 @@
+.responsiveMenu {
+    background-color: #252525;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    z-index: 1000;
+    padding: 20px;
+
+    .responsiveMenuIcons {
+
+        .icon {
+            color: #fff;
+        }
+    }
+
+    nav {
+        color: #fff;
+        .active {
+            color: var(--red-500);
+            border-bottom: 1px solid var(--red-500);
+        }
+    }
+}

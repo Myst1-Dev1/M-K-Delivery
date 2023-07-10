@@ -1,0 +1,102 @@
+.mostSaledDishesContainer{
+    margin-top: 100px;
+    padding: 30px;
+
+    .flexDishes {
+
+        .disheBox {
+            margin-top: 30px;
+            transition: 0.3s;
+    
+            img {
+                width: 330px;
+                height: 200px;
+            }
+            
+            .dishSubtitles {
+                padding: 20px;
+                border: 1px solid var(--gray-300);
+                width: 330px;
+    
+                h3 {
+                    max-width: 30ch;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+    
+                p {
+                    font-size: 14px;
+                }
+    
+                .favoriteIcon {
+                    cursor: pointer;
+                }
+    
+                button {
+                    width: 160px;
+                    height: 40px;
+                    padding-right: 1px;
+                    background-color: var(--red-600);
+                    color: #fff;
+                    border: none;
+                    font-size: 12px;
+                    border-radius: 5px;
+                    transition: 0.3s;
+    
+                    .icon {
+                        margin-right: 10px;
+                        margin-left: 10px;
+                        font-size: 18px;
+                    }
+    
+                    &:hover {
+                        filter: brightness(0.8);
+                    }
+                }
+            }
+        }
+    }
+
+    .pagination {
+        margin-top: 30px;
+
+        button {
+            background-color: #252525;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            transition: 0.3s;
+            width: 40px;
+
+            &:hover {
+                background-color: var(--red-600);
+            }
+        }
+    }
+}
+
+@media(max-width:750px) {
+    .mostSaledDishesContainer{
+        .flexDishes{
+            .disheBox{
+                img {
+                    width: 290px;
+                }
+
+                .dishSubtitles{
+                    width: 280px;
+
+                    h3 {
+                        font-size: 15px;
+                    }
+
+                    button {
+                        width: 120px;
+                    }
+                }
+            }
+        }
+    }
+}

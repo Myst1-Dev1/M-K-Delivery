@@ -1,0 +1,106 @@
+.paymentContainer {
+    margin-top: 100px;
+
+    .deliveryBox {
+        padding: 20px;
+
+        .formContainer, .paymentMethodBox {
+            border: 1px solid var(--gray-300);
+            padding: 20px;
+            width: 500px;
+
+            input[type=radio] {
+                width: 20px;
+            }
+
+            .inputBox {
+                input {
+                    border: 1px solid var(--gray-300);
+                    border-radius: 5px;
+                    width: 100%;
+                    height: 50px;
+                    padding: 10px;
+                    outline: none;
+                    background-color: none;
+                    color: #000;
+                }
+    
+                 // O código abaixo foi utilizado para remover as arrows do input number
+                 input[type=number]::-webkit-inner-spin-button { 
+                    -webkit-appearance: none; 
+                }
+            }
+    
+            textarea {
+                resize: none;
+                outline: none;
+                border: 1px solid var(--gray-300);
+                border-radius: 5px;
+                width: 100%;
+                padding: 10px;
+            }
+        }
+    }
+
+    .orderContainer {
+        padding: 20px;
+        .orderBox {
+            border: 1px solid var(--gray-300);
+            padding: 20px;
+            width: 500px;
+
+           .orderProducts {
+                overflow-y: scroll;
+                height: 350px;
+        
+                &::-webkit-scrollbar {
+                    width: 8px; /* Largura da barra de rolagem */
+                    background-color: #f5f5f5; /* Cor de fundo da barra de rolagem */
+                }
+        
+                &::-webkit-scrollbar-thumb {
+                    background-color: var(--gray-300); /* Cor do indicador da barra de rolagem */
+                    border-radius: 4px; /* Raio de borda do indicador */
+                }
+
+              .orderProductBox {
+                padding-right: 20px;
+
+                .imgContainer {
+                    width: 180px;
+
+                    img {
+                        width: 100%;
+                        object-fit: cover;
+                    }
+                }
+
+                h5 {
+                    font-size: 15px;
+                }
+
+                p {
+                    color: var(--gray-500);
+                }
+              }
+           }
+
+           span {
+            color: var(--gray-500);
+           }
+
+            button {
+                border: none;
+                background-color: var(--red-600);
+                color: #fff;
+                width: 360px;
+                height: 50px;
+                transition: 0.3s;
+
+                &:hover {
+                    filter: brightness(0.8);
+                }
+            }
+        }
+    }
+}

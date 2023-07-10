@@ -1,0 +1,73 @@
+.menu {
+    .createNewProduct {
+
+        button {
+            width: 250px;
+            height: 50px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--red-600);
+            color: #fff;
+            transition: 0.3s;
+
+            &:hover {
+                filter: brightness(0.8);
+            }
+        }
+    }
+
+    .menuContainer {
+        margin-top: 100px;
+
+        .dishesContainer {
+            .searchBox {
+                border: 1px solid var(--gray-300);
+                border-radius: 5px;
+                padding: 10px;
+                width: 230px;
+                height: 50px;
+
+                input {
+                    border: none;
+                    background: none;
+                    outline: none;
+                }
+            }        
+        }
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        align-content: center;
+        margin-bottom: 50px;
+        list-style: none;
+    
+        a {
+            background-color: #252525;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            transition: 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+    
+            &:hover {
+                background-color: var(--red-600);
+                color: #fff;
+            }
+        }
+    }
+}
+
+@media(max-width:750px) {
+    .menu {
+        .menuContainer{
+            flex-wrap: wrap;
+        }
+    }
+}

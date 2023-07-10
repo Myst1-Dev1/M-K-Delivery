@@ -1,0 +1,58 @@
+.disheBox {
+    margin-top: 20px;
+
+    .deleteProduct {
+        color: var(--red-600);
+        cursor: pointer;
+    }
+
+
+    img {
+        height: 200px;
+        width: 330px;
+    }
+
+    .dishSubtitles {
+        width: 330px;
+        padding: 20px;
+        border: 1px solid var(--gray-300);
+
+        p {
+            height: 50px;
+            font-size: 14px;
+        }
+
+        h3 {
+            max-width: 15ch;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .favoriteIcon {
+            cursor: pointer;
+        }
+
+        button {
+            width: 160px;
+            height: 40px;
+            padding-right: 1px;
+            background-color: var(--red-600);
+            color: #fff;
+            border: none;
+            font-size: 12px;
+            border-radius: 5px;
+            transition: 0.3s;
+
+            .icon {
+                margin-right: 10px;
+                margin-left: 10px;
+                font-size: 18px;
+            }
+
+            &:hover {
+                filter: brightness(0.8);
+            }
+        }
+    }
+}

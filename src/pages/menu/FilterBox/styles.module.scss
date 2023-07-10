@@ -1,0 +1,33 @@
+.filterBox {
+    background-color: #252525;
+    color: #fff;
+    width: 230px;
+    padding: 30px;
+    border-radius: 5px;
+
+    .foodOptionsBox {
+
+        .option {
+            cursor: pointer;
+            h4,h6 {
+                transition: 0.3s;
+
+                &:hover {
+                    color: var(--red-500);
+                }
+            }
+            h6 {
+                color: var(--gray-300);
+            }
+        }
+    }
+
+    .chefBox {
+        margin-top: 100px;
+
+        h6 {
+            color: var(--red-500);
+            font-weight: bold;
+        }
+    }
+}

@@ -1,0 +1,87 @@
+.homeContent {
+
+    .traditionalMenuContainer {
+        margin-top: 100px;
+        padding:30px;
+
+        .sushiBox{
+            background: url('../../public/images/sushiBox.png');
+        }
+
+        .saladBox{
+            background: url('../../public/images/saladBox.png');
+        }
+
+        .noodleBox{
+            background: url('../../public/images/noodleBox.png');
+        }
+
+        .drinkBox{
+            background: url('../../public/images/drinkBox.png');
+        }
+
+        .sushiBox,.saladBox,.noodleBox,.drinkBox {
+            width: 500px;
+            height: 300px;
+            background-size: cover;
+            color: #fff;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 20px;
+
+            .foodBoxSubtitles {
+                padding: 0 20px;
+                height: 200px;
+
+                button {
+                    background:none;
+                    color: #fff;
+                    font-size: 30px;
+                    border: 1px solid var(--gray-300);
+                    border-radius: 5px;
+                    width: 200px;
+                    height: 50px;
+                    transition: 0.3s;
+
+                    &:hover {
+                        background-color: var(--red-600);
+                        border: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .contactRestaurant {
+        margin-top: 100px;
+
+        .contactRestaurantBox{
+
+            .icon {
+                width: 50px;
+                height: 50px;
+                color: var(--red-600);
+            }
+        }
+
+        img {
+            width: 350px;
+            margin: auto;
+        }
+
+        button {
+            width: 200px;
+            height: 50px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--red-600);
+            color: #fff;
+            transition: 0.3s;
+
+            &:hover {
+                filter: brightness(0.8);
+            }
+        }
+    }
+}
