@@ -1,4 +1,5 @@
 import { FaArrowLeft, FaArrowRight, FaSearch } from 'react-icons/fa';
+import { BsFilter } from 'react-icons/bs';
 import { useState, useEffect, useContext } from 'react';
 
 import styles from './styles.module.scss';
@@ -10,8 +11,9 @@ import { ProductBox } from './ProductBox/ProductBox';
 import { PageBanner } from '@/components/pageBanner';
 import { AuthContext } from '@/contexts/AuthContext';
 import { ProductModal } from '@/components/ProductModal';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import { ProductsApi } from '@/services/api';
+import { ResponsiveFilterBox } from './ResponsiveFilterBox';
 
 interface MenuProps {
     data:Products[];
@@ -22,6 +24,7 @@ export default function Menu({ data }:MenuProps) {
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState<Products[]>([]);
     const [isNewOrderModalOpen, setIsNewOrderModalOpen] = useState(false);
+    const [openResponsiveFilterBox, setOpenResponsiveFilteBox] = useState(false);
 
     const { user, isAuthenticated } = useContext(AuthContext);
 
@@ -65,6 +68,10 @@ export default function Menu({ data }:MenuProps) {
         setItemOffset(newOffset);
       };
 
+    function handleOpenResponsiveFilterBox() {
+        setOpenResponsiveFilteBox(!openResponsiveFilterBox);
+    }
+
 
     return (
         <>
@@ -81,6 +88,10 @@ export default function Menu({ data }:MenuProps) {
                 <div className={`d-flex gap-5 container mb-5 ${styles.menuContainer}`}>
                         <FilterBox onSetFilter = {setFilter} />
                     <div className={`${styles.dishesContainer}`}>
+                        <BsFilter 
+                            onClick={handleOpenResponsiveFilterBox} 
+                            className={styles.openResponsiveFilterBox} 
+                        />
                         <div className={styles.searchBox}>
                             <input 
                                 type="text" 
@@ -90,6 +101,9 @@ export default function Menu({ data }:MenuProps) {
                             />
                             <FaSearch className={`ms-2 ${styles.icon}`} />
                         </div>
+                        <ResponsiveFilterBox
+                            onOpenResponsiveFilterBox = {openResponsiveFilterBox}
+                            onSetFilter = {setFilter} />
                         <ProductBox onCurrentItems = {currentItems} />
                     </div>
                 </div>
@@ -115,10 +129,11 @@ export default function Menu({ data }:MenuProps) {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
     try {
       const response = await ProductsApi.get();
       const data = response.data;
+
       return {
         props: {
           data

@@ -1,0 +1,15 @@
+.responsiveFilterBox {
+    background-color: #252525;
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+
+    .option {
+        cursor: pointer;
+    }
+
+    .clean {
+        color: var(--gray-500);
+    }
+}

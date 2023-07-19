@@ -4,7 +4,6 @@ import styles from './styles.module.scss';
 import { MostSaledDishes } from "../components/mostSaledDishes";
 import { LimitedTimeOffer } from "@/components/limitedTimeOffer";
 import { FaEnvelopeOpen, FaMap, FaPhoneAlt } from "react-icons/fa";
-import { Footer } from "@/components/Footer";
 import { HomeBanner } from "@/components/HomeBanner";
 
 export default function Home() {
@@ -96,10 +95,9 @@ export default function Home() {
                         </div>
                         <button className="mt-5 mb-5">Faça sua Reserva</button>
                     </div>
-                    <img src="/images/restaurant.jpg" alt="place" />
+                    <img className="img-fluid" src="/images/restaurant.jpg" alt="place" />
                 </div>
             </div>
-            <Footer />
         </>
     )
 }

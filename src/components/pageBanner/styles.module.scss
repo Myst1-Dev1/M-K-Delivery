@@ -11,3 +11,11 @@
         font-family: 'Ultra', sans-serif;
     }
 }
+
+@media(max-width:430px) {
+    .pageBanner {
+        h1 {
+            font-size: 30px;
+        }
+    }
+}

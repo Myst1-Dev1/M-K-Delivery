@@ -14,7 +14,7 @@ export default function paymentPage() {
 
     useEffect(() => {
         if(isAuthenticated === false) {
-            alert('Você precisa estar logado para fazer compras.')
+            alert('Você precisa estar logado para fazer compras.');
             router.push('/');
         }
     }, []);
@@ -28,22 +28,22 @@ export default function paymentPage() {
                 <div className={`col-md-6 ${styles.deliveryBox}`}>
                     <h3>Informações de entrega</h3>
                     <div className={`mt-4 ${styles.formContainer}`}>
-                        <div className='d-flex gap-5'>
-                            <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                        <div className='row'>
+                            <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label className='fw-bold' htmlFor="name">Nome</label>
                                 <input type="text" placeholder='John Doe' id='name' />
                             </div>
-                            <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                            <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label className='fw-bold' htmlFor="phone">Telefone</label>
                                 <input type="tel" placeholder='55 (21) 4002 8922' id='phone' />
                             </div>
                         </div>
-                        <div className='d-flex gap-5 mt-4'>
-                            <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                        <div className='row mt-4'>
+                            <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label className='fw-bold' htmlFor="adress">Endereço</label>
                                 <input type="text" placeholder='Rua Lorem Porto' id='adress' />
                             </div>
-                            <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                            <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label className='fw-bold' htmlFor="zipCode">Cep</label>
                                 <input type="number" placeholder='45896-147' id='zipCode' />
                             </div>

@@ -104,3 +104,20 @@
         }
     }
 }
+
+@media(max-width:430px) {
+    .paymentContainer {
+        .deliveryBox {
+            .formContainer, .paymentMethodBox {
+                width: 340px;
+            }
+        }
+
+        .orderContainer {
+            
+            .orderBox {
+                width: 340px;
+            }
+        }
+    }
+}

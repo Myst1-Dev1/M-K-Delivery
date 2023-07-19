@@ -1,14 +1,17 @@
 import { FaTimes, FaTrashAlt } from 'react-icons/fa';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import styles from './styles.module.scss';
 import { CartContext } from '@/services/hooks/useCart';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface CartProps {
     onSetShowOverlay:any;
 }
 
 export function Cart({ onSetShowOverlay }:CartProps) {
+    const router = useRouter();
+
     const { 
         cart, 
         setOpenCart,
@@ -23,6 +26,21 @@ export function Cart({ onSetShowOverlay }:CartProps) {
         setOpenCart(false);
         onSetShowOverlay(false);
     }
+
+    useEffect(() => {
+        const handleRouteChange = () => {
+          // Feche o carrinho quando a rota for alterada
+          handleCloseCart();
+        };
+    
+        // Adicione o listener para a mudança de rota
+        router.events.on('routeChangeStart', handleRouteChange);
+    
+        // Remova o listener ao desmontar o componente
+        return () => {
+          router.events.off('routeChangeStart', handleRouteChange);
+        };
+      }, []);
 
 
     return (

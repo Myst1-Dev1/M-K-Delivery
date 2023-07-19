@@ -1,0 +1,25 @@
+.about {
+
+    .aboutBox {
+
+        .aboutBoxSubtitles {
+            p {
+                max-width: 400px;
+            }
+        }
+    }
+
+    .restaurantTeam {
+
+        .teamIntegralBox {
+            img {
+                width: 100px;
+                object-fit: cover;
+            }
+
+            h6 {
+                color: var(--red-600);
+            }
+        }
+    }
+}

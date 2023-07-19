@@ -17,6 +17,7 @@ export function Header() {
 
     const [showOverlay, setShowOverlay] = useState(false);
     const [responsiveMenu, setResponsiveMenu] = useState(false);
+    const [fixedHeader, setFixedHeader] = useState(false);
 
     const router = useRouter()
 
@@ -31,17 +32,53 @@ export function Header() {
     }
 
     useEffect(() => {
+        const scrollListener = () => {
+          if (window.scrollY > 10) {
+            setFixedHeader(true);
+          } else {
+            setFixedHeader(false);
+          }
+        };
+    
+        if (typeof window !== 'undefined') {
+          // Verifica se estamos no lado do cliente antes de adicionar o evento de rolagem.
+          window.addEventListener('scroll', scrollListener);
+        }
+    
+        return () => {
+          if (typeof window !== 'undefined') {
+            // Verifica novamente antes de remover o evento de rolagem.
+            window.removeEventListener('scroll', scrollListener);
+          }
+        };
+      }, []);
+
+    useEffect(() => {
         setOpenCart(false);
       }, [router.pathname, setOpenCart]);
 
     return (
         <>
-            <div className={styles.header}>
+            <div className={fixedHeader ? styles.fixedHeader : styles.header}>
                 <div className={`d-flex align-items-center justify-content-between ${styles.headerContent}`}>
                     <div className={styles.responsiveIconBox}>
                         <FaBars onClick={handleOpenResponsiveMenu} className={styles.openResponsiveMenu} />
                         <img src="/images/Logo.png" alt="logo" />
                     </div>
+                    <nav className='d-flex gap-5 mt-3'>
+                    <ActiveLink activeClassName={styles.active} href="/" passHref legacyBehavior>
+                        Início
+                    </ActiveLink>
+                    <ActiveLink activeClassName={styles.active} href="/menu" passHref legacyBehavior>
+                        Menu
+                    </ActiveLink>
+                    <ActiveLink activeClassName={styles.active} href="/about" passHref legacyBehavior>
+                        Sobre
+                    </ActiveLink>
+                    <ActiveLink activeClassName={styles.active} href="/contact" passHref legacyBehavior>
+                        Contato
+                    </ActiveLink>
+                </nav>
                     <div className={`d-flex align-items-center gap-4 ${styles.iconsContainer}`}>
                         <div className={`d-flex gap-3 align-items-center ${styles.userBox}`}>   
                             <div>
@@ -82,23 +119,6 @@ export function Header() {
                         <FaHeart className={styles.icon} />
                     </div>
                 </div>
-                <nav className='d-flex gap-5 mt-3'>
-                    <ActiveLink activeClassName={styles.active} href="/" passHref legacyBehavior>
-                        Início
-                    </ActiveLink>
-                    <ActiveLink activeClassName={styles.active} href="/menu" passHref legacyBehavior>
-                        Menu
-                    </ActiveLink>
-                    <ActiveLink activeClassName={styles.active} href="/sobre" passHref legacyBehavior>
-                        Sobre
-                    </ActiveLink>
-                    <ActiveLink activeClassName={styles.active} href="/avaliacoes" passHref legacyBehavior>
-                        Avaliações
-                    </ActiveLink>
-                    <ActiveLink activeClassName={styles.active} href="/contato" passHref legacyBehavior>
-                        Contato
-                    </ActiveLink>
-                </nav>
             </div>
             {showOverlay && <div className="overlay"></div>}
             {openCart && <Cart onSetShowOverlay = {setShowOverlay} />}

@@ -16,6 +16,7 @@
             width: 100%;
             height: 50px;
             outline: none;
+            margin-bottom: 15px;
         }
 
         input[type=number]::-webkit-inner-spin-button { 
@@ -41,5 +42,11 @@
         &:hover {
             filter: brightness(0.8);
         }
+    }
+}
+
+@media(max-width:430px) {
+    .formContainer {
+        width: 340px;
     }
 }

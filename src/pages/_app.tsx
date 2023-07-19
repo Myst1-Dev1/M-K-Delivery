@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ProductsProvider } from "@/services/hooks/useProducts";
 import { CartProvider } from "@/services/hooks/useCart";
 import Modal from 'react-modal';
+import { Footer } from "@/components/Footer";
 
 Modal.setAppElement("#__next");
 
@@ -30,6 +31,7 @@ export default function MyApp({Component, pageProps}:AppProps) {
                     <CartProvider>
                         <Header />
                         <Component {...pageProps} />
+                        <Footer />
                     </CartProvider>
                 </ProductsProvider>
             </AuthProvider>

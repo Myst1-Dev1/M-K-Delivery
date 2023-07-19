@@ -18,9 +18,12 @@
     }
 
     .bannerTwo {
-        background-image: url('../../../public/images/homeBanner2.jpeg');
+        background-image: url('../../../public/images/homeBanner2.png');
 
         .bannerSubtitles {
+            p {
+                max-width: 400px;
+            }
             img {
                 width: 200px;
             }
@@ -77,14 +80,20 @@
             color: #fff;
             background-color: var(--red-600);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             font-size: 20px;
             transition: 0.3s;
             cursor: pointer;
 
             &:hover {
                 filter: brightness(0.8);
+            }
+        }
+
+        .arrowLeftBox, .arrowRightBox {
+            .icon {
+                font-size: 15px;
             }
         }
 
@@ -119,6 +128,13 @@
                     font-size: 30px;
                 }
             }
+        }
+
+        .bannerTwo {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.8)), 
+            url('../../../public/images/homeBanner2.png');
+            color: #fff;
+            
         }
     }
 }

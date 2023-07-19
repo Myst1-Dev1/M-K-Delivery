@@ -13,6 +13,21 @@
         .icon {
             color: #fff;
         }
+
+        .cartAmount {
+            background-color: var(--red-500);
+            width: 10px;
+            height: 10px;
+            padding: 5px;
+            border-radius: 50%;
+            position: absolute;
+            top: 15px;
+            left: 30px;
+            span {
+                font-size: 8px;
+                color: #fff;
+            }
+        }
     }
 
     nav {

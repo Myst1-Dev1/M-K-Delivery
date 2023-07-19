@@ -44,6 +44,12 @@ export function MostSaledDishes() {
                               slidesToShow: 2,
                             },
                           },
+                          {
+                            breakpoint: 768,
+                            settings: {
+                              slidesToShow: 2,
+                            },
+                          },
                         {
                             breakpoint: 430,
                             settings: {
@@ -53,38 +59,38 @@ export function MostSaledDishes() {
                       ]}
                     >
                         {carouselDishes.map(item => {
-                            return (
-                                    <div 
-                                        key={item.name}
-                                        className={`col-lg-4 mb-3 ${styles.disheBox}`}>
-                                        <img src={item.image} alt="item" />
-                                        <div className={styles.dishSubtitles}>
-                                            <div className='d-flex justify-content-between align-items-center'>
-                                                <h3 className='fw-bold'>{item.name}</h3>
-                                                <FaHeart className={styles.favoriteIcon} />
-                                            </div>
-                                            <p className='mb-0 mt-2'>{item.details}</p>
-                                            <h6 className='mb-4 fw-bold'>
-                                                    {item.amount !== 1 ? `Porção com ${item.amount} únidades`
-                                                    : `${item.amount} Porção`}
-                                            </h6>
-                                            <div className='d-flex gap-3 justify-content-between align-items-center'>
-                                                <h3 className='fw-bold'>
-                                                    {Intl.NumberFormat('pt-BR', {
-                                                        style:'currency',
-                                                        currency:'BRL'
-                                                    }).format(item.price)}
-                                                </h3>
-                                                <button onClick={() => handleAddToCart(item._id)} 
-                                                    className='d-flex align-items-center'>
-                                                    <FaShoppingCart
-                                                        className={styles.icon}
-                                                    />
-                                                    Adicionar ao carrinho
-                                                </button>
-                                            </div>
+                          return (
+                                <div 
+                                    key={item.name}
+                                    className={`col-lg-4 mb-3 ${styles.disheBox}`}>
+                                    <img src={item.image} alt="item" />
+                                    <div className={styles.dishSubtitles}>
+                                        <div className='d-flex justify-content-between align-items-center'>
+                                            <h3 className='fw-bold'>{item.name}</h3>
+                                            <FaHeart className={styles.favoriteIcon} />
+                                        </div>
+                                        <p className='mb-0 mt-2'>{item.details}</p>
+                                        <h6 className='mb-4 fw-bold'>
+                                                {item.amount !== 1 ? `Porção com ${item.amount} únidades`
+                                                : `${item.amount} Porção`}
+                                        </h6>
+                                        <div className='d-flex gap-3 justify-content-between align-items-center'>
+                                            <h3 className='fw-bold'>
+                                                {Intl.NumberFormat('pt-BR', {
+                                                    style:'currency',
+                                                    currency:'BRL'
+                                                }).format(item.price)}
+                                            </h3>
+                                            <button onClick={() => handleAddToCart(item._id)} 
+                                                className='d-flex align-items-center'>
+                                                <FaShoppingCart
+                                                    className={styles.icon}
+                                                />
+                                                Adicionar ao carrinho
+                                            </button>
                                         </div>
                                     </div>
+                                </div>
                             )
                         })}
                     </Glider>

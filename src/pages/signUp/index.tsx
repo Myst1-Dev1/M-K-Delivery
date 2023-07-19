@@ -21,8 +21,8 @@ export default function signUp() {
                 <div className={`d-flex gap-4 mt-5 mb-5 flex-column justify-content-center align-items-center ${styles.formContainer}`}>
                     <img src="/images/loginImage.png" alt="userImage" />
                     <form onSubmit={handleSubmit(handleSignUp)} className='d-flex flex-column gap-3'>
-                        <div className={`d-flex gap-5 ${styles.inputContainer}`}>
-                            <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                        <div className={`row ${styles.inputContainer}`}>
+                            <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label htmlFor="firstname">Nome</label>
                                 <input
                                     {...register('firstname', {required:true})} 
@@ -32,7 +32,7 @@ export default function signUp() {
                                 />
                                 {errors.firstname && <span className='text-danger'>Nome Inválido</span>}
                             </div>
-                            <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                            <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label htmlFor="lastname">Sobrenome</label>
                                 <input
                                     {...register('lastname', {required:true})} 
@@ -43,8 +43,8 @@ export default function signUp() {
                                 {errors.lastname && <span className='text-danger'>Sobrenome Inválido</span>}
                             </div>
                         </div>
-                        <div className={`d-flex gap-5 ${styles.inputContainer}`}>
-                            <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                        <div className={`row ${styles.inputContainer}`}>
+                            <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label htmlFor="email">Email</label>
                                 <input
                                     {...register('email', {required:true})} 
@@ -54,7 +54,7 @@ export default function signUp() {
                                 />
                                 {errors.email && <span className='text-danger'>Email Inválido</span>}
                             </div>
-                            <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                            <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label htmlFor="tel">Telefone</label>
                                 <input
                                     {...register('tel', {required:true})} 
@@ -65,8 +65,8 @@ export default function signUp() {
                                 {errors.tel && <span className='text-danger'>Telefone Inválido</span>}
                             </div>
                         </div>
-                        <div className={`d-flex gap-5 ${styles.inputContainer}`}>
-                            <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                        <div className={`row ${styles.inputContainer}`}>
+                            <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label htmlFor="password">Senha</label>
                                 <input
                                     {...register('password', {required:true})} 
@@ -76,7 +76,7 @@ export default function signUp() {
                                 />
                                 {errors.password && <span className='text-danger'>Senha Inválida</span>}
                             </div>
-                            <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                            <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label htmlFor="repeatPassword">Repetir senha</label>
                                 <input
                                     {...register('password', {required:true})} 
