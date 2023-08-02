@@ -1,25 +1,23 @@
 import { useContext, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { FaUser, FaShoppingCart, FaHeart, FaBars } from 'react-icons/fa';
-import { AuthContext } from '@/contexts/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext';
 import { MdLogout } from 'react-icons/md';
 import { Cart } from '../Cart';
-import { CartContext } from '@/services/hooks/useCart';
-import { useRouter } from 'next/router';
+import { CartContext } from '../../services/hooks/useCart';
 import { ActiveLink } from './ActiveLink';
 import Link from 'next/link';
 import { ToastContainer } from 'react-toastify';
 import { ResponsiveMenu } from './responsiveMenu';
+import { parseCookies } from 'nookies';
 
 export function Header() {
     const {isAuthenticated, user, handleLogout} = useContext(AuthContext);
-    const {cart ,openCart , setOpenCart } = useContext(CartContext);
+    const {cart, setCart ,openCart , setOpenCart } = useContext(CartContext);
 
     const [showOverlay, setShowOverlay] = useState(false);
     const [responsiveMenu, setResponsiveMenu] = useState(false);
     const [fixedHeader, setFixedHeader] = useState(false);
-
-    const router = useRouter()
 
     function handleOpenCart() {
         setOpenCart(true);
@@ -53,32 +51,36 @@ export function Header() {
         };
       }, []);
 
-    useEffect(() => {
-        setOpenCart(false);
-      }, [router.pathname, setOpenCart]);
+      useEffect(() => {
+        const {'cart-token': cartCookie} = parseCookies()
+
+        if(cartCookie) {
+            setCart(JSON.parse(cartCookie));
+        }
+      }, [])
 
     return (
         <>
-            <div className={fixedHeader ? styles.fixedHeader : styles.header}>
+            <div data-testid="header" className={fixedHeader ? styles.fixedHeader : styles.header}>
                 <div className={`d-flex align-items-center justify-content-between ${styles.headerContent}`}>
                     <div className={styles.responsiveIconBox}>
                         <FaBars onClick={handleOpenResponsiveMenu} className={styles.openResponsiveMenu} />
                         <img src="/images/Logo.png" alt="logo" />
                     </div>
                     <nav className='d-flex gap-5 mt-3'>
-                    <ActiveLink activeClassName={styles.active} href="/" passHref legacyBehavior>
-                        Início
-                    </ActiveLink>
-                    <ActiveLink activeClassName={styles.active} href="/menu" passHref legacyBehavior>
-                        Menu
-                    </ActiveLink>
-                    <ActiveLink activeClassName={styles.active} href="/about" passHref legacyBehavior>
-                        Sobre
-                    </ActiveLink>
-                    <ActiveLink activeClassName={styles.active} href="/contact" passHref legacyBehavior>
-                        Contato
-                    </ActiveLink>
-                </nav>
+                        <ActiveLink activeClassName={styles.active} href="/" passHref legacyBehavior>
+                            Início
+                        </ActiveLink>
+                        <ActiveLink activeClassName={styles.active} href="/menu" passHref legacyBehavior>
+                            Menu
+                        </ActiveLink>
+                        <ActiveLink activeClassName={styles.active} href="/about" passHref legacyBehavior>
+                            Sobre
+                        </ActiveLink>
+                        <ActiveLink activeClassName={styles.active} href="/contact" passHref legacyBehavior>
+                            Contato
+                        </ActiveLink>
+                    </nav>
                     <div className={`d-flex align-items-center gap-4 ${styles.iconsContainer}`}>
                         <div className={`d-flex gap-3 align-items-center ${styles.userBox}`}>   
                             <div>
@@ -89,11 +91,13 @@ export function Header() {
                                             <img src="/images/UserImage.png" alt="user" />
                                         </div>
                                         <div>
-                                            <h5 className='text-dark'>{user.firstname}</h5>
-                                            <h5 className='text-dark'>{user.lastname}</h5>
+                                            <h5>{user.firstname}</h5>
+                                            <h5>{user.lastname}</h5>
                                         </div>
                                     </div>
-                                    <MdLogout onClick={handleLogout} className={styles.icon} />
+                                    <div data-testid={'logoutIcon'}>
+                                        <MdLogout onClick={handleLogout} className={styles.icon} />
+                                    </div>
                                 </div> 
                                 :  
                                 <div className='d-flex gap-3 align-items-center'>
@@ -111,16 +115,23 @@ export function Header() {
                             </div>
                         </div>
 
-                        <div className={`d-flex justify-content-center align-items-center ${styles.cartAmount}`}>
-                            <span>{cart.length}</span>
+                        <div
+                            className={`d-flex justify-content-center align-items-center 
+                            ${styles.cartAmount}`}>
+                            <span data-testid='cart-length'>{cart?.length}</span>
                         </div>
                        
-                        <FaShoppingCart onClick={handleOpenCart} className={styles.icon} />
+                        <div data-testid="cart-button">
+                            <FaShoppingCart
+                                onClick={handleOpenCart} 
+                                className={styles.icon} 
+                            />
+                        </div>
                         <FaHeart className={styles.icon} />
                     </div>
                 </div>
             </div>
-            {showOverlay && <div className="overlay"></div>}
+            {showOverlay && <div data-testid="showOverlay" className="overlay"></div>}
             {openCart && <Cart onSetShowOverlay = {setShowOverlay} />}
             {responsiveMenu && 
             <ResponsiveMenu onSetResponsiveMenu = {setResponsiveMenu} onSetShowOverlay = {setShowOverlay} />}

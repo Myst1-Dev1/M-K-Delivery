@@ -27,8 +27,6 @@ export function LimitedTimeOffer() {
         setSeconds(seconds);
     }, 1000);
 
-       
-
     return () => clearInterval(interval);
     }, [])
 
@@ -43,25 +41,25 @@ export function LimitedTimeOffer() {
                     <div className={`d-flex gap-3 flex-column justify-content-center align-items-center 
                         ${styles.limitedTimeOfferBox}`}
                     >
-                        <h5>{days}</h5>
+                        <h5 data-testid="days">{days}</h5>
                         <h5>Dias</h5>
                     </div>
                     <div className={`d-flex gap-3 flex-column justify-content-center align-items-center 
                         ${styles.limitedTimeOfferBox}`}
                     >
-                        <h5>{hours}</h5>
+                        <h5 data-testid="hours">{hours}</h5>
                         <h5>Horas</h5>
                     </div>
                     <div className={`d-flex gap-3 flex-column justify-content-center align-items-center 
                         ${styles.limitedTimeOfferBox}`}
                     >
-                        <h5>{minutes}</h5>
-                        <h5>minutos</h5>
+                        <h5 data-testid="minutes">{minutes}</h5>
+                        <h5>Minutos</h5>
                     </div>
                     <div className={`d-flex gap-3 flex-column justify-content-center align-items-center 
                         ${styles.limitedTimeOfferBox}`}
                     >
-                        <h5>{seconds}</h5>
+                        <h5 data-testid="seconds">{seconds}</h5>
                         <h5>Segundos</h5>
                     </div>
                 </div>

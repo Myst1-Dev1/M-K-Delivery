@@ -1,9 +1,11 @@
 import { FaTimes, FaTrashAlt } from 'react-icons/fa';
 import { useContext, useEffect } from 'react';
 import styles from './styles.module.scss';
-import { CartContext } from '@/services/hooks/useCart';
+import { CartContext } from '../../services/hooks/useCart';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { parseCookies } from 'nookies';
+import { ProductContext } from '@/services/hooks/useProducts';
 
 interface CartProps {
     onSetShowOverlay:any;
@@ -13,7 +15,7 @@ export function Cart({ onSetShowOverlay }:CartProps) {
     const router = useRouter();
 
     const { 
-        cart, 
+        cart,
         setOpenCart,
         totalCart, 
         handleRemoveToCart,
@@ -22,25 +24,29 @@ export function Cart({ onSetShowOverlay }:CartProps) {
         handleCleanCart }
         = useContext(CartContext);
 
-    function handleCloseCart() {
-        setOpenCart(false);
-        onSetShowOverlay(false);
-    }
+        function handleCloseCart() {
+            setOpenCart(false);
+            onSetShowOverlay(false);
+        }
 
-    useEffect(() => {
-        const handleRouteChange = () => {
-          // Feche o carrinho quando a rota for alterada
-          handleCloseCart();
-        };
+    // useEffect(() => {
+    //     // const handleRouteChange = () => {
+    //     //   // Feche o carrinho quando a rota for alterada
+    //     //   handleCloseCart();
+    //     // };
+
+    //     // //Adicione o listener para a mudança de rota
+    //     // router.events.on('routeChangeStart', handleRouteChange);
     
-        // Adicione o listener para a mudança de rota
-        router.events.on('routeChangeStart', handleRouteChange);
-    
-        // Remova o listener ao desmontar o componente
-        return () => {
-          router.events.off('routeChangeStart', handleRouteChange);
-        };
-      }, []);
+    //     // //Remova o listener ao desmontar o componente
+    //     // return () => {
+    //     //   router.events.off('routeChangeStart', handleRouteChange);
+    //     // };
+
+    //     if (router.pathname === '/paymentPage') {
+    //         handleCloseCart();
+    //       }
+    //   }, [router.pathname]);
 
 
     return (
@@ -49,15 +55,17 @@ export function Cart({ onSetShowOverlay }:CartProps) {
                 <div>
                     <div className='d-flex justify-content-between w-100'>
                         <h4 className='text-center mb-1'>
-                            {cart.length === 0 ? 'Seu carrinho está vazio' : 'Carrinho de Compras'}
+                            {cart && cart.length === 0 ? 'Seu carrinho está vazio' : 'Carrinho de Compras'}
                         </h4>
+                        <div data-testid="close-cart">
                         <FaTimes onClick={handleCloseCart} className={styles.icon} />
+                        </div>
                     </div>
                     <hr />
                 </div>
 
                 <div className={`d-flex flex-column gap-4 ${styles.cartContainer}`}>
-                    {cart.map(item => {
+                    {cart && cart.map(item => {
                         return (
                             <div key={item.product.name} className={`d-flex gap-3 ${styles.cartProductBox}`}>
                                 <div className={styles.imgContainer}>
@@ -129,7 +137,7 @@ export function Cart({ onSetShowOverlay }:CartProps) {
                     </h5>
                 </div>
                 <Link href='/paymentPage' passHref>
-                    <button className='mt-3'>Seguir paga pagamento</button>
+                    <button className='mt-3'>Seguir para o pagamento</button>
                 </Link>
             </div>
         </div>

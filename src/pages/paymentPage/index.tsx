@@ -12,12 +12,12 @@ export default function paymentPage() {
     const { isAuthenticated } = useContext(AuthContext);
     const router = useRouter();
 
-    useEffect(() => {
-        if(isAuthenticated === false) {
-            alert('Você precisa estar logado para fazer compras.');
-            router.push('/');
-        }
-    }, []);
+    // useEffect(() => {
+    //     if(isAuthenticated === false) {
+    //         alert('Você precisa estar logado para fazer compras.');
+    //         router.push('/');
+    //     }
+    // }, []);
 
     return (
         <>

@@ -34,11 +34,11 @@ export function HomeBanner() {
                         <div><img src="/images/Logo.png" alt="logo" /></div>
                         <h1>Experimente o Nosso <br /> Delicioso Menu</h1>
                         <hr />
-                        <p className="mt-2">
+                        <p data-testid="p" className="mt-2">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit.
                             Consequuntur ipsa aliquid suscipit repellat reiciendis nemo
                             nobis expedita, voluptatum sit veritatis optio magni, odio 
-                            vitae quae ea eveniet consequatur! Quod, magnam. 
+                            vitae quae ea eveniet consequatur! Quod, magnam.
                         </p>
                         <button>Peça Agora</button>
                     </div>

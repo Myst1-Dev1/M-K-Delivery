@@ -1,8 +1,8 @@
 import { FaHeart, FaShoppingCart, FaTimes } from 'react-icons/fa';
 import styles from './styles.module.scss';
 import { ActiveLink } from '../ActiveLink';
-import { useContext, useEffect } from 'react';
-import { CartContext } from '@/services/hooks/useCart';
+import { useContext, useEffect, useState } from 'react';
+import { CartContext } from '../../../services/hooks/useCart';
 import { useRouter } from 'next/router';
 
 interface ResponsiveMenuProps {
@@ -14,6 +14,7 @@ export function ResponsiveMenu({ onSetResponsiveMenu, onSetShowOverlay }:Respons
     const { setOpenCart, cart } = useContext(CartContext);
 
     const router = useRouter();
+    const [previousPathname, setPreviousPathname] = useState(router.pathname);
 
     function handleCloseResponsiveMenu() {
         onSetResponsiveMenu(false);
@@ -25,36 +26,35 @@ export function ResponsiveMenu({ onSetResponsiveMenu, onSetShowOverlay }:Respons
         onSetResponsiveMenu(false);
     }
 
+    if (router.pathname !== previousPathname) {
+        handleCloseResponsiveMenu();
+        setPreviousPathname(router.pathname);
+      }
+
     useEffect(() => {
-        const handleRouteChange = () => {
-          // Feche o carrinho quando a rota for alterada
-          handleCloseResponsiveMenu();
-        };
-    
-        // Adicione o listener para a mudança de rota
-        router.events.on('routeChangeStart', handleRouteChange);
-    
-        // Remova o listener ao desmontar o componente
-        return () => {
-          router.events.off('routeChangeStart', handleRouteChange);
-        };
-      }, []);
+        setPreviousPathname(router.pathname);
+      }, [router.pathname]);
 
     return (
         <div className={styles.responsiveMenu}>
             <div className={`d-flex justify-content-between ${styles.responsiveMenuIcons}`}>
                 <div className='d-flex gap-3'>
-                    <FaShoppingCart onClick={handleOpenCart} className={styles.icon} />
+                    <div data-testid="cart-button">
+                        <FaShoppingCart
+                            onClick={handleOpenCart} 
+                            className={styles.icon} 
+                        />
+                    </div>
                     <FaHeart className={styles.icon} />
                 </div>
                 <div className={`d-flex justify-content-center align-items-center ${styles.cartAmount}`}>
-                            <span>{cart.length}</span>
+                    <span>{cart?.length}</span>
                 </div>
                 <FaTimes onClick={handleCloseResponsiveMenu} className={styles.icon} />
             </div>
             <nav className='d-flex flex-column gap-3 mt-5'>
                 <ActiveLink activeClassName={styles.active} href='/' legacyBehavior passHref>
-                    Inicio
+                    Início
                 </ActiveLink>
                 <ActiveLink activeClassName={styles.active} href='/menu' legacyBehavior passHref>
                     Menu

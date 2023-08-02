@@ -1,11 +1,11 @@
-import { UserApi, api } from "@/services/api";
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { UserApi, api } from "../services/api";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { setCookie, parseCookies, destroyCookie } from 'nookies';
 import { toast } from 'react-toastify';
 
 import Router, { useRouter } from 'next/router';
-import { User } from "@/types/User";
-import { SignUpData } from "@/types/SignUpData";
+import { User } from "../types/User";
+import { SignUpData } from "../types/SignUpData";
 
 type SignInData = {
     email:string;
@@ -119,4 +119,10 @@ export function AuthProvider({ children }:AuthProviderProps) {
             {children}
         </AuthContext.Provider>
     )
+}
+
+export function useLoggedUserData() {
+    const context = useContext(AuthContext);
+
+    return context;
 }

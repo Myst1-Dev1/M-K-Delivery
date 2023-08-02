@@ -2,6 +2,7 @@ import { useContext, createContext, useState, ReactNode } from 'react';
 import { ProductContext } from './useProducts';
 import { CartProducts } from '@/types/CartProducts';
 import { toast } from 'react-toastify';
+import { destroyCookie, setCookie, parseCookies } from 'nookies';
 import "react-toastify/dist/ReactToastify.css";
 
 export const CartContext = createContext<CartContextData>(
@@ -10,6 +11,7 @@ export const CartContext = createContext<CartContextData>(
 
 type CartContextData = {
    cart:CartProducts[];
+   setCart:any;
    openCart:boolean;
    setOpenCart:any;
    totalCart:number;
@@ -60,7 +62,10 @@ export function CartProvider({children}:CartProviderProps) {
 
         const newCart: CartProducts[] = [...cart, cartItem];
         setCart(newCart);
-        // setOpenCart(true);
+        setCookie(undefined, 'cart-token', JSON.stringify(newCart), {
+            maxAge: 60 * 60 * 1 // 1 hour
+        })
+        
         toast.success("Item adicinado ao carrinho", {
             position:toast.POSITION.TOP_RIGHT
         })
@@ -91,16 +96,19 @@ export function CartProvider({children}:CartProviderProps) {
 
     function handleRemoveToCart(id:string) {
         const newCart:CartProducts[] = cart.filter(item => item.product._id !== id);
+        setCookie(undefined, 'cart-token', JSON.stringify(newCart));
         setCart(newCart);
     }
 
     function handleCleanCart() {
         setCart([]);
+        destroyCookie(null, 'cart-token');
     }
 
     return (
         <CartContext.Provider value={{
-            cart, 
+            cart,
+            setCart, 
             openCart,
             setOpenCart,
             totalCart, 

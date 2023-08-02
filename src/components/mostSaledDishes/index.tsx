@@ -4,15 +4,15 @@ import Glider from 'react-glider';
 import 'glider-js/glider.min.css';
 
 import { FaShoppingCart, FaHeart, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { ProductContext } from '@/services/hooks/useProducts';
-import { CartContext } from '@/services/hooks/useCart';
+import { ProductContext } from '../../services/hooks/useProducts';
+import { CartContext } from '../../services/hooks/useCart';
 
 export function MostSaledDishes() {
 
     const { products } = useContext(ProductContext);
     const { handleAddToCart } = useContext(CartContext);
 
-    const carouselDishes = products.slice(0, 8);
+    const carouselDishes = products?.slice(0, 8);
 
     console.log(carouselDishes);
 
@@ -58,7 +58,7 @@ export function MostSaledDishes() {
                           },
                       ]}
                     >
-                        {carouselDishes.map(item => {
+                        {carouselDishes && carouselDishes.map(item => {
                           return (
                                 <div 
                                     key={item.name}
