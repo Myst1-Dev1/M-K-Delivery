@@ -1,6 +1,12 @@
 import Document, { Head, Html, Main, NextScript } from "next/document";
+import Modal from 'react-modal';
 
 export default class MyDocument extends Document {
+    // componentDidMount() {
+    //     // Defina o elemento raiz do aplicativo
+    //     Modal.setAppElement('#__next'); // O seletor aqui deve ser o seletor do elemento raiz do seu aplicativo
+    //   }
+
     render() {
         return (
             <Html>

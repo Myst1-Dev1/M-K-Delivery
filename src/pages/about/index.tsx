@@ -78,7 +78,7 @@ export default function About() {
                             return (
                                 <div
                                     key={integrant.id} 
-                                    className={`col-md-4 d-flex flex-column justify-content-center 
+                                    className={`col-md-4 d-flex flex-column gap-3 justify-content-center 
                                     align-items-center mb-5 
                                     ${styles.teamIntegralBox}`}>
                                     <div>

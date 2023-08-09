@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-import { FaUser, FaShoppingCart, FaHeart, FaBars } from 'react-icons/fa';
+import { FaUser, FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
 import { AuthContext } from '../../contexts/AuthContext';
 import { MdLogout } from 'react-icons/md';
 import { Cart } from '../Cart';
@@ -10,14 +10,17 @@ import Link from 'next/link';
 import { ToastContainer } from 'react-toastify';
 import { ResponsiveMenu } from './responsiveMenu';
 import { parseCookies } from 'nookies';
+import { UserContext } from '../../services/hooks/useUsers';
 
 export function Header() {
-    const {isAuthenticated, user, handleLogout} = useContext(AuthContext);
+    const {isAuthenticated, handleLogout} = useContext(AuthContext);
     const {cart, setCart ,openCart , setOpenCart } = useContext(CartContext);
+    const { user } = useContext(UserContext);
 
     const [showOverlay, setShowOverlay] = useState(false);
     const [responsiveMenu, setResponsiveMenu] = useState(false);
     const [fixedHeader, setFixedHeader] = useState(false);
+    const [profileMenu, setProfileMenu] = useState(false);
 
     function handleOpenCart() {
         setOpenCart(true);
@@ -27,6 +30,19 @@ export function Header() {
     function handleOpenResponsiveMenu() {
         setResponsiveMenu(true);
         setShowOverlay(true);
+    }
+
+    function handleOpenProfileMenu() {
+        setProfileMenu(true);
+    }
+
+    function handleCloseProfileMenu() {
+        setProfileMenu(false);
+    }
+
+    function handleLogoutUser() {
+        handleLogout()
+        setProfileMenu(false);
     }
 
     useEffect(() => {
@@ -51,13 +67,13 @@ export function Header() {
         };
       }, []);
 
-      useEffect(() => {
-        const {'cart-token': cartCookie} = parseCookies()
+    useEffect(() => {
+    const {'cart-token': cartCookie} = parseCookies()
 
-        if(cartCookie) {
-            setCart(JSON.parse(cartCookie));
-        }
-      }, [])
+    if(cartCookie) {
+        setCart(JSON.parse(cartCookie));
+    }
+    }, [])
 
     return (
         <>
@@ -83,21 +99,50 @@ export function Header() {
                     </nav>
                     <div className={`d-flex align-items-center gap-4 ${styles.iconsContainer}`}>
                         <div className={`d-flex gap-3 align-items-center ${styles.userBox}`}>   
-                            <div>
-                                {isAuthenticated ? 
-                                <div className='d-flex align-items-center gap-4'>
-                                    <div className='d-flex gap-3 align-items-center'>
-                                        <div className={styles.imgContainer}>
-                                            <img src="/images/UserImage.png" alt="user" />
-                                        </div>
-                                        <div>
-                                            <h5>{user.firstname}</h5>
-                                            <h5>{user.lastname}</h5>
-                                        </div>
+                            {isAuthenticated ? 
+                            <div className='d-flex align-items-center gap-4'>
+                                <div>
+                                    {user && user.map(user => {
+                                        return (
+                                            <div key={user.data._id} 
+                                                className='d-flex gap-3 align-items-center'>
+                                                <div className={styles.imgContainer}>
+                                                    <img
+                                                        onClick={handleOpenProfileMenu} 
+                                                        src={user.data.image} 
+                                                        alt="user" 
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <h5>{user.data.firstname}</h5>
+                                                    <h5>{user.data.lastname}</h5>
+                                                </div>
+                                                {profileMenu && (
+                                                    <div className={styles.profileBox}>
+                                                        <div className='d-flex justify-content-between'>
+                                                            <div className='d-flex flex-column gap-3'>
+                                                                <Link href='/profile'>Meu Perfil</Link>
+                                                                <div data-testid={'logoutIcon'}>
+                                                                    <MdLogout 
+                                                                        onClick={handleLogoutUser} 
+                                                                        className={styles.icon} 
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <FaTimes
+                                                                onClick={handleCloseProfileMenu} 
+                                                                className={styles.icon} 
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            )
+                                        })}
                                     </div>
-                                    <div data-testid={'logoutIcon'}>
+                                    {/* <div data-testid={'logoutIcon'}>
                                         <MdLogout onClick={handleLogout} className={styles.icon} />
-                                    </div>
+                                    </div> */}
                                 </div> 
                                 :  
                                 <div className='d-flex gap-3 align-items-center'>
@@ -112,22 +157,20 @@ export function Header() {
                                         </div>  
                                 </div>
                                 }
-                            </div>
-                        </div>
-
-                        <div
-                            className={`d-flex justify-content-center align-items-center 
-                            ${styles.cartAmount}`}>
-                            <span data-testid='cart-length'>{cart?.length}</span>
                         </div>
                        
-                        <div data-testid="cart-button">
+                        <div className={styles.cartBox} data-testid="cart-button">
+                            <div
+                                className={`d-flex justify-content-center align-items-center 
+                                ${styles.cartAmount}`}>
+                                <span data-testid='cart-length'>{cart?.length}</span>
+                            </div>
                             <FaShoppingCart
                                 onClick={handleOpenCart} 
                                 className={styles.icon} 
                             />
                         </div>
-                        <FaHeart className={styles.icon} />
+                        {/* <FaHeart className={styles.icon} /> */}
                     </div>
                 </div>
             </div>

@@ -43,11 +43,8 @@ describe('Header component', () => {
             lastname: 'Doe',
           };
       
-          const mockAuthContext = {
+          const mockAuthContext:any = {
             isAuthenticated: true,
-            signIn: jest.fn(),
-            signUp: jest.fn(),
-            handleLogout: jest.fn(),
             user: user,
           };
 
@@ -111,7 +108,7 @@ describe('Header component', () => {
         } as any)
 
         expect(cartValueMock).toHaveLength(0);
-    })
+    });
 
     it('render value when cart have items', () => {
         renderComponent();
@@ -124,7 +121,7 @@ describe('Header component', () => {
         } as any)
 
         expect(cartValueMock).toHaveLength(1);
-    })
+    });
 
     it('should scroll event when fixedHeader is true', () => {
         renderComponent();
@@ -134,7 +131,7 @@ describe('Header component', () => {
         fireEvent.scroll(window, {target: { scrollY:20 }});
 
         expect(header).toHaveClass('fixedHeader');
-    })
+    });
 
     it('not should scroll event when fixedHeader is false', () => {
         renderComponent();
@@ -144,5 +141,5 @@ describe('Header component', () => {
         fireEvent.scroll(window, {target: { scrollY:0 }});
 
         expect(header).toHaveClass('header');
-    })
+    });
 })

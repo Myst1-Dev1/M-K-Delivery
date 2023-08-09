@@ -68,14 +68,6 @@ describe('Header component', () => {
 
         const mockUseCart:any = {
             cart:cartMock,
-            handleAddToCart:jest.fn(),
-            handleCleanCart:jest.fn(),
-            handleReduceItems:jest.fn(),
-            handleRemoveToCart:jest.fn(),
-            openCart:jest.fn(),
-            setCart:jest.fn(),
-            setOpenCart:jest.fn(),
-            totalCart:jest.fn()
         }
 
         render(
@@ -92,14 +84,6 @@ describe('Header component', () => {
 
         const mockUseCart:any = {
             cart:cartMock,
-            handleAddToCart:jest.fn(),
-            handleCleanCart:jest.fn(),
-            handleReduceItems:jest.fn(),
-            handleRemoveToCart:jest.fn(),
-            openCart:jest.fn(),
-            setCart:jest.fn(),
-            setOpenCart:jest.fn(),
-            totalCart:jest.fn()
         }
 
         render(
@@ -126,14 +110,6 @@ describe('Header component', () => {
 
         const mockUseCart:any = {
             cart:cartMock,
-            handleAddToCart:jest.fn(),
-            handleCleanCart:jest.fn(),
-            handleReduceItems:jest.fn(),
-            handleRemoveToCart:jest.fn(),
-            openCart:jest.fn(),
-            setCart:jest.fn(),
-            setOpenCart:jest.fn(),
-            totalCart:jest.fn()
         }
 
         render(

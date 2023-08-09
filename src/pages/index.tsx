@@ -2,9 +2,9 @@ import Head from "next/head"
 import styles from './styles.module.scss';
 
 import { MostSaledDishes } from "../components/mostSaledDishes";
-import { LimitedTimeOffer } from "@/components/limitedTimeOffer";
+import { LimitedTimeOffer } from "../components/limitedTimeOffer";
 import { FaEnvelopeOpen, FaMap, FaPhoneAlt } from "react-icons/fa";
-import { HomeBanner } from "@/components/HomeBanner";
+import { HomeBanner } from "../components/HomeBanner";
 
 export default function Home() {
 
@@ -93,7 +93,7 @@ export default function Home() {
                                 <h6>m&kdelivery@business.com <br /> mystodev@gmail.com</h6>
                             </div>
                         </div>
-                        <button className="mt-5 mb-5">Faça sua Reserva</button>
+                        <button data-testid="button" className="mt-5 mb-5">Faça sua Reserva</button>
                     </div>
                     <img className="img-fluid" src="/images/restaurant.jpg" alt="place" />
                 </div>

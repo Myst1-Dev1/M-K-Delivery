@@ -6,14 +6,15 @@ import styles from './styles.module.scss';
 import ReactPaginate from 'react-paginate';
 
 import { FilterBox } from './FilterBox/FilterBox';
-import { Products } from '@/types/Product';
-import { ProductBox } from './ProductBox/ProductBox';
-import { PageBanner } from '@/components/pageBanner';
-import { AuthContext } from '@/contexts/AuthContext';
-import { ProductModal } from '@/components/ProductModal';
+import { Products } from '../../types/Product';
+import { Product } from './Product';
+import { PageBanner } from '../../components/pageBanner';
+import { AuthContext } from '../../contexts/AuthContext';
+import { ProductModal } from '../../components/ProductModal';
 import { GetStaticProps } from 'next';
-import { ProductsApi } from '@/services/api';
+import { ProductsApi } from '../../services/api';
 import { ResponsiveFilterBox } from './ResponsiveFilterBox';
+import { Search } from '@/components/Search';
 
 interface MenuProps {
     data:Products[];
@@ -28,20 +29,6 @@ export default function Menu({ data }:MenuProps) {
 
     const { user, isAuthenticated } = useContext(AuthContext);
 
-    console.log(data);
-
-    function searchProducts() {
-        if(search !== '') {
-            const filteredProducts = data.filter((e: Products) =>
-                e.name.toLowerCase().includes(search.toLowerCase())
-            );
-            setFilter(filteredProducts);
-
-        } else {
-            setFilter(data);
-        }
-    }
-
     function handleOpenOrderModal() {
         setIsNewOrderModalOpen(true);
       }
@@ -49,12 +36,6 @@ export default function Menu({ data }:MenuProps) {
     function handleCloseOrderModal() {
         setIsNewOrderModalOpen(false);
       }
-
-    useEffect(() => {
-        searchProducts()
-        // eslint-disable-next-line
-    }, [search, data])
-
 
     const itemsPerPage = 4;
 
@@ -81,30 +62,39 @@ export default function Menu({ data }:MenuProps) {
                 {isAuthenticated ? 
                 <div className={`mt-5 container d-flex justify-content-end ${styles.createNewProduct}`}>
                     {user.isAdmin === true ? 
-                    <button onClick={handleOpenOrderModal}>Criar novo produto</button> : ''}
+                    <button 
+                    data-testid="create-new-product-button" 
+                    onClick={handleOpenOrderModal}>Criar novo produto</button> : ''}
                 </div> 
                 : ''}
 
                 <div className={`d-flex gap-5 container mb-5 ${styles.menuContainer}`}>
                         <FilterBox onSetFilter = {setFilter} />
                     <div className={`${styles.dishesContainer}`}>
-                        <BsFilter 
+                        <BsFilter
+                            data-testid="responseFilter-button"
                             onClick={handleOpenResponsiveFilterBox} 
                             className={styles.openResponsiveFilterBox} 
                         />
-                        <div className={styles.searchBox}>
-                            <input 
+                        {/* <div className={styles.searchBox}>
+                            <input
+                                data-testid="searchInput"
                                 type="text" 
                                 placeholder='Pesquisar...'
                                 value={search}
                                 onChange={e => setSearch(e.target.value)} 
                             />
                             <FaSearch className={`ms-2 ${styles.icon}`} />
-                        </div>
+                        </div> */}
+                        <Search
+                            search={search}
+                            setSearch={setSearch} 
+                            setFilter={setFilter} 
+                        />
                         <ResponsiveFilterBox
                             onOpenResponsiveFilterBox = {openResponsiveFilterBox}
                             onSetFilter = {setFilter} />
-                        <ProductBox onCurrentItems = {currentItems} />
+                        <Product onCurrentItems = {currentItems} />
                     </div>
                 </div>
                 <div className={styles.pagination}>

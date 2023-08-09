@@ -22,21 +22,7 @@
         .dishesContainer {
             .openResponsiveFilterBox {
                 display: none;
-            }
-
-            .searchBox {
-                border: 1px solid var(--gray-300);
-                border-radius: 5px;
-                padding: 10px;
-                width: 230px;
-                height: 50px;
-
-                input {
-                    border: none;
-                    background: none;
-                    outline: none;
-                }
-            }        
+            }       
         }
     }
     .pagination {

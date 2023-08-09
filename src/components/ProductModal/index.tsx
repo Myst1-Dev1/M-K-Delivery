@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import Modal from 'react-modal';
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { ProductContext } from '@/services/hooks/useProducts';
+import { ProductContext } from '../../services/hooks/useProducts';
 import { useRouter } from 'next/router';
 
 interface ProductModalProps {
@@ -25,6 +25,7 @@ export function ProductModal({ isOpen, onRequestClose }:ProductModalProps) {
     return (
         <>
             <Modal
+                ariaHideApp={false}
                 isOpen = {isOpen}
                 onRequestClose={onRequestClose}
                 overlayClassName = "react-modal-overlay"
@@ -123,7 +124,7 @@ export function ProductModal({ isOpen, onRequestClose }:ProductModalProps) {
                         </div>
                         <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
                             <label htmlFor="type">Tipo</label>
-                            <select id="type" {...register('type')} >
+                            <select data-testid="select" id="type" {...register('type')} >
                                 <option value="Sushi">Sushi</option>
                                 <option value="Frutos do mar">Frutos do mar</option>
                                 <option value="Carne">Carne</option>
@@ -134,7 +135,7 @@ export function ProductModal({ isOpen, onRequestClose }:ProductModalProps) {
                             </select>
                         </div>
                     </div>
-                    <button type='submit'>Cadastrar</button>
+                    <button data-testid="submit-button" type='submit'>Cadastrar</button>
                   </form>
                 </div>
             </Modal>

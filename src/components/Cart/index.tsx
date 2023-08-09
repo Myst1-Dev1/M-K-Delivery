@@ -29,25 +29,20 @@ export function Cart({ onSetShowOverlay }:CartProps) {
             onSetShowOverlay(false);
         }
 
-    // useEffect(() => {
-    //     // const handleRouteChange = () => {
-    //     //   // Feche o carrinho quando a rota for alterada
-    //     //   handleCloseCart();
-    //     // };
+    useEffect(() => {
+        const handleRouteChange = () => {
+          // Feche o carrinho quando a rota for alterada
+          handleCloseCart();
+        };
 
-    //     // //Adicione o listener para a mudança de rota
-    //     // router.events.on('routeChangeStart', handleRouteChange);
+        //Adicione o listener para a mudança de rota
+        router.events.on('routeChangeStart', handleRouteChange);
     
-    //     // //Remova o listener ao desmontar o componente
-    //     // return () => {
-    //     //   router.events.off('routeChangeStart', handleRouteChange);
-    //     // };
-
-    //     if (router.pathname === '/paymentPage') {
-    //         handleCloseCart();
-    //       }
-    //   }, [router.pathname]);
-
+        //Remova o listener ao desmontar o componente
+        return () => {
+          router.events.off('routeChangeStart', handleRouteChange);
+        };
+      }, [router.pathname]);
 
     return (
         <div className={`d-flex flex-column justify-content-between ${styles.cart}`}>

@@ -71,7 +71,6 @@ export function AuthProvider({ children }:AuthProviderProps) {
         } catch (error) {
             console.log(error);
         }
-        Router.reload();
     }
 
     async function signUp({firstname, lastname, email, tel, password, isAdmin = false}:SignUpData) {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { parseCookies } from 'nookies';
 
 export const api = axios.create({
     baseURL:'http://localhost:8888/api',
@@ -22,6 +23,8 @@ export const ProductsApi = {
 
 }
 
+const {'mk-delivery.token': token} = parseCookies();
+
 export const UserApi = {
 
     tokenVerify: async (token: object) => {
@@ -33,4 +36,32 @@ export const UserApi = {
         const res = await api.post('/login', { email, password });
         return res;
     },
+
+    // profile: async () => {
+    //     try {
+    //         const {data, status} = await api.get('/user/profile', {
+    //             headers: {
+    //                 'auth-token':token
+    //             },
+    //         })
+    //         if(status === 201) return data;
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+}
+
+export const userProfileData = {
+    get: async() => {
+        try {
+            const {data, status} = await api.get('user/profile', {
+                headers: {
+                    'auth-token':token
+                }
+            })
+            if(status === 201) return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }

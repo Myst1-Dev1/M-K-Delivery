@@ -9,6 +9,7 @@ import { ProductsProvider } from "@/services/hooks/useProducts";
 import { CartProvider } from "@/services/hooks/useCart";
 import Modal from 'react-modal';
 import { Footer } from "@/components/Footer";
+import { UserProvider } from "@/services/hooks/useUsers";
 
 Modal.setAppElement("#__next");
 
@@ -29,9 +30,11 @@ export default function MyApp({Component, pageProps}:AppProps) {
             <AuthProvider>
                 <ProductsProvider>
                     <CartProvider>
-                        <Header />
-                        <Component {...pageProps} />
-                        <Footer />
+                        <UserProvider>
+                            <Header />
+                            <Component {...pageProps} />
+                            <Footer />
+                        </UserProvider>
                     </CartProvider>
                 </ProductsProvider>
             </AuthProvider>
