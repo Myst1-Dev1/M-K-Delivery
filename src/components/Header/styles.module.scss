@@ -4,7 +4,7 @@
     z-index: 1000;
     background-color:#fff;
     color: #000;
-    box-shadow: 1px 1px 3px #000;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
     width: 100%;
     animation:fadeIn 1s ease;
 
@@ -49,8 +49,8 @@
 
             .userBox {
                     .imgContainer {
-                        width: 50px;
-                        height: 50px;
+                        width: 60px;
+                        height: 60px;
     
                         img {
                             width: 100%;
@@ -72,7 +72,7 @@
                 z-index: 1000;
                 background-color: #fff;
                 top: 80px;
-                width: 250px;
+                width: 200px;
                 border: 1px solid rgba(0,0,0,0.2);
 
                 h5 {
@@ -157,8 +157,8 @@
             .userBox {
 
                 .imgContainer {
-                    width: 50px;
-                    height: 50px;
+                    width: 60px;
+                    height: 60px;
 
                     img {
                         border-radius: 50%;
@@ -176,7 +176,7 @@
                     z-index: 1000;
                     background-color: #fff;
                     top: 80px;
-                    width: 250px;
+                    width: 200px;
                     border: 1px solid rgba(0,0,0,0.2);
 
                     h5 {
@@ -264,11 +264,13 @@
                 .icon{
                     display: none;
                 }
-                .cartAmount {
-                    display: none;
-                    background-color: transparent;
-                    span {
+                .cartBox {
+                    .cartAmount {
                         display: none;
+                        background-color: transparent;
+                        span {
+                            display: none;
+                        }
                     }
                 }
 
@@ -279,11 +281,25 @@
 
                     .imgContainer {
                         width: 30px;
+                        height: 30px;
                         img {
+                            height: 100%;
                             width: 100%;
                         }
                     }
+
+                    .profileBox {
+                        right: 40px;
+                        top: 50px;
+
+                        .icon {
+                            font-size: 10px;
+                            display: block;
+                        }
+                    }
                 }
+
+                
             }
         }
 
@@ -313,13 +329,16 @@
                 .icon{
                     display: none;
                 }
-                .cartAmount {
-                    display: none;
-                    background-color: transparent;
-                    span {
+                .cartBox {
+                    .cartAmount {
                         display: none;
+                        background-color: transparent;
+                        span {
+                            display: none;
+                        }
                     }
                 }
+
 
                 .userBox {
                     h5, h6 {
@@ -328,7 +347,9 @@
 
                     .imgContainer {
                         width: 30px;
+                        height: 30px;
                         img {
+                            height: 100%;
                             width: 100%;
                         }
                     }

@@ -1,0 +1,50 @@
+.orderContainer {
+
+    .orderBox{
+        width: 300px;
+        border: 1px solid var(--gray-300);
+        border-radius: 10px;
+
+       .orderDetails, .orderList, .avaliateOrderSubtitles {
+        padding:10px  20px;
+
+        img {
+            width: 30px;
+            object-fit: cover;
+        }
+
+        span {
+            margin-top: -30px;
+        }
+       }
+       
+        .orderList {
+            .moreItems {
+                color: var(--gray-500);
+            }
+        }
+
+        .avaliateOrder {
+            border-top: 1px solid var(--gray-300);
+            padding: 0;
+
+            .avaliateOrderSubtitles {
+                .icon {
+                    width: 20px;
+                    cursor: pointer;
+                }
+                .starContainer {
+                    .icon {
+                        width: 15px;
+                        cursor: pointer;
+                    }
+
+                    .selected {
+                        color: #fde047;
+                    }
+                }
+            }
+        }
+        
+    }
+}

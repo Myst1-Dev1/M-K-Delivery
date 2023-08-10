@@ -6,11 +6,13 @@ import 'glider-js/glider.min.css';
 import { FaShoppingCart, FaHeart, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { ProductContext } from '../../services/hooks/useProducts';
 import { CartContext } from '../../services/hooks/useCart';
+import { FavoritesContext } from '@/services/hooks/useFavorites';
 
 export function MostSaledDishes() {
 
     const { products } = useContext(ProductContext);
     const { handleAddToCart } = useContext(CartContext);
+    const { handleAddToFavorites } = useContext(FavoritesContext);
 
     const carouselDishes = products?.slice(0, 8);
 
@@ -67,7 +69,10 @@ export function MostSaledDishes() {
                                     <div className={styles.dishSubtitles}>
                                         <div className='d-flex justify-content-between align-items-center'>
                                             <h3 className='fw-bold'>{item.name}</h3>
-                                            <FaHeart className={styles.favoriteIcon} />
+                                            <FaHeart
+                                              onClick={() => handleAddToFavorites(item._id)}
+                                              className={styles.favoriteIcon} 
+                                            />
                                         </div>
                                         <p className='mb-0 mt-2'>{item.details}</p>
                                         <h6 className='mb-4 fw-bold'>

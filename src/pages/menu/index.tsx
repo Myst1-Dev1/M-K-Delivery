@@ -14,7 +14,8 @@ import { ProductModal } from '../../components/ProductModal';
 import { GetStaticProps } from 'next';
 import { ProductsApi } from '../../services/api';
 import { ResponsiveFilterBox } from './ResponsiveFilterBox';
-import { Search } from '@/components/Search';
+import { Search } from '../../components/Search';
+import { UserContext } from '@/services/hooks/useUsers';
 
 interface MenuProps {
     data:Products[];
@@ -27,7 +28,20 @@ export default function Menu({ data }:MenuProps) {
     const [isNewOrderModalOpen, setIsNewOrderModalOpen] = useState(false);
     const [openResponsiveFilterBox, setOpenResponsiveFilteBox] = useState(false);
 
-    const { user, isAuthenticated } = useContext(AuthContext);
+    const { isAuthenticated } = useContext(AuthContext);
+    const { user } = useContext(UserContext);
+
+    function searchProducts() {
+      if(search !== '') {
+          const filteredProducts = data.filter((e: Products) =>
+              e.name.toLowerCase().includes(search.toLowerCase())
+          );
+          setFilter(filteredProducts);
+
+      } else {
+          setFilter(data);
+      }
+  }
 
     function handleOpenOrderModal() {
         setIsNewOrderModalOpen(true);
@@ -53,6 +67,12 @@ export default function Menu({ data }:MenuProps) {
         setOpenResponsiveFilteBox(!openResponsiveFilterBox);
     }
 
+    useEffect(() => {
+      searchProducts()
+      // eslint-disable-next-line
+  }, [search])
+
+
 
     return (
         <>
@@ -61,35 +81,31 @@ export default function Menu({ data }:MenuProps) {
 
                 {isAuthenticated ? 
                 <div className={`mt-5 container d-flex justify-content-end ${styles.createNewProduct}`}>
-                    {user.isAdmin === true ? 
-                    <button 
-                    data-testid="create-new-product-button" 
-                    onClick={handleOpenOrderModal}>Criar novo produto</button> : ''}
+                    {user.map(user => {
+                      return (
+                        <div>
+                          {user.data.isAdmin === true ?
+                          <button 
+                          data-testid="create-new-product-button" 
+                          onClick={handleOpenOrderModal}>Criar novo produto</button> : ''}
+                        </div>
+                      )
+                    })}
+                    
                 </div> 
                 : ''}
 
-                <div className={`d-flex gap-5 container mb-5 ${styles.menuContainer}`}>
+                <div className={`d-flex gap-5 m-auto container mb-5 ${styles.menuContainer}`}>
                         <FilterBox onSetFilter = {setFilter} />
-                    <div className={`${styles.dishesContainer}`}>
+                    <div className={` ${styles.dishesContainer}`}>
                         <BsFilter
                             data-testid="responseFilter-button"
                             onClick={handleOpenResponsiveFilterBox} 
                             className={styles.openResponsiveFilterBox} 
                         />
-                        {/* <div className={styles.searchBox}>
-                            <input
-                                data-testid="searchInput"
-                                type="text" 
-                                placeholder='Pesquisar...'
-                                value={search}
-                                onChange={e => setSearch(e.target.value)} 
-                            />
-                            <FaSearch className={`ms-2 ${styles.icon}`} />
-                        </div> */}
                         <Search
                             search={search}
                             setSearch={setSearch} 
-                            setFilter={setFilter} 
                         />
                         <ResponsiveFilterBox
                             onOpenResponsiveFilterBox = {openResponsiveFilterBox}

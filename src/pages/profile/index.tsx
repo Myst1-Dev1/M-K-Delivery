@@ -6,10 +6,14 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useState, useContext } from "react"
 import { UserInfo } from './userInfo';
 import { UserFavorites } from './userFavorites';
+import { UserOrders } from './userOrders';
+import { UserNotifications } from './userNotifications';
 
 export default function Profile() {
     const [profile, setProfile] = useState(true);
-    const [favorites, setFavorites] = useState(false);
+    const [favoritesProfile, setFavoritesProfile] = useState(false);
+    const [orders, setOrders] = useState(false);
+    const [notification, setNotification] = useState(false);
 
     const { isAuthenticated } = useContext(AuthContext);
     const { user } = useContext(UserContext);
@@ -18,23 +22,41 @@ export default function Profile() {
 
     function handleOpenProfile() {
         setProfile(true);
-        setFavorites(false);
+        setFavoritesProfile(false);
+        setOrders(false);
+        setNotification(false);
     }
 
     function handleOpenFavorites() {
         setProfile(false);
-        setFavorites(true);
+        setFavoritesProfile(true);
+        setOrders(false);
+        setNotification(false);
+    }
+
+    function handleOpenOrders() {
+        setProfile(false);
+        setFavoritesProfile(false);
+        setOrders(true);
+        setNotification(false);
+    }
+
+    function handleOpenNotifications() {
+        setProfile(false);
+        setFavoritesProfile(false);
+        setOrders(false);
+        setNotification(true);
     }
 
 return (
-    <div className={`container d-flex gap-5 py-5 ${styles.userContainer}`}>
-        <div className={styles.userProfileBox}>
+    <div className={`container row gap-5 m-auto py-5 ${styles.userContainer}`}>
+        <div className={`col-md-4 ${styles.userProfileBox}`}>
             {isAuthenticated ?
                 <div>
                     {user.map(user => {
                         return (
-                            <div>
-                                <div key={user.data._id}
+                            <div key={user.data._id}>
+                                <div
                                     className={`d-flex align-items-center gap-3 ${styles.userBox}`}>
                                     <div className={styles.imgContainer}>
                                         <img src={user.data.image}
@@ -61,19 +83,28 @@ return (
                                         <FaHeart className={styles.icon} />
                                         <h5 
                                             onClick={handleOpenFavorites}
-                                            className={favorites ? `fw-bold ${styles.active}` : 'fw-bold'}>
+                                            className={favoritesProfile ? `fw-bold ${styles.active}` : 
+                                            'fw-bold'}>
                                             Favoritos
                                         </h5>
                                     </div>
                                     <div className={`d-flex align-items-center gap-3 
                                         ${styles.userProfileMenuItem}`}>
                                         <FaCartPlus className={styles.icon} />
-                                        <h5 className='fw-bold'>Pedidos</h5>
+                                        <h5
+                                            onClick={handleOpenOrders}
+                                            className={orders ? `fw-bold ${styles.active}` : 'fw-bold'}>
+                                                Pedidos
+                                        </h5>
                                     </div>
                                     <div className={`d-flex align-items-center gap-3 
                                         ${styles.userProfileMenuItem}`}>
                                         <FaBell className={styles.icon} />
-                                        <h5 className='fw-bold'>Notificação</h5>
+                                        <h5
+                                            onClick={handleOpenNotifications} 
+                                            className={notification ? `fw-bold ${styles.active}` : 'fw-bold'}>
+                                            Notificação
+                                        </h5>
                                     </div>
                                 </div>
                                 {user.data.isAdmin === true ?
@@ -92,7 +123,9 @@ return (
             }
         </div>
         {profile && <UserInfo />}
-        {favorites && <UserFavorites />}
+        {favoritesProfile && <UserFavorites />}
+        {orders && <UserOrders />}
+        {notification && <UserNotifications />}
     </div>
 )
 }

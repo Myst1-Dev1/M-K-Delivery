@@ -4,8 +4,6 @@ import styles from './styles.module.scss';
 import { CartContext } from '../../services/hooks/useCart';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { parseCookies } from 'nookies';
-import { ProductContext } from '@/services/hooks/useProducts';
 
 interface CartProps {
     onSetShowOverlay:any;

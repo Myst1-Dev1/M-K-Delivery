@@ -17,7 +17,6 @@ interface UpdateProfileModalProps {
 
 export function UpdateProfileModal({userId ,isOpen, onRequestClose, onUser } :UpdateProfileModalProps) {
     const { register, handleSubmit, formState:{errors}, setValue } = useForm();
-
     const router = useRouter();
 
     //const { uploadUserData } = useContext(UserContext);
@@ -43,7 +42,7 @@ export function UpdateProfileModal({userId ,isOpen, onRequestClose, onUser } :Up
 
             const userUpdated = formData;
 
-            const response = await api.put(`user/profile/${userId}`, userUpdated, {
+            await api.put(`user/profile/${userId}`, userUpdated, {
                 headers: {
                     'auth-token': token,
                 },

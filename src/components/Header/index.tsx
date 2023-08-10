@@ -11,11 +11,14 @@ import { ToastContainer } from 'react-toastify';
 import { ResponsiveMenu } from './responsiveMenu';
 import { parseCookies } from 'nookies';
 import { UserContext } from '../../services/hooks/useUsers';
+import { useRouter } from 'next/router';
 
 export function Header() {
     const {isAuthenticated, handleLogout} = useContext(AuthContext);
     const {cart, setCart ,openCart , setOpenCart } = useContext(CartContext);
     const { user } = useContext(UserContext);
+
+    const router = useRouter();
 
     const [showOverlay, setShowOverlay] = useState(false);
     const [responsiveMenu, setResponsiveMenu] = useState(false);
@@ -75,6 +78,16 @@ export function Header() {
     }
     }, [])
 
+    useEffect(() => {
+        const handleRouteChange = () => {
+          setProfileMenu(false);
+        };
+        router.events.on('routeChangeComplete', handleRouteChange);
+        return () => {
+          router.events.off('routeChangeComplete', handleRouteChange);
+        };
+      }, [router]);
+
     return (
         <>
             <div data-testid="header" className={fixedHeader ? styles.fixedHeader : styles.header}>
@@ -108,6 +121,7 @@ export function Header() {
                                                 className='d-flex gap-3 align-items-center'>
                                                 <div className={styles.imgContainer}>
                                                     <img
+                                                        
                                                         onClick={handleOpenProfileMenu} 
                                                         src={user.data.image} 
                                                         alt="user" 

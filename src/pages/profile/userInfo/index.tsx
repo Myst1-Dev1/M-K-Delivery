@@ -21,7 +21,7 @@ export function UserInfo() {
 
     return (
         <>
-            <div className={styles.userInfoBox}>
+            <div className={`col-md-8 ${styles.userInfoBox}`}>
                 <h3 className='fw-bold'>Informações do usuário</h3>
                 {isAuthenticated ? 
                 <div>

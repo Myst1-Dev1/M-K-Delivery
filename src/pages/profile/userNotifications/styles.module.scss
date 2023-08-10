@@ -1,0 +1,30 @@
+.notificationContainer {
+
+    .notificationBox {
+        border: 1px solid var(--gray-300);
+        border-radius: 10px;
+
+        img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+
+        .notificationSubtitles {
+            padding: 10px 20px;
+        }
+
+        .icon {
+            font-size: 20px;
+            color: var(--red-600);
+        }
+
+        .chatBox {
+            border-top: 1px solid var(--gray-300);
+
+            .chatBoxSubtitles {
+                padding: 15px 20px;
+            }
+        }
+    }
+}

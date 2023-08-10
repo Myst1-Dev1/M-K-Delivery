@@ -10,6 +10,7 @@ import { CartProvider } from "@/services/hooks/useCart";
 import Modal from 'react-modal';
 import { Footer } from "@/components/Footer";
 import { UserProvider } from "@/services/hooks/useUsers";
+import { FavoritesProvider } from "@/services/hooks/useFavorites";
 
 Modal.setAppElement("#__next");
 
@@ -31,9 +32,11 @@ export default function MyApp({Component, pageProps}:AppProps) {
                 <ProductsProvider>
                     <CartProvider>
                         <UserProvider>
-                            <Header />
-                            <Component {...pageProps} />
-                            <Footer />
+                            <FavoritesProvider>
+                                <Header />
+                                <Component {...pageProps} />
+                                <Footer />
+                            </FavoritesProvider>
                         </UserProvider>
                     </CartProvider>
                 </ProductsProvider>
