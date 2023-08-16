@@ -37,7 +37,7 @@ export function UserFavorites() {
     }, [search])
 
     return (
-        <div className={`${styles.favoritesBox}`}>
+        <div className={`col-md-8 ${styles.favoritesBox}`}>
             <div className='d-flex align-items-center gap-5 wrap'>
                 <Search 
                     search={search} 

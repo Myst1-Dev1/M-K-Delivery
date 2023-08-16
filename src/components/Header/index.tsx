@@ -115,7 +115,7 @@ export function Header() {
                             {isAuthenticated ? 
                             <div className='d-flex align-items-center gap-4'>
                                 <div>
-                                    {user && user.map(user => {
+                                    {user === undefined ? 'carregando...' : user.map(user => {
                                         return (
                                             <div key={user.data._id} 
                                                 className='d-flex gap-3 align-items-center'>
@@ -136,6 +136,9 @@ export function Header() {
                                                         <div className='d-flex justify-content-between'>
                                                             <div className='d-flex flex-column gap-3'>
                                                                 <Link href='/profile'>Meu Perfil</Link>
+                                                                {user.data.isAdmin === true ?
+                                                                <Link href="/usersList">Usuários</Link>
+                                                                :''}
                                                                 <div data-testid={'logoutIcon'}>
                                                                     <MdLogout 
                                                                         onClick={handleLogoutUser} 

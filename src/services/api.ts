@@ -65,3 +65,18 @@ export const userProfileData = {
         }
     }
 }
+
+export const getAllUsersData = {
+    get: async () => {
+        try {
+            const {data, status} = await api.get('/users', {
+                headers: {
+                    'auth-token': token
+                }
+            })
+            if(status === 200) return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}

@@ -8,17 +8,22 @@ import { UserInfo } from './userInfo';
 import { UserFavorites } from './userFavorites';
 import { UserOrders } from './userOrders';
 import { UserNotifications } from './userNotifications';
+import { useRouter } from 'next/router';
 
-export default function Profile() {
+export default function UserProfile() {
     const [profile, setProfile] = useState(true);
     const [favoritesProfile, setFavoritesProfile] = useState(false);
     const [orders, setOrders] = useState(false);
     const [notification, setNotification] = useState(false);
 
-    const { isAuthenticated } = useContext(AuthContext);
-    const { user } = useContext(UserContext);
+    const router = useRouter();
 
-    console.log(user);
+    const { id } = router.query;
+
+    const { isAuthenticated } = useContext(AuthContext);
+    const { user, allUser } = useContext(UserContext);
+    
+    const userData = allUser.find(user => user._id === id)
 
     function handleOpenProfile() {
         setProfile(true);
@@ -49,22 +54,20 @@ export default function Profile() {
     }
 
 return (
-    <div className={`container d-flex gap-5 m-auto py-5 ${styles.userContainer}`}>
-        <div className={`${styles.userProfileBox}`}>
+    <div className={`container row gap-5 m-auto py-5 ${styles.userContainer}`}>
+        <div className={`col-md-4 ${styles.userProfileBox}`}>
             {isAuthenticated ?
                 <div>
-                    {user.map(user => {
-                        return (
-                            <div key={user.data._id}>
+                            <div key={userData?._id}>
                                 <div
                                     className={`d-flex align-items-center gap-3 ${styles.userBox}`}>
                                     <div className={styles.imgContainer}>
-                                        <img src={user.data.image}
+                                        <img src={userData?.image}
                                         alt="user-image" />
                                     </div>
                                     <div>
-                                        <h4>{user.data.firstname} {user.data.lastname}</h4>
-                                        <h6>{user.data.email}</h6>
+                                        <h4>{userData?.firstname} {userData?.lastname}</h4>
+                                        <h6>{userData?.email}</h6>
                                     </div>
                                 </div>
                                 <div className={`${styles.userProfileMenu}`}>
@@ -107,17 +110,20 @@ return (
                                         </h5>
                                     </div>
                                 </div>
-                                {user.data.isAdmin === true ?
-                                    <div className={styles.sendMessageBox}>
-                                    <button>
-                                        <FaRocketchat className={styles.icon} /> 
-                                        Enviar Mensagem
-                                    </button>
-                                </div>
-                                : ''}
+                                {user.map(user => {
+                                    return (
+                                        <div>
+                                            {user.data.isAdmin === true ?
+                                            <div className={styles.sendMessageBox}>
+                                                <button>
+                                                    <FaRocketchat className={styles.icon} /> 
+                                                    Enviar Mensagem
+                                                </button>
+                                            </div> : ''}
+                                        </div>
+                                    )
+                                })}
                             </div>
-                        )
-                    })}
                 </div>
                 : 'Sem dados'
             }
