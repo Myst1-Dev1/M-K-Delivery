@@ -1,4 +1,4 @@
-import { FaHeart, FaShoppingCart, FaTrashAlt } from 'react-icons/fa';
+import { FaHeart, FaPencilAlt, FaShoppingCart, FaTrashAlt } from 'react-icons/fa';
 import styles from './styles.module.scss';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -15,6 +15,8 @@ interface ProductBoxProps {
     details:string;
     amount:number;
     price:number;
+    onSetIsNewUpdateModalOpen?:any;
+    onSetSelectedProductId?:any;
 }
 
 export function ProductBox({
@@ -23,7 +25,9 @@ export function ProductBox({
     name,
     details,
     amount,
-    price
+    price,
+    onSetIsNewUpdateModalOpen,
+    onSetSelectedProductId
 }:ProductBoxProps) {
     const { isAuthenticated } = useContext(AuthContext);
     const { user } = useContext(UserContext);
@@ -35,13 +39,19 @@ export function ProductBox({
 
     const router = useRouter();
 
+    function handleOpenUpdateModal(id:string) {
+        onSetIsNewUpdateModalOpen(true);
+
+        onSetSelectedProductId(id);
+    }
+
     return (
         <div key={id} data-testid="name" className={`col-md-6 ${styles.disheBox}`}>
             {isAuthenticated ?
             <div>
                {user.map(user => {
                 return (
-                    <div>
+                    <div key={user.data._id} className='d-flex align-items-center gap-3'>
                         {user.data.isAdmin === true || 
                         router.asPath === '/profile' ?
                         <div
@@ -51,6 +61,13 @@ export function ProductBox({
                             className={styles.deleteProduct}>
                             <FaTrashAlt />
                         </div> : ''}
+                        {router.asPath === '/profile' ? '' :
+                            <div onClick={() => handleOpenUpdateModal(id)} 
+                                className={styles.updateProduct}
+                                >
+                                <FaPencilAlt />
+                            </div>
+                        }
                     </div>
                 )
                })}

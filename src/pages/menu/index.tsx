@@ -1,4 +1,4 @@
-import { FaArrowLeft, FaArrowRight, FaSearch } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { BsFilter } from 'react-icons/bs';
 import { useState, useEffect, useContext } from 'react';
 
@@ -26,7 +26,9 @@ export default function Menu({ data }:MenuProps) {
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState<Products[]>([]);
     const [isNewOrderModalOpen, setIsNewOrderModalOpen] = useState(false);
+    const [isNewUpdateModalOpen, setIsNewUpdateModalOpen] = useState(false);
     const [openResponsiveFilterBox, setOpenResponsiveFilteBox] = useState(false);
+    const [selectedProductId, setSelectedProductId] = useState<'' | any>('');
 
     const { isAuthenticated } = useContext(AuthContext);
     const { user } = useContext(UserContext);
@@ -49,6 +51,10 @@ export default function Menu({ data }:MenuProps) {
 
     function handleCloseOrderModal() {
         setIsNewOrderModalOpen(false);
+      }
+
+      function handleCloseUpdateModal() {
+        setIsNewUpdateModalOpen(false);
       }
 
     const itemsPerPage = 4;
@@ -80,10 +86,10 @@ export default function Menu({ data }:MenuProps) {
                 <PageBanner>Menu</PageBanner>
 
                 {isAuthenticated ? 
-                <div className={`mt-5 container d-flex justify-content-end ${styles.createNewProduct}`}>
+                <div className={`mt-5 mb-5 container d-flex justify-content-end ${styles.createNewProduct}`}>
                     {user.map(user => {
                       return (
-                        <div>
+                        <div key={user.data._id}>
                           {user.data.isAdmin === true ?
                           <button 
                           data-testid="create-new-product-button" 
@@ -110,7 +116,14 @@ export default function Menu({ data }:MenuProps) {
                         <ResponsiveFilterBox
                             onOpenResponsiveFilterBox = {openResponsiveFilterBox}
                             onSetFilter = {setFilter} />
-                        <Product onCurrentItems = {currentItems} />
+                        <Product
+                          onSelectedProductId={selectedProductId}
+                          onSetIsNewUpdateModalOpen = {setIsNewUpdateModalOpen}
+                          onCurrentItems = {currentItems}
+                          isNewUpdateModalOpen = {isNewUpdateModalOpen}
+                          onRequestClose = {handleCloseUpdateModal}
+                          onSetSelectedProductId = {setSelectedProductId}
+                        />
                     </div>
                 </div>
                 <div className={styles.pagination}>

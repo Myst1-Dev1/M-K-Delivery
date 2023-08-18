@@ -1,7 +1,7 @@
 .disheBox {
     margin-top: 20px;
 
-    .deleteProduct {
+    .deleteProduct, .updateProduct {
         color: var(--red-600);
         cursor: pointer;
         width: 30px;
@@ -12,8 +12,19 @@
         margin-bottom: 10px;
         border: 1px solid var(--gray-300);
         transition: 0.3s;
-        background-color: var(--red-600);
         color: #fff;
+
+        &:hover {
+            filter: brightness(0.8);
+        }
+    }
+
+    .deleteProduct {
+        background-color: var(--red-600);
+    }
+
+    .updateProduct {
+        background-color: var(--gray-500);
     }
 
 

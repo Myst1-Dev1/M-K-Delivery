@@ -30,7 +30,7 @@ export default function UsersList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {allUser.map((user, index) => {
+                        {allUser === undefined ? '' : allUser.map((user, index) => {
                             return (
                                 <tr key={user._id}>
                                     <th scope="row">{index + 1}</th>

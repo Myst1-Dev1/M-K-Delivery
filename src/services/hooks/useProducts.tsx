@@ -7,7 +7,9 @@ import { useRouter } from 'next/router';
 
 type ProductContextData = {
     products: Products[];
+    setProducts:any;
     CreateProducts: (data:Products) => Promise<void>;
+    UpdateProducts: (id:string, data:Products) => Promise<void>;
     DeleteProduct:(id:string) => Promise<void>;
 }
 
@@ -69,6 +71,45 @@ export function ProductsProvider({children}:ProductsProviderProps) {
         }
     }
 
+    async function UpdateProducts(id:string, productsValue:Products) {
+        try {
+            const {'mk-delivery.token': token} = parseCookies();
+
+            const formData = new FormData();
+            formData.append('name', productsValue.name);
+            formData.append('details', productsValue.details);
+            formData.append('price', productsValue.price.toString());
+            formData.append('amount', productsValue.amount.toString());
+            formData.append('type', productsValue.type);
+            formData.append('image', productsValue.image);
+
+            await api.put(`/products/${id}`, formData, {
+                headers: {
+                  'auth-token': token,
+                },
+              });
+
+            //   const { product } = res.data;
+    
+            //   setProducts([
+            //       ...products,
+            //       product,
+            //   ])
+              
+              toast.success('Produto atualizado com sucesso', {
+                position:toast.POSITION.TOP_RIGHT,
+                theme:'colored'
+            })
+            
+        } catch (error) {
+            console.log(error);
+            toast.error('Tivemos um erro', {
+                position:toast.POSITION.TOP_RIGHT,
+                theme:'colored'
+            })
+        }
+    }
+
     async function DeleteProduct(id:string) {
         try {
             const {'mk-delivery.token': token} = parseCookies();
@@ -100,7 +141,11 @@ export function ProductsProvider({children}:ProductsProviderProps) {
     }, [])
 
     return (
-        <ProductContext.Provider value={{products, CreateProducts, DeleteProduct}}>
+        <ProductContext.Provider value={{products, 
+            setProducts 
+            ,CreateProducts
+            ,UpdateProducts 
+            ,DeleteProduct}}>
             {children}
         </ProductContext.Provider>
     )

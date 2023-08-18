@@ -23,7 +23,7 @@ export const UserContext = createContext<UserContextData>(
 
 export function UserProvider({children}:UserProviderProps) {
     const [user, setUser] = useState<UserProfile[]>([]);
-    const [allUser, setAllUser] = useState<AllUser[]>([]);
+    const [allUser, setAllUser] = useState<AllUser[] | any>([]);
 
     const router = useRouter();
 
