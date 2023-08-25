@@ -78,8 +78,6 @@ export default function Menu({ data }:MenuProps) {
       // eslint-disable-next-line
   }, [search])
 
-
-
     return (
         <>
             <div className={styles.menu}>

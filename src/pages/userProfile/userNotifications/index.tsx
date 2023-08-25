@@ -25,7 +25,8 @@ export function UserNotifications() {
                 </div>
                 <div className={`${styles.chatBox}`}>
                     <div className={`d-flex align-items-center gap-3 ${styles.chatBoxSubtitles}`}>
-                        <FaRocketchat className={styles.icon} />
+                        <FaRocketchat
+                            className={styles.icon} />
                         <h6 className='fw-bold'>Chat</h6>
                     </div>
                 </div>

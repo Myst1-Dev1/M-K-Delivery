@@ -4,9 +4,11 @@ import { FaEye, FaTrashAlt } from 'react-icons/fa';
 import { useContext } from 'react';
 import { UserContext } from '@/services/hooks/useUsers';
 import Link from 'next/link';
+import { AuthContext } from '@/contexts/AuthContext';
 
 export default function UsersList() {
     const { allUser, deleteUserData } = useContext(UserContext);
+    const { isAuthenticated } = useContext(AuthContext);
 
     console.log(allUser);
 

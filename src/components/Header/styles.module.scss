@@ -64,6 +64,22 @@
                     h5 {
                         font-weight: bold;
                     }
+
+                    h6 {
+                        color: #000;
+                        font-weight: bold;
+                        cursor: pointer;
+                        transition: 0.3s;
+    
+                        &:hover {
+                            color: var(--red-500);
+                        }
+    
+                        &:first-child {
+                            border-right: 1px solid var(--gray-300);
+                            padding-right: 10px;
+                        }
+                    }
             }
             .profileBox {
                 border-radius: 10px;

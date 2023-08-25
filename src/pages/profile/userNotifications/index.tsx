@@ -1,7 +1,11 @@
 import { FaEnvelope, FaRocketchat } from 'react-icons/fa';
 import styles from './styles.module.scss';
 
-export function UserNotifications() {
+interface UserNotificationprops {
+    onHandleOpenUserChat:() => void;
+}
+
+export function UserNotifications({onHandleOpenUserChat}:UserNotificationprops) {
     return (
         <div className={`col-md-8 ${styles.notificationContainer}`}>
             <div className='row gap-4'>
@@ -25,7 +29,9 @@ export function UserNotifications() {
                 </div>
                 <div className={`${styles.chatBox}`}>
                     <div className={`d-flex align-items-center gap-3 ${styles.chatBoxSubtitles}`}>
-                        <FaRocketchat className={styles.icon} />
+                        <FaRocketchat
+                            onClick={onHandleOpenUserChat} 
+                            className={styles.icon} />
                         <h6 className='fw-bold'>Chat</h6>
                     </div>
                 </div>

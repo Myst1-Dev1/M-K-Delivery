@@ -12,18 +12,15 @@ import { ResponsiveMenu } from './responsiveMenu';
 import { parseCookies } from 'nookies';
 import { UserContext } from '../../services/hooks/useUsers';
 import { useRouter } from 'next/router';
+import { UserData } from './userData';
 
 export function Header() {
     const {isAuthenticated, handleLogout} = useContext(AuthContext);
     const {cart, setCart ,openCart , setOpenCart } = useContext(CartContext);
-    const { user } = useContext(UserContext);
-
-    const router = useRouter();
 
     const [showOverlay, setShowOverlay] = useState(false);
     const [responsiveMenu, setResponsiveMenu] = useState(false);
     const [fixedHeader, setFixedHeader] = useState(false);
-    const [profileMenu, setProfileMenu] = useState(false);
 
     function handleOpenCart() {
         setOpenCart(true);
@@ -33,19 +30,6 @@ export function Header() {
     function handleOpenResponsiveMenu() {
         setResponsiveMenu(true);
         setShowOverlay(true);
-    }
-
-    function handleOpenProfileMenu() {
-        setProfileMenu(true);
-    }
-
-    function handleCloseProfileMenu() {
-        setProfileMenu(false);
-    }
-
-    function handleLogoutUser() {
-        handleLogout()
-        setProfileMenu(false);
     }
 
     useEffect(() => {
@@ -78,16 +62,6 @@ export function Header() {
     }
     }, [])
 
-    useEffect(() => {
-        const handleRouteChange = () => {
-          setProfileMenu(false);
-        };
-        router.events.on('routeChangeComplete', handleRouteChange);
-        return () => {
-          router.events.off('routeChangeComplete', handleRouteChange);
-        };
-      }, [router]);
-
     return (
         <>
             <div data-testid="header" className={fixedHeader ? styles.fixedHeader : styles.header}>
@@ -113,53 +87,8 @@ export function Header() {
                     <div className={`d-flex align-items-center gap-4 ${styles.iconsContainer}`}>
                         <div className={`d-flex gap-3 align-items-center ${styles.userBox}`}>   
                             {isAuthenticated ? 
-                            <div className='d-flex align-items-center gap-4'>
-                                <div>
-                                    {user === undefined ? 'carregando...' : user.map(user => {
-                                        return (
-                                            <div key={user.data._id} 
-                                                className='d-flex gap-3 align-items-center'>
-                                                <div className={styles.imgContainer}>
-                                                    <img
-                                                        
-                                                        onClick={handleOpenProfileMenu} 
-                                                        src={user.data.image} 
-                                                        alt="user" 
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <h5>{user.data.firstname}</h5>
-                                                    <h5>{user.data.lastname}</h5>
-                                                </div>
-                                                {profileMenu && (
-                                                    <div className={styles.profileBox}>
-                                                        <div className='d-flex justify-content-between'>
-                                                            <div className='d-flex flex-column gap-3'>
-                                                                <Link href='/profile'>Meu Perfil</Link>
-                                                                {user.data.isAdmin === true ?
-                                                                <Link href="/usersList">Usuários</Link>
-                                                                :''}
-                                                                <div data-testid={'logoutIcon'}>
-                                                                    <MdLogout 
-                                                                        onClick={handleLogoutUser} 
-                                                                        className={styles.icon} 
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                            <FaTimes
-                                                                onClick={handleCloseProfileMenu} 
-                                                                className={styles.icon} 
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            )
-                                        })}
-                                    </div>
-                                    {/* <div data-testid={'logoutIcon'}>
-                                        <MdLogout onClick={handleLogout} className={styles.icon} />
-                                    </div> */}
+                                <div className='d-flex align-items-center gap-4'>
+                                    <UserData />
                                 </div> 
                                 :  
                                 <div className='d-flex gap-3 align-items-center'>

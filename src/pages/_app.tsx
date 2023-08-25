@@ -43,6 +43,5 @@ export default function MyApp({Component, pageProps}:AppProps) {
             </AuthProvider>
             }
        </>
-      
     )
 }

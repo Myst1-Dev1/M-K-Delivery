@@ -61,13 +61,13 @@ export function ProductBox({
                             className={styles.deleteProduct}>
                             <FaTrashAlt />
                         </div> : ''}
-                        {router.asPath === '/profile' ? '' :
+                        {user.data.isAdmin === true  ?
                             <div onClick={() => handleOpenUpdateModal(id)} 
                                 className={styles.updateProduct}
                                 >
                                 <FaPencilAlt />
                             </div>
-                        }
+                        :''}
                     </div>
                 )
                })}

@@ -5,13 +5,14 @@ import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import { AllUser } from '../../types/AllUser';
-
+import { AuthContext } from '@/contexts/AuthContext';
 
 type UserContextData = {
     user:UserProfile[];
     allUser:AllUser[];
     uploadUserData:(id:string, data:any) => void;
-    deleteUserData:(id:string) => void;
+    deleteUserData:(id:string) => Promise<void>;
+    isFetching:boolean;
 }
 
 type UserProviderProps = {
@@ -23,18 +24,49 @@ export const UserContext = createContext<UserContextData>(
 
 export function UserProvider({children}:UserProviderProps) {
     const [user, setUser] = useState<UserProfile[]>([]);
-    const [allUser, setAllUser] = useState<AllUser[] | any>([]);
+    const [allUser, setAllUser] = useState<AllUser[]>([]);
+    const [isFetching, setIsFetching] = useState(true);
+
+    const { isAuthenticated } = useContext(AuthContext);
 
     const router = useRouter();
 
     async function getUserData() {
-        const res = await userProfileData.get();
-        setUser(res);
+        // await userProfileData.get()
+        // .then(res => {
+        //     setUser(res);
+        // })
+        // .catch(err => {
+        //     console.log('Erro ao consumir dados do usuário', err);
+        // })
+        // .finally(() => {
+        //     setIsFetching(false);
+        // });  
+
+        try {
+            if(router.isFallback) {
+                return <div>Carregando...</div>
+            } else {
+                const res = await userProfileData.get();
+                setUser(res);
+            }
+        } catch (error) {
+            console.log('Erro ao consumir usuario', error);
+        }
     }
 
     async function getAllUserData() {
-        const res = await getAllUsersData.get();
-        setAllUser(res.data);
+        try {
+            const res = await getAllUsersData.get();
+            
+            if(isAuthenticated) {
+                console.log('error');
+            } else {
+                setAllUser(res.data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     async function uploadUserData(id:string, data:any) {
@@ -98,7 +130,7 @@ export function UserProvider({children}:UserProviderProps) {
     }, []);
 
     return (
-        <UserContext.Provider value={{user, allUser ,uploadUserData, deleteUserData}}>
+        <UserContext.Provider value={{user, allUser, isFetching ,uploadUserData, deleteUserData}}>
             {children}
         </UserContext.Provider>
     )

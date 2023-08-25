@@ -1,13 +1,16 @@
 import styles from './styles.module.scss';
 
-import { useContext, useEffect } from 'react';
-import { PageBanner } from '@/components/pageBanner';
-import { CartContext } from '@/services/hooks/useCart';
+import { useContext, useEffect, useState } from 'react';
+import { PageBanner } from '../../components/pageBanner';
+import { CartContext } from '../../services/hooks/useCart';
 import { useRouter } from 'next/router';
-import { AuthContext } from '@/contexts/AuthContext';
-
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function paymentPage() {
+    const [cashOnDelivery, setCashOnDelivery] = useState(false);
+    const [onlinePayment, setOnlinePayment] = useState(false);
+    const [changeValue, setChangeValue] = useState(false);
+
     const { cart, totalCart } = useContext(CartContext);
     const { isAuthenticated } = useContext(AuthContext);
     const router = useRouter();
@@ -19,11 +22,27 @@ export default function paymentPage() {
     //     }
     // }, []);
 
+    function handleOpenCashOnDeliveryPaymentOption() {
+        setCashOnDelivery(true);
+    }
+
+    function handleOpenChangeValue() {
+        setChangeValue(true);
+    }
+
+    function handleOpenOpenOnlinePayment() {
+        setOnlinePayment(!onlinePayment);
+    }
+
+    function handleCloseCashOnDelivery() {
+        setCashOnDelivery(false)
+    }
+
     return (
         <>
             <PageBanner>Pagamento</PageBanner>
 
-            <div className={`mt-5 row justify-content-center align-items-center m-auto container 
+            <div className={`mt-5 row justify-content-center m-auto container 
                 ${styles.paymentContainer}`}>
                 <div className={`col-md-6 ${styles.deliveryBox}`}>
                     <h3>Informações de entrega</h3>
@@ -54,16 +73,68 @@ export default function paymentPage() {
                         </div>
                     </div>
                     <h3 className='mt-4'>Método de pagamento</h3>
-                    <div className={`d-flex justify-content-between align-items-center mt-4 
-                        ${styles.paymentMethodBox}`}>
-                        <div className='d-flex gap-2'>
-                            <input type="radio" id='onlinePayment' />
-                            <label htmlFor="onlinePayment">Pagamento online</label>
+                    <div className={`mt-3 ${styles.paymentMethodBox}`}>
+                        <div className='d-flex justify-content-between m-auto gap-5 align-items-center'>
+                            <button onClick={handleOpenOpenOnlinePayment}>
+                                Pagamento online
+                            </button>
+                            <button onClick={handleOpenCashOnDeliveryPaymentOption}>
+                                Pagamento na entrega
+                            </button>
                         </div>
-                        <div className='d-flex gap-2'>
-                            <input type="radio" id='cashOnDelivery' />
-                            <label htmlFor="cashOnDelivery">Pagamento na entrega</label>
+
+                        {onlinePayment && (
+                            <div className={`d-flex flex-column gap-3 mt-5 ${styles.onlinePayment}`}>
+                                <div className={`${styles.inputBox}`}>
+                                    <label className='fw-bold' htmlFor="cartNumber">
+                                        Número do cartão
+                                    </label>
+                                    <input type="text" placeholder='1234 5678 9012 3456' id='cartNumber' />
+                                </div>
+                                <div className={`${styles.inputBox}`}>
+                                    <label className='fw-bold' htmlFor="cartName">
+                                        Nome impresso no cartão
+                                    </label>
+                                    <input type="text" placeholder='JOHN DOE' id='cartName' />
+                                </div>
+                                <div className='row'>
+                                <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
+                                    <label className='fw-bold' htmlFor="dateOfExpiration">
+                                        Data de expiração
+                                    </label>
+                                    <input type="text" placeholder='04/27' id='dateOfExpiration' />
+                                </div>
+                                <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
+                                    <label className='fw-bold' htmlFor="securityCode">
+                                        Código de segurança
+                                    </label>
+                                    <input type="number" placeholder='***' id='securityCode' />
+                                </div>
+                            </div>
                         </div>
+                        )}
+
+                        {cashOnDelivery && (
+                            <div className={`mt-5 ${styles.cashOnDelivery}`}>
+                                <span>Precisa de troco?</span>
+                                <div className='d-flex mt-3 gap-5'>
+                                    <button onClick={handleOpenChangeValue}>
+                                        Sim
+                                    </button>
+                                    <button onClick={handleCloseCashOnDelivery}>
+                                        Não
+                                    </button>
+                                </div>
+                                {changeValue && (
+                                    <div className={`mt-3 ${styles.inputBox}`}>
+                                        <label className='fw-bold' htmlFor="changeValue">
+                                            Valor do troco
+                                        </label>
+                                        <input type="text" placeholder='R$:XXX' id='changeValue' />
+                                    </div> 
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className={`col-md-6 ${styles.orderContainer}`}>

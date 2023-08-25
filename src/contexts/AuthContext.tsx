@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import Router, { useRouter } from 'next/router';
 import { User } from "../types/User";
 import { SignUpData } from "../types/SignUpData";
+import { UserContext } from "@/services/hooks/useUsers";
 
 type SignInData = {
     email:string;
@@ -64,6 +65,7 @@ export function AuthProvider({ children }:AuthProviderProps) {
                 theme:"colored"
             })
             Router.push('/');
+            Router.reload();
         }
          else {
             console.log('Erro no login');

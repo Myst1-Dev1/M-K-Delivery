@@ -8,12 +8,14 @@ import { UserInfo } from './userInfo';
 import { UserFavorites } from './userFavorites';
 import { UserOrders } from './userOrders';
 import { UserNotifications } from './userNotifications';
+import { UserChat } from './userChat';
 
 export default function Profile() {
     const [profile, setProfile] = useState(true);
     const [favoritesProfile, setFavoritesProfile] = useState(false);
     const [orders, setOrders] = useState(false);
     const [notification, setNotification] = useState(false);
+    const [userChat, setUserChat] = useState(false);
 
     const { isAuthenticated } = useContext(AuthContext);
     const { user } = useContext(UserContext);
@@ -25,6 +27,7 @@ export default function Profile() {
         setFavoritesProfile(false);
         setOrders(false);
         setNotification(false);
+        setUserChat(false);
     }
 
     function handleOpenFavorites() {
@@ -32,6 +35,7 @@ export default function Profile() {
         setFavoritesProfile(true);
         setOrders(false);
         setNotification(false);
+        setUserChat(false);
     }
 
     function handleOpenOrders() {
@@ -39,6 +43,7 @@ export default function Profile() {
         setFavoritesProfile(false);
         setOrders(true);
         setNotification(false);
+        setUserChat(false);
     }
 
     function handleOpenNotifications() {
@@ -46,6 +51,15 @@ export default function Profile() {
         setFavoritesProfile(false);
         setOrders(false);
         setNotification(true);
+        setUserChat(false);
+    }
+
+    function handleOpenUserChat() {
+        setProfile(false);
+        setFavoritesProfile(false);
+        setOrders(false);
+        setNotification(false);
+        setUserChat(true);
     }
 
 return (
@@ -109,7 +123,7 @@ return (
                                 </div>
                                 {user.data.isAdmin === true ?
                                     <div className={styles.sendMessageBox}>
-                                    <button>
+                                    <button onClick={handleOpenUserChat}>
                                         <FaRocketchat className={styles.icon} /> 
                                         Enviar Mensagem
                                     </button>
@@ -125,7 +139,8 @@ return (
         {profile && <UserInfo />}
         {favoritesProfile && <UserFavorites />}
         {orders && <UserOrders />}
-        {notification && <UserNotifications />}
+        {notification && <UserNotifications onHandleOpenUserChat={handleOpenUserChat} />}
+        {userChat && <UserChat />}
     </div>
 )
 }

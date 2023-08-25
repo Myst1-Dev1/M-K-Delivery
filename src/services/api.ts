@@ -36,19 +36,6 @@ export const UserApi = {
         const res = await api.post('/login', { email, password });
         return res;
     },
-
-    // profile: async () => {
-    //     try {
-    //         const {data, status} = await api.get('/user/profile', {
-    //             headers: {
-    //                 'auth-token':token
-    //             },
-    //         })
-    //         if(status === 201) return data;
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
 }
 
 export const userProfileData = {
