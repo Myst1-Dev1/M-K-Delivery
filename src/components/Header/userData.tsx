@@ -73,10 +73,17 @@ export function UserData({userData}:UserDataProps) {
                             <div className={styles.profileBox}>
                                 <div className='d-flex justify-content-between'>
                                     <div className='d-flex flex-column gap-3'>
-                                        <Link href='/profile'>Meu Perfil</Link>
+                                        <Link href='/profile'>
+                                            {user.data.isAdmin === true ? '' :
+                                            "Meu Perfil"}
+                                        </Link>
                                         {user.data.isAdmin === true ?
                                         <Link href="/usersList">Usuários</Link>
-                                        :''}
+                                            :''}
+                                        <Link href="">
+                                            {user.data.isAdmin === true ? 'Pedidos'
+                                            : ''}
+                                        </Link>
                                         <div data-testid={'logoutIcon'}>
                                             <MdLogout 
                                                 onClick={handleLogoutUser} 

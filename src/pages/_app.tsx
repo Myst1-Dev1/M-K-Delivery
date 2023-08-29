@@ -11,6 +11,7 @@ import Modal from 'react-modal';
 import { Footer } from "@/components/Footer";
 import { UserProvider } from "@/services/hooks/useUsers";
 import { FavoritesProvider } from "@/services/hooks/useFavorites";
+import { ChatProvider } from "@/services/hooks/useChat";
 
 Modal.setAppElement("#__next");
 
@@ -33,9 +34,11 @@ export default function MyApp({Component, pageProps}:AppProps) {
                     <CartProvider>
                         <UserProvider>
                             <FavoritesProvider>
-                                <Header />
-                                <Component {...pageProps} />
-                                <Footer />
+                                <ChatProvider>
+                                    <Header />
+                                    <Component {...pageProps} />
+                                    <Footer />
+                                </ChatProvider>
                             </FavoritesProvider>
                         </UserProvider>
                     </CartProvider>

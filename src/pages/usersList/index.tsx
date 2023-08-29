@@ -1,14 +1,11 @@
 import { PageBanner } from '@/components/pageBanner';
 import styles from './styles.module.scss';
-import { FaEye, FaTrashAlt } from 'react-icons/fa';
+import { FaTrashAlt } from 'react-icons/fa';
 import { useContext } from 'react';
 import { UserContext } from '@/services/hooks/useUsers';
-import Link from 'next/link';
-import { AuthContext } from '@/contexts/AuthContext';
 
 export default function UsersList() {
     const { allUser, deleteUserData } = useContext(UserContext);
-    const { isAuthenticated } = useContext(AuthContext);
 
     console.log(allUser);
 
@@ -46,13 +43,15 @@ export default function UsersList() {
                                     <td>{user.tel}</td>
                                     <td>
                                         <div className='d-flex align-items-center gap-3'>
-                                            <Link href={`userProfile/${user._id}`}>
+                                            {/* <Link href={`userProfile/${user._id}`}>
                                                 <FaEye className={styles.viewIcon} />
-                                            </Link>
-                                            <FaTrashAlt
-                                                onClick={() => deleteUserData(user._id)}
-                                                className={styles.deleteIcon} 
-                                            />
+                                            </Link> */}
+                                            {user.isAdmin === true ? '' :
+                                                <FaTrashAlt
+                                                    onClick={() => deleteUserData(user._id)}
+                                                    className={styles.deleteIcon} 
+                                                />
+                                            }
                                         </div>
                                     </td>
                                 </tr>

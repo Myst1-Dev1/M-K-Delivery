@@ -73,8 +73,8 @@ return (
         
         <div className={`${styles.userProfileBox}`}>
             {isAuthenticated ?
-                <div>
-                    <div key={userData?._id}>
+                <div key={userData?._id}>
+                    <div>
                         <div
                             className={`d-flex align-items-center gap-3 ${styles.userBox}`}>
                             <div className={styles.imgContainer}>
@@ -128,7 +128,7 @@ return (
                         </div>
                         {user.map(user => {
                             return (
-                                <div>
+                                <div key={user.data._id}>
                                     {user.data.isAdmin === true ?
                                     <div className={styles.sendMessageBox}>
                                         <button onClick={handleOpenUserChat} >

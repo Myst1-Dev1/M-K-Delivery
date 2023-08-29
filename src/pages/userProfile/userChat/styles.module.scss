@@ -88,9 +88,13 @@
         .chatBoxInput {
             padding: 20px;
 
-            .icon {
-                font-size: 20px;
-                cursor: pointer;
+            button {
+                border: none;
+                background: none;
+                .icon {
+                    font-size: 20px;
+                    cursor: pointer;
+                }
             }
 
             input {
