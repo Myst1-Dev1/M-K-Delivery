@@ -1,8 +1,17 @@
 import { FaRocketchat } from 'react-icons/fa';
 import { PageBanner } from '../../components/pageBanner';
 import styles from './styles.module.scss';
+import { OrderChat } from '../orders/orderChat';
+import { useContext } from 'react';
+import { ChatContext } from '@/services/hooks/useChat';
 
 export default function OrderStatus() {
+    const {chat ,setChat } = useContext(ChatContext)
+
+    function handleOpenChat() {
+        setChat(true);
+    }
+
     return (
         <>
             <PageBanner>Status do Pedido</PageBanner>
@@ -17,8 +26,7 @@ export default function OrderStatus() {
                     </h5>
                     <div className='d-flex gap-3 mt-4'>
                         <h6>
-                            O seu pedido está sendo preparado
-                            para ser entregue
+                            Aguardando a confirmação do pedido
                         </h6>
                         <div className={`spinner-grow text-warning ${styles.status}`}></div>
                     </div>
@@ -34,13 +42,14 @@ export default function OrderStatus() {
                     </div>
                     <div className='d-flex justify-content-between align-items-center mt-4'>
                         <div className='d-flex gap-3'>
-                            <FaRocketchat className={styles.icon} />
+                            <FaRocketchat onClick={handleOpenChat} className={styles.icon} />
                             <h6 className='fw-bold'>Chat</h6>
                         </div>
                         <button>Recebi meu pedido</button>
                     </div>
                 </div>
             </div>
+            {chat && <OrderChat />}
         </>
     )
 }

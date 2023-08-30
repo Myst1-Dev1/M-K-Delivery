@@ -1,4 +1,4 @@
-import { FaHeart, FaShoppingCart, FaTimes } from 'react-icons/fa';
+import { FaBell, FaHeart, FaShoppingCart, FaTimes } from 'react-icons/fa';
 import styles from './styles.module.scss';
 import { ActiveLink } from '../ActiveLink';
 import { useContext, useEffect, useState } from 'react';
@@ -45,7 +45,7 @@ export function ResponsiveMenu({ onSetResponsiveMenu, onSetShowOverlay }:Respons
                             className={styles.icon} 
                         />
                     </div>
-                    <FaHeart className={styles.icon} />
+                    <FaBell className={styles.icon} />
                 </div>
                 <div className={`d-flex justify-content-center align-items-center ${styles.cartAmount}`}>
                     <span>{cart?.length}</span>

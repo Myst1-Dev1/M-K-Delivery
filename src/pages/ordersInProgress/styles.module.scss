@@ -3,18 +3,32 @@
         tr {
             vertical-align: middle;
             
-                .statusBox {
-                    width: 170px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    .status {
-                        width: 20px;
-                        height: 20px;
-                        border-radius: 50%;
+            .statusBox {
+                width: 170px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .status {
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50%;
+                }
+            }
+
+            td {
+                button {
+                    border: none;
+                    border-radius: 10px;
+                    background-color: #16a34a;
+                    color: #fff;
+                    padding: 10px;
+                    transition: 0.3s;
+
+                    &:hover {
+                        filter: brightness(0.8);
                     }
                 }
-            
+            }
         }
     }
 }

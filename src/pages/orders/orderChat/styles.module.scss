@@ -1,21 +1,20 @@
 .chat {
     position: fixed;
     bottom: 0;
-    right: 10%;
+    right: 0;
     z-index: 1000;
     background-color: #fff;
 
     .orderChatContainer {
-        width: 300px;
-        height: 400px;
+        width: 400px;
+        height: 430px;
         border: 1px solid var(--gray-300);
+        border-radius: 10px;
         position: relative;
     
         .userBox {
             padding: 10px 20px;
             background-color: #ECE8E8;
-            
-    
             .imgContainer {
                 width: 40px;
                 height: 40px;
@@ -27,33 +26,55 @@
                     border-radius: 50%;
                 }
             }
+
+            .icon {
+                cursor: pointer;
+            }
         }
     
         .msgField {
-            padding: 20px;
+            padding: 10px 20px;
+            overflow-y: scroll;
+            height: 320px;
+
+            &::-webkit-scrollbar {
+                width: 8px; /* Largura da barra de rolagem */
+                background-color:transparent /* Cor de fundo da barra de rolagem */
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color:transparent; /* Cor do indicador da barra de rolagem */
+                border-radius: 4px; /* Raio de borda do indicador */
+            }
             
             .msgBox {
-                width: 100%;
+                width: 350px;
                 border: 1px solid #D1D5DB;
                 padding: 10px 20px;
                 border-radius: 10px;
                 position: relative;
     
+                p {
+                    max-width: 380px;
+                }
+
                 time {
                     font-size: 12px;
                     font-weight: bold;
                     position: absolute;
                     bottom: 0;
-                    right: 20px;
+                    right: 30px;
                     color: #B9B9B9;
                 }
             }
         }
     
         .chatBox {
-            position: absolute;
-            bottom: 0;
+            // position: absolute;
+            // bottom: 0;
             padding:0 20px;
+            border-top: 1px solid var(--gray-300);
+           
     
             .icon {
                 font-size: 20px;
@@ -63,7 +84,7 @@
             input {
                 border: none;
                 outline: none;
-                width: 100%;
+                width: 320px;
                 padding: 10px;
             }
         }

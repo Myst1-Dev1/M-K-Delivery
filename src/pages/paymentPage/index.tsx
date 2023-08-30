@@ -5,6 +5,7 @@ import { PageBanner } from '../../components/pageBanner';
 import { CartContext } from '../../services/hooks/useCart';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../../contexts/AuthContext';
+import { useForm } from 'react-hook-form';
 
 export default function paymentPage() {
     const [cashOnDelivery, setCashOnDelivery] = useState(false);
@@ -13,6 +14,9 @@ export default function paymentPage() {
 
     const { cart, totalCart } = useContext(CartContext);
     const { isAuthenticated } = useContext(AuthContext);
+
+    const { register } = useForm();
+
     const router = useRouter();
 
     // useEffect(() => {
@@ -36,6 +40,7 @@ export default function paymentPage() {
 
     function handleCloseCashOnDelivery() {
         setCashOnDelivery(false)
+        setChangeValue(false);
     }
 
     return (
@@ -130,7 +135,7 @@ export default function paymentPage() {
                                         <label className='fw-bold' htmlFor="changeValue">
                                             Valor do troco
                                         </label>
-                                        <input type="text" placeholder='R$:XXX' id='changeValue' />
+                                        <input type="number" placeholder='R$:XXX' id='changeValue' />
                                     </div> 
                                 )}
                             </div>

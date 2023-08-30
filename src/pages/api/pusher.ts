@@ -4,7 +4,8 @@ import Pusher from 'pusher';
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === 'POST') {
-    const message = req.body.mensagem;
+    // const message = req.body.mensagem;
+    const { message } = req.body;
 
     // Configurar o Pusher com suas credenciais
     const pusher = new Pusher({

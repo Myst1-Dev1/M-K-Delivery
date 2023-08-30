@@ -8,6 +8,8 @@ type ChatContextData = {
     message:[] | any;
     setMessage:any;
     sendMessage:(e:FormEvent) => void;
+    chat:boolean;
+    setChat:any;
 }
 
 type ChatProviderProps = {
@@ -20,6 +22,7 @@ export const ChatContext = createContext(
 export function ChatProvider({children}:ChatProviderProps) {
     const [message, setMessage] = useState<[] | any>([]);
     const [newMessage, setNewMessage] = useState('');
+    const [chat, setChat ] = useState(false);
 
     useEffect(() => {
         // Configurar o cliente Pusher com suas credenciais
@@ -41,21 +44,22 @@ export function ChatProvider({children}:ChatProviderProps) {
         return () => {
           pusher.unsubscribe('chat');
         };
-      }, [message]);
+      }, [message]);  
 
-      function sendMessage (e:FormEvent) {
+       function sendMessage (e:FormEvent) {
         e.preventDefault();
-        // Enviar a mensagem para o servidor Pusher
-        fetch('/api/pusher', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ mensagem: newMessage }),
-        });
-    
-        // Limpar o campo de entrada
-        setNewMessage('');
+            
+          // Enviar a mensagem para o servidor Pusher
+          fetch('/api/pusher', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({message:newMessage}),
+          });
+      
+          // Limpar o campo de entrada
+          setNewMessage('');
       };
 
     return (
@@ -64,7 +68,9 @@ export function ChatProvider({children}:ChatProviderProps) {
             setNewMessage,
             message,
             setMessage,
-            sendMessage}}>
+            sendMessage,
+            chat,
+            setChat}}>
             {children}
         </ChatContext.Provider>
     )

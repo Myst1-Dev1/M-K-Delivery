@@ -1,9 +1,9 @@
-import { PageBanner } from '@/components/pageBanner';
+import { PageBanner } from '../../components/pageBanner';
 import styles from './styles.module.scss';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { useContext } from 'react';
-import { AuthContext } from '@/contexts/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function signUp() {
     const { register, handleSubmit, formState: {errors} } = useForm();

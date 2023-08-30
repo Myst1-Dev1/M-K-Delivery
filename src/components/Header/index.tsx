@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-import { FaUser, FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
+import { FaUser, FaShoppingCart, FaBars, FaTimes, FaBell } from 'react-icons/fa';
 import { AuthContext } from '../../contexts/AuthContext';
 import { MdLogout } from 'react-icons/md';
 import { Cart } from '../Cart';
@@ -116,6 +116,7 @@ export function Header() {
                                 className={styles.icon} 
                             />
                         </div>
+                        <FaBell className={styles.icon} />
                         {/* <FaHeart className={styles.icon} /> */}
                     </div>
                 </div>
