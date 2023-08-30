@@ -6,10 +6,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import Link from 'next/link';
 import { FaTimes } from 'react-icons/fa';
 import { MdLogout } from 'react-icons/md';
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import { UserProfile } from '../../types/UserProfile';
-import { api, userProfileData } from '@/services/api';
-import { parseCookies } from 'nookies';
 
 interface UserDataProps {
     userData?: UserProfile[];
@@ -80,8 +77,8 @@ export function UserData({userData}:UserDataProps) {
                                         {user.data.isAdmin === true ?
                                         <Link href="/usersList">Usuários</Link>
                                             :''}
-                                        <Link href="">
-                                            {user.data.isAdmin === true ? 'Pedidos'
+                                        <Link href="/orders">
+                                            {user.data.isAdmin === true ? 'Pedidos()'
                                             : ''}
                                         </Link>
                                         <div data-testid={'logoutIcon'}>

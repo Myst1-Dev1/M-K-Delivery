@@ -1,13 +1,22 @@
-import { PageBanner } from '@/components/pageBanner';
+import { PageBanner } from '../../components/pageBanner';
 import styles from './styles.module.scss';
 import { FaTrashAlt } from 'react-icons/fa';
-import { useContext } from 'react';
-import { UserContext } from '@/services/hooks/useUsers';
+import { useContext, useEffect } from 'react';
+import { UserContext } from '../../services/hooks/useUsers';
+import { AuthContext } from '../../contexts/AuthContext';
+import { useRouter } from 'next/router';
 
 export default function UsersList() {
     const { allUser, deleteUserData } = useContext(UserContext);
+    const { isAuthenticated } = useContext(AuthContext);
 
-    console.log(allUser);
+    const router = useRouter();
+
+    useEffect(() => {
+        if(!isAuthenticated && allUser.map(user => user.isAdmin === false)) {
+            router.push('/page404');
+        }
+    }, [])
 
     return (
         <>
