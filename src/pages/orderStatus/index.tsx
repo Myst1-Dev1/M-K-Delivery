@@ -17,7 +17,7 @@ export default function OrderStatus() {
                     </h5>
                     <div className='d-flex gap-3 mt-4'>
                         <h6>
-                            O seu pedido está sendo preparado <br />
+                            O seu pedido está sendo preparado
                             para ser entregue
                         </h6>
                         <div className={`spinner-grow text-warning ${styles.status}`}></div>
@@ -32,9 +32,12 @@ export default function OrderStatus() {
                         <h6 className='fw-bold'>Valor do Pedido: R$:48,80</h6>
                         <h6 className='fw-bold'>Pagamento: Dinheiro na entrega</h6>
                     </div>
-                    <div className='d-flex gap-3 mt-4'>
-                        <FaRocketchat className={styles.icon} />
-                        <h6 className='fw-bold'>Chat</h6>
+                    <div className='d-flex justify-content-between align-items-center mt-4'>
+                        <div className='d-flex gap-3'>
+                            <FaRocketchat className={styles.icon} />
+                            <h6 className='fw-bold'>Chat</h6>
+                        </div>
+                        <button>Recebi meu pedido</button>
                     </div>
                 </div>
             </div>

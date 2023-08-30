@@ -2,16 +2,23 @@ import Link from 'next/link';
 import { PageBanner } from '../../components/pageBanner';
 import styles from './styles.module.scss';
 import { FaRocketchat } from 'react-icons/fa';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import { UserContext } from '@/services/hooks/useUsers';
 import { useRouter } from 'next/router';
+import { OrderChat } from './orderChat';
 
 export default function Orders() {
+    const [ chat, setChat ] = useState(false);
+
     const { isAuthenticated } = useContext(AuthContext);
     const {allUser } = useContext(UserContext);
 
     const router = useRouter();
+
+    function handleOpenChat() {
+        setChat(!chat);
+    }
 
     useEffect(() => {
         if(!isAuthenticated && allUser.map(user => user.isAdmin === false)) {
@@ -38,7 +45,7 @@ export default function Orders() {
                                 <h5 className='fw-bold'>John Doe</h5>
                             </div>
                             <div className='d-flex align-items-center gap-3'>
-                                <FaRocketchat className={styles.icon} />
+                                <FaRocketchat onClick={handleOpenChat} className={styles.icon} />
                                 <h5 className='fw-bold'>Chat</h5>
                             </div>
                         </div>
@@ -151,6 +158,8 @@ export default function Orders() {
                     </div>
                 </div>
             </div>
+
+            {chat && <OrderChat />}
         </>
     )
 }
