@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { FaTimes } from 'react-icons/fa';
 import { MdLogout } from 'react-icons/md';
 import { UserProfile } from '../../types/UserProfile';
+import { OrdersContext } from '@/services/hooks/useOrders';
 
 interface UserDataProps {
     userData?: UserProfile[];
@@ -15,6 +16,8 @@ interface UserDataProps {
 export function UserData({userData}:UserDataProps) {
     const { user, isFetching } = useContext(UserContext);
     const { handleLogout } = useContext(AuthContext);
+    const { orders } = useContext(OrdersContext);
+
     const [profileMenu, setProfileMenu] = useState(false);
 
     console.log(userData);
@@ -78,7 +81,7 @@ export function UserData({userData}:UserDataProps) {
                                         <Link href="/usersList">Usuários</Link>
                                             :''}
                                         <Link href="/orders">
-                                            {user.data.isAdmin === true ? 'Pedidos()'
+                                            {user.data.isAdmin === true ? `Pedidos(${orders.length})`
                                             : ''}
                                         </Link>
                                         <div data-testid={'logoutIcon'}>

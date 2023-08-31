@@ -6,16 +6,17 @@ import { CartContext } from '../../services/hooks/useCart';
 import { useRouter } from 'next/router';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useForm } from 'react-hook-form';
+import { OrdersContext } from '../../services/hooks/useOrders';
 
 export default function paymentPage() {
     const [cashOnDelivery, setCashOnDelivery] = useState(false);
     const [onlinePayment, setOnlinePayment] = useState(false);
-    const [changeValue, setChangeValue] = useState(false);
 
     const { cart, totalCart } = useContext(CartContext);
+    const { handleCreateOrder } = useContext(OrdersContext);
     const { isAuthenticated } = useContext(AuthContext);
 
-    const { register } = useForm();
+    const { register, handleSubmit } = useForm();
 
     const router = useRouter();
 
@@ -26,28 +27,25 @@ export default function paymentPage() {
     //     }
     // }, []);
 
-    function handleOpenCashOnDeliveryPaymentOption() {
-        setCashOnDelivery(true);
+    async function createOrder(data:any) {
+        await handleCreateOrder(data);
     }
 
-    function handleOpenChangeValue() {
-        setChangeValue(true);
+    function handleOpenCashOnDeliveryPaymentOption() {
+        setCashOnDelivery(!cashOnDelivery);
     }
 
     function handleOpenOpenOnlinePayment() {
         setOnlinePayment(!onlinePayment);
     }
 
-    function handleCloseCashOnDelivery() {
-        setCashOnDelivery(false)
-        setChangeValue(false);
-    }
-
     return (
         <>
             <PageBanner>Pagamento</PageBanner>
 
-            <div className={`mt-5 row justify-content-center m-auto container 
+            <form
+                onSubmit={handleSubmit(createOrder)}
+                className={`mt-5 row justify-content-center m-auto container 
                 ${styles.paymentContainer}`}>
                 <div className={`col-md-6 ${styles.deliveryBox}`}>
                     <h3>Informações de entrega</h3>
@@ -55,89 +53,89 @@ export default function paymentPage() {
                         <div className='row'>
                             <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label className='fw-bold' htmlFor="name">Nome</label>
-                                <input type="text" placeholder='John Doe' id='name' />
+                                <input 
+                                    type="text" 
+                                    placeholder='John Doe' 
+                                    id='name'
+                                    {...register('name', {required:true})} 
+                                />
                             </div>
                             <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label className='fw-bold' htmlFor="phone">Telefone</label>
-                                <input type="tel" placeholder='55 (21) 4002 8922' id='phone' />
+                                <input 
+                                    type="tel" 
+                                    placeholder='55 (21) 4002 8922' 
+                                    id='phone'
+                                    {...register('tel', {required:true})}  
+                                />
                             </div>
                         </div>
                         <div className='row mt-4'>
                             <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label className='fw-bold' htmlFor="adress">Endereço</label>
-                                <input type="text" placeholder='Rua Lorem Porto' id='adress' />
+                                <input 
+                                    type="text" 
+                                    placeholder='Rua Lorem Porto' 
+                                    id='adress'
+                                    {...register('adress', {required:true})}  
+                                />
                             </div>
                             <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label className='fw-bold' htmlFor="zipCode">Cep</label>
-                                <input type="number" placeholder='45896-147' id='zipCode' />
+                                <input 
+                                    type="number" 
+                                    placeholder='45896-147' 
+                                    id='zipCode'
+                                    {...register('zipCode', {required:true})}  
+                                />
                             </div>
                         </div>
                         <div className='d-flex flex-column gap-2 mt-4'>
                             <label className='fw-bold' htmlFor="info">Informações adicionais</label>
-                            <textarea placeholder='Lorem ipsum is simply dummy' id='info'/>
+                            <textarea 
+                                placeholder='Lorem ipsum is simply dummy' 
+                                id='info'
+                                {...register('additionalInformation', {required:true})} 
+                            />
                         </div>
                     </div>
                     <h3 className='mt-4'>Método de pagamento</h3>
                     <div className={`mt-3 ${styles.paymentMethodBox}`}>
                         <div className='d-flex justify-content-between m-auto gap-5 align-items-center'>
-                            <button onClick={handleOpenOpenOnlinePayment}>
+                            <h6 onClick={handleOpenOpenOnlinePayment}>
                                 Pagamento online
-                            </button>
-                            <button onClick={handleOpenCashOnDeliveryPaymentOption}>
+                            </h6>
+                            <h6 onClick={handleOpenCashOnDeliveryPaymentOption}>
                                 Pagamento na entrega
-                            </button>
+                            </h6>
                         </div>
-
-                        {onlinePayment && (
-                            <div className={`d-flex flex-column gap-3 mt-5 ${styles.onlinePayment}`}>
-                                <div className={`${styles.inputBox}`}>
-                                    <label className='fw-bold' htmlFor="cartNumber">
-                                        Número do cartão
-                                    </label>
-                                    <input type="text" placeholder='1234 5678 9012 3456' id='cartNumber' />
-                                </div>
-                                <div className={`${styles.inputBox}`}>
-                                    <label className='fw-bold' htmlFor="cartName">
-                                        Nome impresso no cartão
-                                    </label>
-                                    <input type="text" placeholder='JOHN DOE' id='cartName' />
-                                </div>
-                                <div className='row'>
-                                <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
-                                    <label className='fw-bold' htmlFor="dateOfExpiration">
-                                        Data de expiração
-                                    </label>
-                                    <input type="text" placeholder='04/27' id='dateOfExpiration' />
-                                </div>
-                                <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
-                                    <label className='fw-bold' htmlFor="securityCode">
-                                        Código de segurança
-                                    </label>
-                                    <input type="number" placeholder='***' id='securityCode' />
-                                </div>
-                            </div>
-                        </div>
-                        )}
-
                         {cashOnDelivery && (
                             <div className={`mt-5 ${styles.cashOnDelivery}`}>
-                                <span>Precisa de troco?</span>
-                                <div className='d-flex mt-3 gap-5'>
-                                    <button onClick={handleOpenChangeValue}>
-                                        Sim
-                                    </button>
-                                    <button onClick={handleCloseCashOnDelivery}>
-                                        Não
-                                    </button>
-                                </div>
-                                {changeValue && (
-                                    <div className={`mt-3 ${styles.inputBox}`}>
-                                        <label className='fw-bold' htmlFor="changeValue">
-                                            Valor do troco
+                                <div className='mb-3'>
+                                    <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                                        <label className='fw-bold' htmlFor="paymentMethod">
+                                            Dinheiro ou cartão?
                                         </label>
-                                        <input type="number" placeholder='R$:XXX' id='changeValue' />
+                                        <select 
+                                            id="paymentMethod"
+                                            {...register('paymentMethod', {required:false})}
+                                        >
+                                            <option value="Dinheiro">Dinheiro</option>
+                                            <option value="cartão">Cartão</option>
+                                        </select>
+                                    </div>
+                                    <div className={`d-flex flex-column gap-2 mt-3 ${styles.inputBox}`}>
+                                        <label className='fw-bold' htmlFor="changeValue">
+                                            Informe um valor caso o pagamento seja em dinheiro(Opcional)
+                                        </label>
+                                        <input 
+                                            type="number" 
+                                            placeholder='R$:XXX' 
+                                            id='changeValue'
+                                            {...register('changeValue', {required:false})} 
+                                        />
                                     </div> 
-                                )}
+                                </div>
                             </div>
                         )}
                     </div>
@@ -185,7 +183,7 @@ export default function paymentPage() {
                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </>
     )
 }

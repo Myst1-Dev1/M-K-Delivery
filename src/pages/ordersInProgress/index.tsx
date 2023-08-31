@@ -1,7 +1,15 @@
+import { OrdersContext } from '../../services/hooks/useOrders';
 import { PageBanner } from '../../components/pageBanner';
 import styles from './styles.module.scss';
+import { useContext } from 'react';
+import { CartContext } from '../../services/hooks/useCart';
 
 export default function OrdersInProgress() {
+    const {orders , orderStatus } = useContext(OrdersContext);
+    const { totalCart } = useContext(CartContext);
+
+    console.log(orderStatus);
+
     return (
         <>
             <PageBanner>Pedidos em Progresso</PageBanner>
@@ -21,45 +29,59 @@ export default function OrdersInProgress() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                        <th scope="row">1</th>
-                        <td>John Doe</td>
-                        <td>21 95784-4744</td>
-                        <td>Rua Lorem Porto</td>
-                        <td>41478-478</td>
-                        <td>R$:47,75</td>
-                        <td>Pagamento na entrega <br /> Valor do troco: R$:2,25</td>
-                        <td className={styles.statusBox}>
-                            Em progresso
-                            <div className={`ms-3 spinner-grow text-warning ${styles.status}`}></div>
-                        </td>
+                        {orders.map((order:any, index:number) => (
+                            <tr key={order.id}>
+                            <th scope="row">{index + 1}</th>
+                            <td>{order.name}</td>
+                            <td>{order.tel}</td>
+                            <td>{order.adress}</td>
+                            <td>{order.zipCode}</td>
+                            <td>{Intl.NumberFormat('pt-br', {
+                                style:'currency',
+                                currency:'BRL'
+                            }).format(totalCart)}</td>
+                            <td>{order.paymentMethod !== 0 ? 'Pagamento na Entrega' 
+                                : 'Pagamento Online'} <br /> Valor do troco: 
+                                    <span>
+                                    {Intl.NumberFormat('pt-br', {
+                                        style:'currency',
+                                        currency:'BRL'
+                                    }).format(order.changeValue - (totalCart + 5))}
+                                    </span>
+                            </td>
+                            <td className={styles.statusBox}>
+                                {orderStatus === 'Em progresso' ?
+                                    <div>
+                                        {orderStatus}
+                                        <div 
+                                            className={`ms-3 spinner-grow text-warning 
+                                            ${styles.status}`}>
+                                        </div>
+                                    </div>
+                                 : ''}
+                                 {orderStatus === 'Concluido' ?
+                                    <div>
+                                        {orderStatus}
+                                        <div 
+                                            className={`ms-3 spinner-grow text-success 
+                                            ${styles.status}`}>
+                                        </div>
+                                    </div>
+                                 : ''}
+                                 {orderStatus === 'Recusado' ?
+                                    <div>
+                                        {orderStatus}
+                                        <div 
+                                            className={`ms-3 spinner-grow text-danger 
+                                            ${styles.status}`}>
+                                        </div>
+                                    </div>
+                                 : ''}
+                                
+                            </td>
                         </tr>
-                        <tr>
-                        <th scope="row">1</th>
-                        <td>John Doe</td>
-                        <td>21 95784-4744</td>
-                        <td>Rua Lorem Porto</td>
-                        <td>41478-478</td>
-                        <td>R$:47,75</td>
-                        <td>Pagamento na entrega <br /> Valor do troco: R$:2,25</td>
-                        <td className={styles.statusBox}>
-                            Entregue
-                            <div className={`ms-3 spinner-grow text-success ${styles.status}`}></div>
-                        </td>
-                        </tr>
-                        <tr>
-                        <th scope="row">1</th>
-                        <td>John Doe</td>
-                        <td>21 95784-4744</td>
-                        <td>Rua Lorem Porto</td>
-                        <td>41478-478</td>
-                        <td>R$:47,75</td>
-                        <td>Pagamento na entrega <br /> Valor do troco: R$:2,25</td>
-                        <td className={styles.statusBox}>
-                            Recusado
-                            <div className={`ms-3 spinner-grow text-danger ${styles.status}`}></div>
-                        </td>
-                        </tr>
+                        ))}
+                        
                     </tbody>
                 </table>
             </div>

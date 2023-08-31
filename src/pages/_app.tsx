@@ -12,6 +12,7 @@ import { Footer } from "@/components/Footer";
 import { UserProvider } from "@/services/hooks/useUsers";
 import { FavoritesProvider } from "@/services/hooks/useFavorites";
 import { ChatProvider } from "@/services/hooks/useChat";
+import { OrdersProvider } from "@/services/hooks/useOrders";
 
 Modal.setAppElement("#__next");
 
@@ -35,9 +36,11 @@ export default function MyApp({Component, pageProps}:AppProps) {
                         <UserProvider>
                             <FavoritesProvider>
                                 <ChatProvider>
-                                    <Header />
-                                    <Component {...pageProps} />
-                                    <Footer />
+                                    <OrdersProvider>
+                                        <Header />
+                                        <Component {...pageProps} />
+                                        <Footer />
+                                    </OrdersProvider>
                                 </ChatProvider>
                             </FavoritesProvider>
                         </UserProvider>

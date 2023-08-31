@@ -4,6 +4,7 @@ import styles from './styles.module.scss';
 import { useContext, useEffect, useRef } from 'react';
 import { ChatContext } from '../../../services/hooks/useChat';
 import { parseCookies } from 'nookies';
+import { OrdersContext } from '../../../services/hooks/useOrders';
 
 
 export function OrderChat() {
@@ -15,6 +16,8 @@ export function OrderChat() {
         sendMessage,
         setChat
     } = useContext(ChatContext);
+
+    const { orders } = useContext(OrdersContext);
 
     const messageEndRef = useRef<HTMLInputElement>(null);
 
@@ -45,12 +48,14 @@ export function OrderChat() {
         <div className={styles.chat}>
             <div className={styles.orderChatContainer}>
                 <div className={`d-flex align-items-center justify-content-between ${styles.userBox}`}>
-                    <div className='d-flex align-items-center gap-3'>
-                        <div className={styles.imgContainer}>
-                            <img src="/images/userImage.png" alt="user-image" />
-                        </div>
-                        <h6 className='fw-bold'>John Doe</h6>
+                    {orders.map((order:any) => (
+                        <div key={order.name} className='d-flex align-items-center gap-3'>
+                            <div className={styles.imgContainer}>
+                                <img src="/images/userImage.png" alt="user-image" />
+                            </div>
+                            <h6 className='fw-bold'>{order.name === undefined ? 'John Doe' : order.name}</h6>
                     </div>
+                    ))}
                     <FaTimes onClick={handleCloseChat} className={styles.icon} />
                 </div>
 

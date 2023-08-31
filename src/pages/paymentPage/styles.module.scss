@@ -14,7 +14,7 @@
             }
 
             .inputBox {
-                input {
+                input, select {
                     border: 1px solid var(--gray-300);
                     border-radius: 5px;
                     width: 100%;
@@ -40,13 +40,19 @@
                 padding: 10px;
             }
 
-            button {
+            h6 {
                 border: none;
                 background-color: var(--red-600);
                 color: #fff;
                 width: 360px;
                 height: 50px;
                 transition: 0.3s;
+                padding: 10px;
+                font-size: 13px;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
 
                 &:hover {
                     filter: brightness(0.8);
@@ -54,7 +60,24 @@
             }
 
             .cashOnDelivery {
-                button {
+                h5 {
+                    background-color: var(--red-600);
+                    width: 360px;
+                    height: 50px;
+                    color: #fff;
+                    border: none;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    transition: 0.3s;
+
+                    &:hover {
+                        filter: brightness(0.8);
+                    }
+                }
+
+                h6 {
                     width: 50px;
                     border-radius: 50%;
                     border: none;
