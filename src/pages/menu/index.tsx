@@ -15,7 +15,7 @@ import { GetStaticProps } from 'next';
 import { ProductsApi } from '../../services/api';
 import { ResponsiveFilterBox } from './ResponsiveFilterBox';
 import { Search } from '../../components/Search';
-import { UserContext } from '@/services/hooks/useUsers';
+import { UserContext } from '../../services/hooks/useUsers';
 
 interface MenuProps {
     data:Products[];

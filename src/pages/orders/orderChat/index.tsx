@@ -48,14 +48,14 @@ export function OrderChat() {
         <div className={styles.chat}>
             <div className={styles.orderChatContainer}>
                 <div className={`d-flex align-items-center justify-content-between ${styles.userBox}`}>
-                    {orders.map((order:any) => (
-                        <div key={order.name} className='d-flex align-items-center gap-3'>
+                        <div  className='d-flex align-items-center gap-3'>
                             <div className={styles.imgContainer}>
                                 <img src="/images/userImage.png" alt="user-image" />
                             </div>
-                            <h6 className='fw-bold'>{order.name === undefined ? 'John Doe' : order.name}</h6>
-                    </div>
-                    ))}
+                            <h6 className='fw-bold'>
+                                John Doe
+                            </h6>
+                    </div> 
                     <FaTimes onClick={handleCloseChat} className={styles.icon} />
                 </div>
 

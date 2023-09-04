@@ -9,16 +9,13 @@ import { useRouter } from 'next/router';
 import { OrderChat } from './orderChat';
 import { ChatContext } from '../../services/hooks/useChat';
 import { OrdersContext } from '../../services/hooks/useOrders';
-import { CartContext } from '../../services/hooks/useCart';
-import { toast } from 'react-toastify';
 
 export default function Orders() {
 
     // const { isAuthenticated } = useContext(AuthContext);
     // const { allUser } = useContext(UserContext);
     const { chat, setChat } = useContext(ChatContext)
-    const { orders, handleChangeOrderStatus } = useContext(OrdersContext);
-    const { cart, totalCart } = useContext(CartContext);
+    const { orders ,handleChangeOrderStatus } = useContext(OrdersContext);
 
     console.log(orders);
 
@@ -43,9 +40,9 @@ export default function Orders() {
                     <button>Ver pedidos em andamento</button>
                 </Link>
 
-                <div className={`row py-5 ${styles.orderContainer}`}>
-                    {orders.map((order:any) => (
-                        <div key={order.id} className={`m-auto col-md-4 mb-3 ${styles.orderBox}`}>
+                <div className={`row gap-5 container py-5 ${styles.orderContainer}`}>
+                    {orders.map((order:any, index:number) => (
+                        <div key={index} className={`col-md-4 mb-3 ${styles.orderBox}`}>
                             <div className='d-flex justify-content-between'>
                                 <div>
                                     <h5 className='fw-bold'>{order.name}</h5>
@@ -59,30 +56,30 @@ export default function Orders() {
                                 <h6>Telefone: {order.tel}</h6>
                                 <h6>Endereço: {order.adress}</h6>
                                 <h6>Cep: {order.zipCode}</h6>
-                                <h6>Informações adicionais: {order.additionalInformation}</h6>
+                                <h6>{order.additionalInformation === '' ? '' :
+                                `Informações Adicionais: ${order.additionalInformation}`}</h6>
                             </div>
                             <div className='mt-4'>
-                                <h5 className='fw-bold'>Pedido</h5>
-                                {cart.map(cart => (
-                                    <div key={cart.product._id} 
-                                        className='d-flex flex-column gap-3 mt-4'>
-                                        <h6>{cart.product.name}
-                                            <span className='ms-2'>
-                                            {Intl.NumberFormat('pt-br', {
-                                                style:'currency',
-                                                currency:'BRL'
-                                            }).format(cart.product.price)}
-                                            </span>
-                                        </h6>
+                                <h5 className='fw-bold'>Pedido</h5>  
+                                <div className='d-flex mt-4 flex-column'>
+                                        {order.cartValue.map((name: any, index: number) => (
+                                            <div key={index} className='d-flex mb-2 gap-3'>
+                                                <h6>{name}</h6>
+                                                <span>{Intl.NumberFormat('pt-br', {
+                                                    style: 'currency',
+                                                    currency: 'BRL'
+                                                }).format(order.cartPrice[index])}</span>
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
                                  <h6 className='mt-3'>
                                     Total do pedido
                                     <span className='ms-2'>
                                         {Intl.NumberFormat('pt-br', {
-                                        style:'currency',
-                                        currency:'BRL'
-                                        }).format(totalCart + 5)}
+                                            style: 'currency',
+                                            currency: 'BRL'
+                                        }).format(order.cartPrice.reduce((total:any, price:any) => 
+                                        total + parseFloat(price), 0) + 5)}
                                     </span>
                                  </h6>
                             </div>
@@ -92,13 +89,20 @@ export default function Orders() {
                                     <h6>{order.paymentMethod !== 0 ? 'Pagamento na Entrega' 
                                         : 'Pagamento Online'}
                                     </h6>
-                                    <h6>{order.paymentMethod} Valor do troco: 
-                                        <span className='ms-2'>
-                                            {Intl.NumberFormat('pt-br', {
-                                                style:'currency',
-                                                currency:'BRL'
-                                            }).format(order.changeValue - (totalCart + 5))}
-                                        </span>
+                                    <h6>{order.paymentMethod}
+                                        {order.changeValue !== '' ?
+                                            <div>
+                                                Valor do troco: 
+                                                <span className='ms-2'>
+                                                    {Intl.NumberFormat('pt-br', {
+                                                        style:'currency',
+                                                        currency:'BRL'
+                                                    }).format(order.changeValue - (order.cartPrice.reduce
+                                                        ((total:any, price:any) => 
+                                                        total + parseFloat(price), 0) + 5))}
+                                                </span>
+                                            </div>
+                                        : ''}
                                     </h6>
                                 </div>
                             </div>

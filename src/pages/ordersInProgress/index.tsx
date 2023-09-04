@@ -36,18 +36,26 @@ export default function OrdersInProgress() {
                             <td>{order.tel}</td>
                             <td>{order.adress}</td>
                             <td>{order.zipCode}</td>
-                            <td>{Intl.NumberFormat('pt-br', {
-                                style:'currency',
-                                currency:'BRL'
-                            }).format(totalCart)}</td>
+                            <td>
+                                {Intl.NumberFormat('pt-br', {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                }).format(order.cartPrice.reduce((total:any, price:any) => 
+                                total + parseFloat(price), 0) + 5)}
+                            </td>
                             <td>{order.paymentMethod !== 0 ? 'Pagamento na Entrega' 
-                                : 'Pagamento Online'} <br /> Valor do troco: 
-                                    <span>
-                                    {Intl.NumberFormat('pt-br', {
-                                        style:'currency',
-                                        currency:'BRL'
-                                    }).format(order.changeValue - (totalCart + 5))}
-                                    </span>
+                                : 'Pagamento Online'} <br />
+                                {order.changeValue === '' ? 'Sem troco' : 
+                                    <div>
+                                        Valor do troco: 
+                                        <span>
+                                        {Intl.NumberFormat('pt-br', {
+                                            style:'currency',
+                                            currency:'BRL'
+                                        }).format(order.changeValue - (totalCart + 5))}
+                                        </span>
+                                    </div>
+                                }
                             </td>
                             <td className={styles.statusBox}>
                                 {orderStatus === 'Em progresso' ?

@@ -5,6 +5,8 @@ export type Order = {
     adress:string;
     zipCode:number;
     additionalInformation:string;
+    cartValue:[];
+    cartPrice:[];
     paymentMethod:string;
     changeValue:number;
 }

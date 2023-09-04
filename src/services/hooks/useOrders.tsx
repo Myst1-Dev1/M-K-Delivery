@@ -26,13 +26,17 @@ export function OrdersProvider({children}:OrdersProviderProps) {
     const router = useRouter();
 
     function handleCreateOrder(order:Order) {
-        // Atualize o estado com o novo pedido
         setOrders((prevOrders) => [...prevOrders, order]);
 
         // Salve o pedido nos cookies
         setCookie(null, 'orders-token', JSON.stringify([...orders, order]), {
-            maxAge: 30 * 24 * 60 * 60, // Tempo de vida do cookie em segundos (30 dias neste exemplo)
+            maxAge: 30 * 24 * 60 * 60, 
         });
+
+        toast.success('Pedido feito com sucesso', {
+            position:toast.POSITION.TOP_RIGHT,
+            theme:'colored'
+        })
     }
 
     function handleChangeOrderStatus(status:string) {

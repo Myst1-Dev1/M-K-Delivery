@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useForm } from 'react-hook-form';
 import { OrdersContext } from '../../services/hooks/useOrders';
+import { UserContext } from '@/services/hooks/useUsers';
 
 export default function paymentPage() {
     const [cashOnDelivery, setCashOnDelivery] = useState(false);
@@ -15,6 +16,7 @@ export default function paymentPage() {
     const { cart, totalCart } = useContext(CartContext);
     const { handleCreateOrder } = useContext(OrdersContext);
     const { isAuthenticated } = useContext(AuthContext);
+    const { user } = useContext(UserContext);
 
     const { register, handleSubmit } = useForm();
 
@@ -51,16 +53,19 @@ export default function paymentPage() {
                     <h3>Informações de entrega</h3>
                     <div className={`mt-4 ${styles.formContainer}`}>
                         <div className='row'>
-                            <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
+                            <div className={`d-flex flex-column gap-2 d-none ${styles.inputBox}`}>
                                 <label className='fw-bold' htmlFor="name">Nome</label>
-                                <input 
-                                    type="text" 
-                                    placeholder='John Doe' 
-                                    id='name'
-                                    {...register('name', {required:true})} 
-                                />
+                                {user.map(user => (
+                                    <input
+                                        type="text" 
+                                        placeholder='John Doe' 
+                                        id='name'
+                                        value={user.data.firstname}
+                                        {...register('name', {required:true})} 
+                                    />
+                                ))}
                             </div>
-                            <div className={`col-md-6 d-flex flex-column gap-2 ${styles.inputBox}`}>
+                            <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
                                 <label className='fw-bold' htmlFor="phone">Telefone</label>
                                 <input 
                                     type="tel" 
@@ -95,7 +100,7 @@ export default function paymentPage() {
                             <textarea 
                                 placeholder='Lorem ipsum is simply dummy' 
                                 id='info'
-                                {...register('additionalInformation', {required:true})} 
+                                {...register('additionalInformation', {required:false})} 
                             />
                         </div>
                     </div>
@@ -144,7 +149,7 @@ export default function paymentPage() {
                     <h3>Resumo do pedido</h3>
                     <div className={`d-flex flex-column justify-content-between mt-4 ${styles.orderBox}`}>
                        <div className={styles.orderProducts}>
-                            {cart.map(item => {
+                            {cart.map((item, index) => {
                                 return (
                                     <div key={item.product._id} 
                                         className={`d-flex gap-3 mb-4 ${styles.orderProductBox}`}>
@@ -153,6 +158,20 @@ export default function paymentPage() {
                                         </div>
                                         <div>
                                             <h5>{item.product.name} x {item.quantity}</h5>
+                                            <input 
+                                                type="text"
+                                                placeholder='teste'
+                                                value={item.product.name}
+                                                {...register(`cartValue[${index}]`, 
+                                                {required:true})} 
+                                            />
+                                            <input 
+                                                type="number"
+                                                placeholder='teste'
+                                                value={item.product.price}
+                                                {...register(`cartPrice[${index}]`, 
+                                                {required:true})} 
+                                            />
                                             <p>{item.product.amount !== 1 ?
                                                  `Porção com ${item.product.amount} únidades`
                                                 : `${item.product.amount} Porção`}
@@ -165,6 +184,13 @@ export default function paymentPage() {
                                     </div>
                                 )
                             })}
+                            {/* <input 
+                                type="number"
+                                placeholder='teste'
+                                value={totalCart + 5}
+                                {...register("orderTotalPrice", 
+                                {required:true})} 
+                            /> */}
                        </div>
                        <div>
                             <div className='d-flex justify-content-between align-items-center mt-4'>

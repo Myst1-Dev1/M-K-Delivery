@@ -1,6 +1,7 @@
 import { useContext, createContext, ReactNode, useState, useEffect, FormEvent } from 'react';
 import Pusher from 'pusher-js';
 import { setCookie } from 'nookies';
+import { OrdersContext } from './useOrders';
 
 type ChatContextData = {
     newMessage:string;
@@ -23,6 +24,8 @@ export function ChatProvider({children}:ChatProviderProps) {
     const [message, setMessage] = useState<[] | any>([]);
     const [newMessage, setNewMessage] = useState('');
     const [chat, setChat ] = useState(false);
+
+    const { orders } = useContext(OrdersContext);
 
     useEffect(() => {
         // Configurar o cliente Pusher com suas credenciais

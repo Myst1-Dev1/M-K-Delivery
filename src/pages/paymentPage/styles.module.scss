@@ -89,6 +89,11 @@
 
     .orderContainer {
         padding: 20px;
+
+        input {
+            display: none;
+        }
+
         .orderBox {
             border: 1px solid var(--gray-300);
             padding: 20px;
