@@ -51,6 +51,7 @@ const userSlice = createSlice({
         });
         builder.addCase(fetchAllUserData.fulfilled, (state:any, action:any) => {
             state.isLoading = false;
+            state.allUser = action.payload;
         });
         builder.addCase(fetchAllUserData.rejected, (state:any, action:any) => {
             console.log('Error', action.payload);

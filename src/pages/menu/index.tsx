@@ -1,6 +1,6 @@
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { BsFilter } from 'react-icons/bs';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 
 import styles from './styles.module.scss';
 import ReactPaginate from 'react-paginate';
@@ -9,19 +9,27 @@ import { FilterBox } from './FilterBox/FilterBox';
 import { Products } from '../../types/Product';
 import { Product } from './Product';
 import { PageBanner } from '../../components/pageBanner';
-import { AuthContext } from '../../contexts/AuthContext';
 import { ProductModal } from '../../components/ProductModal';
 import { GetStaticProps } from 'next';
 import { ProductsApi } from '../../services/api';
 import { ResponsiveFilterBox } from './ResponsiveFilterBox';
 import { Search } from '../../components/Search';
-import { UserContext } from '../../services/hooks/useUsers';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchProductsData } from '../../store/products/product';
+import { fetchUserData } from '@/store/user/user';
+import { useRouter } from 'next/router';
 
 interface MenuProps {
     data:Products[];
 }
 
 export default function Menu({ data }:MenuProps) {
+    const dispatch = useDispatch();
+    const products = useSelector((state:any) => state.productsData.products);
+    const user = useSelector((state:any) => state.userData.user);
+
+    const isAuthenticated = !!user
+
     const [itemOffset, setItemOffset] = useState(0);
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState<Products[]>([]);
@@ -30,18 +38,15 @@ export default function Menu({ data }:MenuProps) {
     const [openResponsiveFilterBox, setOpenResponsiveFilteBox] = useState(false);
     const [selectedProductId, setSelectedProductId] = useState<'' | any>('');
 
-    const { isAuthenticated } = useContext(AuthContext);
-    const { user } = useContext(UserContext);
-
     function searchProducts() {
       if(search !== '') {
-          const filteredProducts = data.filter((e: Products) =>
+          const filteredProducts = products.filter((e: Products) =>
               e.name.toLowerCase().includes(search.toLowerCase())
           );
           setFilter(filteredProducts);
 
       } else {
-          setFilter(data);
+          setFilter(products);
       }
   }
 
@@ -78,6 +83,11 @@ export default function Menu({ data }:MenuProps) {
       // eslint-disable-next-line
   }, [search])
 
+    useEffect(() => {
+      dispatch(fetchProductsData());
+      dispatch(fetchUserData());
+    }, [])
+
     return (
         <>
             <div className={styles.menu}>
@@ -85,7 +95,7 @@ export default function Menu({ data }:MenuProps) {
 
                 {isAuthenticated ? 
                 <div className={`mt-5 mb-5 container d-flex justify-content-end ${styles.createNewProduct}`}>
-                    {user.map(user => {
+                    {user.map((user:any) => {
                       return (
                         <div key={user.data._id}>
                           {user.data.isAdmin === true ?

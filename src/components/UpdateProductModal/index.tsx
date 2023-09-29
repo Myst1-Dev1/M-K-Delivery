@@ -1,10 +1,13 @@
 import { FaTimes, FaUpload } from 'react-icons/fa';
 import styles from './styles.module.scss';
 import Modal from 'react-modal';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { ProductContext } from '../../services/hooks/useProducts';
 import { useRouter } from 'next/router';
+import { Products } from '../../types/Product';
+import { parseCookies } from 'nookies';
+import { api } from '../../services/api';
+import { toast } from 'react-toastify';
 
 interface ProductModalProps {
     dataItem:any;
@@ -14,69 +17,60 @@ interface ProductModalProps {
 }
 
 export function UpdateProductModal({ id ,isOpen, onRequestClose, dataItem }:ProductModalProps) {
+
     const { register, handleSubmit, setValue } = useForm();
-    const { UpdateProducts } = useContext(ProductContext);
 
     const router = useRouter();
 
-    // async function handleUpdateProduct(data:any) {
-    //     try {
-    //         const {'mk-delivery.token': token} = parseCookies();
+    async function updateProducts(id:string, productsValue:Products) {
+        try {
+            const {'mk-delivery.token': token} = parseCookies();
 
-    //         const formData = new FormData();
-    //         formData.append('name', data.name);
-    //         formData.append('details', data.details);
-    //         formData.append('price', data.price.toString());
-    //         formData.append('amount', data.amount.toString());
-    //         formData.append('type', data.type);
-    //         formData.append('image', data.image);
+            const formData = new FormData();
+            formData.append('name', productsValue.name);
+            formData.append('details', productsValue.details);
+            formData.append('price', productsValue.price.toString());
+            formData.append('amount', productsValue.amount.toString());
+            formData.append('type', productsValue.type);
+            formData.append('image', productsValue.image);
 
-    //         const res = await api.put(`/products/${id}`, formData, {
-    //             headers: {
-    //               'auth-token': token,
-    //             },
-    //           });
-
-    //           const { product } = res.data;
-    
-    //           setProducts([
-    //               ...products,
-    //               product,
-    //           ])   
+            const res = await api.put(`/products/${id}`, formData, {
+                headers: {
+                  'auth-token': token,
+                },
+              });
               
-    //           toast.success('Produto atualizado com sucesso', {
-    //             position:toast.POSITION.TOP_RIGHT,
-    //             theme:'colored'
-    //         })
+              toast.success('Produto atualizado com sucesso', {
+                position:toast.POSITION.TOP_RIGHT,
+                theme:'colored'
+            })
+
+            return res.data;
             
-    //     } catch (error) {
-    //         console.log(error);
-    //         toast.error('Tivemos um erro', {
-    //             position:toast.POSITION.TOP_RIGHT,
-    //             theme:'colored'
-    //         })
-    //     }
-    // }
+        } catch (error) {
+            console.log(error);
+            toast.error('Tivemos um erro', {
+                position:toast.POSITION.TOP_RIGHT,
+                theme:'colored'
+            })
+        }
+
+        router.reload();
+    }
 
     async function handleUpdateProduct(data:any) {
-        await UpdateProducts(id, data);
-
-        console.log(data.image);
+        await updateProducts(id, data);
     }
 
     useEffect(() => {
-        // Preencher os campos do formulário com os valores iniciais (dados antigos)
         setValue('name', dataItem.name);
         setValue('details', dataItem.details);
         setValue('price', dataItem.price);
         setValue('amount', dataItem.amount);
         setValue('type', dataItem.type);
         setValue('image', dataItem.image);
-        // ... outros campos
 
     }, [dataItem, setValue]);
-
-    // Resto do seu componente ...
 
     return (
         <>

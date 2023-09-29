@@ -1,22 +1,25 @@
-import { useContext } from 'react';
+import { useEffect } from 'react';
 import styles from './styles.module.scss';
 import Glider from 'react-glider';
 import 'glider-js/glider.min.css';
 
 import { FaShoppingCart, FaHeart, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { ProductContext } from '../../services/hooks/useProducts';
-import { CartContext } from '../../services/hooks/useCart';
-import { FavoritesContext } from '@/services/hooks/useFavorites';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchProductsData } from '../../store/products/product';
 
 export function MostSaledDishes() {
 
-    const { products } = useContext(ProductContext);
-    const { handleAddToCart } = useContext(CartContext);
-    const { handleAddToFavorites } = useContext(FavoritesContext);
+    const dispatch = useDispatch();
+    const products = useSelector((state:any) => state.productsData.products);
+    console.log(products);
 
     const carouselDishes = products?.slice(0, 8);
 
     console.log(carouselDishes);
+
+    useEffect(() => {
+      dispatch(fetchProductsData());
+    }, [])
 
     return (
         <div className={styles.mostSaledDishesContainer}>
@@ -60,7 +63,7 @@ export function MostSaledDishes() {
                           },
                       ]}
                     >
-                        {carouselDishes && carouselDishes.map(item => {
+                        {carouselDishes && carouselDishes.map((item:any) => {
                           return (
                                 <div 
                                     key={item.name}
@@ -70,7 +73,7 @@ export function MostSaledDishes() {
                                         <div className='d-flex justify-content-between align-items-center'>
                                             <h3 className='fw-bold'>{item.name}</h3>
                                             <FaHeart
-                                              onClick={() => handleAddToFavorites(item._id)}
+                                              
                                               className={styles.favoriteIcon} 
                                             />
                                         </div>
@@ -86,7 +89,7 @@ export function MostSaledDishes() {
                                                     currency:'BRL'
                                                 }).format(item.price)}
                                             </h3>
-                                            <button onClick={() => handleAddToCart(item._id)} 
+                                            <button 
                                                 className='d-flex align-items-center'>
                                                 <FaShoppingCart
                                                     className={styles.icon}

@@ -9,14 +9,14 @@ import {
     searchSeaFood, 
     searchSushiFood } from './FilterFunctions';
 import styles from './styles.module.scss';
-import { useContext } from 'react';
+import { useSelector } from 'react-redux';
 
 interface FilterBoxProps {
     onSetFilter:any;
 }
 
 export function FilterBox({ onSetFilter }:FilterBoxProps) {
-    const { products } = useContext(ProductContext);
+    const products = useSelector((state:any) => state.productsData.products);
 
     return (
         <div className={`${styles.filterBox}`}>

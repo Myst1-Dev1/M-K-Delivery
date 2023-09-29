@@ -1,10 +1,10 @@
 import { FaTimes, FaUpload } from 'react-icons/fa';
 import styles from './styles.module.scss';
 import Modal from 'react-modal';
-import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { ProductContext } from '../../services/hooks/useProducts';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { createProducts } from '../../store/products/product';
 
 interface ProductModalProps {
     isOpen:boolean;
@@ -13,14 +13,15 @@ interface ProductModalProps {
 
 export function ProductModal({ isOpen, onRequestClose }:ProductModalProps) {
     const { register, handleSubmit, setValue } = useForm();
-    const { CreateProducts } = useContext(ProductContext);
+
+    const dispatch = useDispatch();
 
     const router = useRouter();
 
     async function handleCreateNewProduct(data:any) {
-        await CreateProducts(data);
-        router.reload();
-    }
+        await dispatch(createProducts(data));
+        //router.reload();
+    };
 
     return (
         <>

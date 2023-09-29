@@ -88,13 +88,6 @@ export function ProductsProvider({children}:ProductsProviderProps) {
                   'auth-token': token,
                 },
               });
-
-            //   const { product } = res.data;
-    
-            //   setProducts([
-            //       ...products,
-            //       product,
-            //   ])
               
               toast.success('Produto atualizado com sucesso', {
                 position:toast.POSITION.TOP_RIGHT,

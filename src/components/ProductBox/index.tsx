@@ -1,12 +1,12 @@
 import { FaHeart, FaPencilAlt, FaShoppingCart, FaTrashAlt } from 'react-icons/fa';
 import styles from './styles.module.scss';
-import { useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
-import { ProductContext } from '../../services/hooks/useProducts';
+import { useContext, useEffect } from 'react';
 import { CartContext } from '../../services/hooks/useCart';
 import { FavoritesContext } from '../../services/hooks/useFavorites';
-import { UserContext } from '@/services/hooks/useUsers';
 import { useRouter } from 'next/router';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchUserData } from '../../store/user/user';
+import { deleteProducts } from '@/store/products/product';
 
 interface ProductBoxProps {
     id:string;
@@ -29,13 +29,14 @@ export function ProductBox({
     onSetIsNewUpdateModalOpen,
     onSetSelectedProductId
 }:ProductBoxProps) {
-    const { isAuthenticated } = useContext(AuthContext);
-    const { user } = useContext(UserContext);
-    const { DeleteProduct } = useContext(ProductContext);
+    const user = useSelector((state:any) => state.userData.user);
+    const dispatch = useDispatch();
+
+    const isAuthenticated = !!user;
     const { handleAddToCart } = useContext(CartContext);
     const { handleAddToFavorites, favorites, handleRemoveToFavorites } = useContext(FavoritesContext);
 
-    const isProductInFavorites = favorites.some(item => item.favorites._id === id);
+    //const isProductInFavorites = favorites.some(item => item.favorites._id === id);
 
     const router = useRouter();
 
@@ -45,11 +46,19 @@ export function ProductBox({
         onSetSelectedProductId(id);
     }
 
+    function handleDeleteProduct(id:string) {
+        dispatch(deleteProducts(id));
+    }
+
+    useEffect(() => {
+        dispatch(fetchUserData());
+      }, [])
+
     return (
         <div key={id} data-testid="name" className={`col-md-6 ${styles.disheBox}`}>
             {isAuthenticated ?
             <div>
-               {user.map(user => {
+               {user.map((user:any) => {
                 return (
                     <div key={user.data._id} className='d-flex align-items-center gap-3'>
                         {user.data.isAdmin === true || 
@@ -57,7 +66,7 @@ export function ProductBox({
                         <div
                             data-testid="removeProduct"
                             onClick={router.asPath === '/profile' ? () => handleRemoveToFavorites(id) :
-                            () => DeleteProduct(id)} 
+                            () => handleDeleteProduct(id)} 
                             className={styles.deleteProduct}>
                             <FaTrashAlt />
                         </div> : ''}
@@ -79,7 +88,7 @@ export function ProductBox({
                     <h3 className='fw-bold'>{name}</h3>
                     <FaHeart
                         onClick={() => handleAddToFavorites(id)} 
-                        className={isProductInFavorites ? styles.favoriteIconChecked : styles.favoriteIcon} 
+                        // className={isProductInFavorites ? styles.favoriteIconChecked : styles.favoriteIcon} 
                     />
                 </div>
                 <p className='mb-0'>{details}</p>
