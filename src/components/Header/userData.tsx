@@ -1,21 +1,26 @@
-import { UserContext } from '../../services/hooks/useUsers';
 import styles from './styles.module.scss';
 import { useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { AuthContext } from '../../contexts/AuthContext';
 import Link from 'next/link';
 import { FaTimes } from 'react-icons/fa';
 import { MdLogout } from 'react-icons/md';
 import { UserProfile } from '../../types/UserProfile';
 import { OrdersContext } from '@/services/hooks/useOrders';
+import { useSelector, useDispatch } from 'react-redux';
+import { destroyCookie } from 'nookies';
+import { logout } from '../../store/auth/auth';
 
 interface UserDataProps {
     userData?: UserProfile[];
 }
 
 export function UserData({userData}:UserDataProps) {
-    const { user, isFetching } = useContext(UserContext);
-    const { handleLogout } = useContext(AuthContext);
+    const user = useSelector((state:any) => state.userData.user);
+    console.log(user);
+    const isLoading = useSelector((state:any) => state.userData.isLoading);
+
+    const dispatch = useDispatch();
+
     const { orders } = useContext(OrdersContext);
 
     const [profileMenu, setProfileMenu] = useState(false);
@@ -37,7 +42,10 @@ export function UserData({userData}:UserDataProps) {
     }
 
     function handleLogoutUser() {
-        handleLogout()
+        destroyCookie(null,'mk-delivery.token');
+        dispatch(logout());
+        router.push('/login');
+        router.reload();
         setProfileMenu(false);
     }
 
@@ -53,13 +61,12 @@ export function UserData({userData}:UserDataProps) {
 
     return (
         <div>
-            {user?.map(user => {
+            {isLoading ? 'carregando...' : user?.map((user:any) => {
                 return (
                     <div key={user.data._id} 
                         className='d-flex gap-3 align-items-center'>
                         <div className={styles.imgContainer}>
-                            <img
-                                
+                            <img   
                                 onClick={handleOpenProfileMenu} 
                                 src={user.data.image} 
                                 alt="user" 
@@ -81,7 +88,7 @@ export function UserData({userData}:UserDataProps) {
                                         <Link href="/usersList">Usuários</Link>
                                             :''}
                                         <Link href="/orders">
-                                            {user.data.isAdmin === true ? `Pedidos(${orders.length})`
+                                            {user.data.isAdmin === true ? `Pedidos(${orders?.length})`
                                             : ''}
                                         </Link>
                                         <div data-testid={'logoutIcon'}>
@@ -104,51 +111,3 @@ export function UserData({userData}:UserDataProps) {
         </div>
     )
 }
-
-// export const getServerSideProps: GetServerSideProps = async () => {
-//     const {'mk-delivery.token': token} = parseCookies();
-
-//     try {
-//         const response = await api.get('user/profile', {
-//             headers: {
-//                 'auth-token': token
-//             }
-//         })
-//         const userData = response.data;
-
-//         return {
-//             props: {
-//                 userData
-//             }
-//         }
-//     } catch (error) {
-//         console.log('tivemos um erro no ssr', error);
-
-//         return {
-//             redirect: {
-//                 destination: '/login', 
-//                 permanent: false,
-//             }
-//         }
-//     }
-// }
-
-// export const getStaticProps: GetStaticProps = async () => {
-//     const response = await userProfileData.get();
-//     const data = response.data;
-
-//     const userData = [{
-//         _id:data.data._id,
-//         firstname:data.data.firstname,
-//         lastname:data.data.lastname,
-//         image:data.data.image,
-//         isAdmin:data.data.isAdmin
-//     }]
-
-
-//     return {
-//         props: {
-//             userData
-//         }
-//     }
-// }

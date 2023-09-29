@@ -5,7 +5,7 @@ import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import { AllUser } from '../../types/AllUser';
-import { AuthContext } from '@/contexts/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext';
 
 type UserContextData = {
     user:UserProfile[];

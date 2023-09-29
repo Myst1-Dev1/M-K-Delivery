@@ -11,13 +11,13 @@ export function UserFavorites() {
     const [filter, setFilter] = useState<Favorites[]>([]);
     const { favorites, handleCleanFavorites, setFavorites } = useContext(FavoritesContext);
 
-    useEffect(() => {
-        const {'favorite-token': favoriteCookie} = parseCookies()
+    // useEffect(() => {
+    //     const {'favorite-token': favoriteCookie} = parseCookies()
     
-        if(favoriteCookie) {
-            setFavorites(JSON.parse(favoriteCookie));
-        }
-        }, [])
+    //     if(favoriteCookie) {
+    //         setFavorites(JSON.parse(favoriteCookie));
+    //     }
+    //     }, [])
 
     function searchProducts() {
         if(search !== '') {
@@ -51,7 +51,7 @@ export function UserFavorites() {
                 </h6>
             </div>
             <div className={`row ${styles.favoritesContainer}`}>
-                {filter.map(favorite => {
+                {filter?.map(favorite => {
                     return (
                         <ProductBox
                             key={favorite.favorites._id}

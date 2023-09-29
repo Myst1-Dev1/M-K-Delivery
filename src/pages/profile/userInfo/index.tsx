@@ -1,15 +1,15 @@
 import { FaPencilAlt } from 'react-icons/fa';
 import styles from './styles.module.scss';
 import { UpdateProfileModal } from './UpdateProfileModal';
-import { useContext, useState } from 'react';
-import { AuthContext } from '../../../contexts/AuthContext';
-import { UserContext } from '../../../services/hooks/useUsers';
+import { useContext, useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 export function UserInfo() {
     const [isNewProfileModalOpen, setIsNewProfileModalOpen] = useState(false);
-    const { isAuthenticated } = useContext(AuthContext);
-    const { user } = useContext(UserContext);
 
+    const user = useSelector((state:any) => state.userData.user);
+
+    console.log(user);
 
     function handleOpenProfileModal() {
         setIsNewProfileModalOpen(true);
@@ -23,9 +23,8 @@ export function UserInfo() {
         <>
             <div className={`${styles.userInfoBox}`}>
                 <h3 className='fw-bold'>Informações do usuário</h3>
-                {isAuthenticated ? 
                 <div>
-                    {user.map(user => {
+                    {user.map((user:any) => {
                         return (
                             <div key={user.data._id}>
                                  <div className='d-flex flex-column gap-3 mt-4'>
@@ -47,7 +46,7 @@ export function UserInfo() {
                             </div>
                         )
                     })}
-                </div> : 'sem dados'}
+                </div>
             </div>
             
         </>

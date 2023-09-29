@@ -1,8 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
-import { FaUser, FaShoppingCart, FaBars, FaTimes, FaBell } from 'react-icons/fa';
-import { AuthContext } from '../../contexts/AuthContext';
-import { MdLogout } from 'react-icons/md';
+import { FaUser, FaShoppingCart, FaBars, FaBell } from 'react-icons/fa';
 import { Cart } from '../Cart';
 import { CartContext } from '../../services/hooks/useCart';
 import { ActiveLink } from './ActiveLink';
@@ -10,17 +8,23 @@ import Link from 'next/link';
 import { ToastContainer } from 'react-toastify';
 import { ResponsiveMenu } from './responsiveMenu';
 import { parseCookies } from 'nookies';
-import { UserContext } from '../../services/hooks/useUsers';
-import { useRouter } from 'next/router';
 import { UserData } from './userData';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchUserData } from '@/store/user/user';
 
 export function Header() {
-    const {isAuthenticated, handleLogout} = useContext(AuthContext);
+    const dispatch = useDispatch();
+    const user = useSelector((state:any) => state.userData.user);
+    //const isAuthenticated = useSelector((state:any) => state.auth.isAuthenticated);
+    console.log(user);
+
     const {cart, setCart ,openCart , setOpenCart } = useContext(CartContext);
 
     const [showOverlay, setShowOverlay] = useState(false);
     const [responsiveMenu, setResponsiveMenu] = useState(false);
     const [fixedHeader, setFixedHeader] = useState(false);
+
+    const isAuthenticated = !!user;
 
     function handleOpenCart() {
         setOpenCart(true);
@@ -61,6 +65,10 @@ export function Header() {
         setCart(JSON.parse(cartCookie));
     }
     }, [])
+
+    useEffect(() => {
+        dispatch(fetchUserData());
+      }, []);
 
     return (
         <>

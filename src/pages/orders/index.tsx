@@ -14,16 +14,21 @@ export default function Orders() {
 
     // const { isAuthenticated } = useContext(AuthContext);
     // const { allUser } = useContext(UserContext);
-    const { chat, setChat } = useContext(ChatContext)
+    const { chat, setChat, handleOpenChat } = useContext(ChatContext)
     const { orders ,handleChangeOrderStatus } = useContext(OrdersContext);
 
-    console.log(orders);
+    console.log('cliquei no chat',chat);
+    //console.log(orders);
+
+    // const tst = orders.find(order => order.name);
+    
+    // console.log(tst);
 
     const router = useRouter();
 
-    function handleOpenChat() {
-        setChat(true);
-    }
+    // function handleOpenChat() {
+    //     setChat(true);
+    // }
 
     // useEffect(() => {
     //     if(!isAuthenticated && allUser.map(user => user.isAdmin === false)) {
@@ -41,14 +46,15 @@ export default function Orders() {
                 </Link>
 
                 <div className={`row gap-5 container py-5 ${styles.orderContainer}`}>
-                    {orders.map((order:any, index:number) => (
+                    {orders?.map((order:any, index:number) => (
                         <div key={index} className={`col-md-4 mb-3 ${styles.orderBox}`}>
                             <div className='d-flex justify-content-between'>
                                 <div>
                                     <h5 className='fw-bold'>{order.name}</h5>
                                 </div>
                                 <div className='d-flex align-items-center gap-3'>
-                                    <FaRocketchat onClick={handleOpenChat} className={styles.icon} />
+                                    <FaRocketchat onClick={() => handleOpenChat(order.name)} 
+                                    className={styles.icon} />
                                     <h5 className='fw-bold'>Chat</h5>
                                 </div>
                             </div>
@@ -109,13 +115,13 @@ export default function Orders() {
                         <div className='d-flex justify-content-between mt-4'>
                             <button 
                                 className={styles.acceptOrder}
-                                onClick={() => handleChangeOrderStatus('Em progresso')}
+                                onClick={() => handleChangeOrderStatus('Em progresso', order.name)}
                             >
                                 Aceitar Pedido
                             </button>
                             <button 
                                 className={styles.refuseOrder}
-                                onClick={() => handleChangeOrderStatus('Recusado')}
+                                onClick={() => handleChangeOrderStatus('Recusado', order.name)}
                             >   Recusar Pedido
                             </button>
                         </div>

@@ -2,6 +2,7 @@ import { useContext, createContext, ReactNode, useState, useEffect, FormEvent } 
 import Pusher from 'pusher-js';
 import { setCookie } from 'nookies';
 import { OrdersContext } from './useOrders';
+import { Order } from '../../types/Order';
 
 type ChatContextData = {
     newMessage:string;
@@ -11,10 +12,16 @@ type ChatContextData = {
     sendMessage:(e:FormEvent) => void;
     chat:boolean;
     setChat:any;
+    handleOpenChat:(name:string) => void;
+    userName:orderUserData[];
 }
 
 type ChatProviderProps = {
     children: ReactNode;
+}
+
+type orderUserData = {
+  data:Order;
 }
 
 export const ChatContext = createContext(
@@ -22,6 +29,7 @@ export const ChatContext = createContext(
 
 export function ChatProvider({children}:ChatProviderProps) {
     const [message, setMessage] = useState<[] | any>([]);
+    const [userName, setUserName] = useState<orderUserData[]>([]);
     const [newMessage, setNewMessage] = useState('');
     const [chat, setChat ] = useState(false);
 
@@ -45,6 +53,7 @@ export function ChatProvider({children}:ChatProviderProps) {
         });
     
         return () => {
+          pusher.unbind('chat');
           pusher.unsubscribe('chat');
         };
       }, [message]);  
@@ -65,6 +74,24 @@ export function ChatProvider({children}:ChatProviderProps) {
           setNewMessage('');
       };
 
+      function handleOpenChat(name:string) {
+        if(orders !== undefined) {
+          
+          const orderUserName = orders.find(order => order.name === name);
+
+          const orderNameItem:orderUserData = {
+            data:orderUserName!
+          }
+
+          const newOrderUserName = [...userName, orderNameItem];
+          setUserName(newOrderUserName);
+        } else {
+          console.log('Tivemos um erro', name)
+        }
+        setChat(true);
+      }
+      
+
     return (
         <ChatContext.Provider value={{
             newMessage, 
@@ -73,7 +100,9 @@ export function ChatProvider({children}:ChatProviderProps) {
             setMessage,
             sendMessage,
             chat,
-            setChat}}>
+            setChat,
+            handleOpenChat,
+            userName}}>
             {children}
         </ChatContext.Provider>
     )

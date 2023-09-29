@@ -1,6 +1,6 @@
 import { useContext, createContext, useState, ReactNode } from 'react';
 import { ProductContext } from './useProducts';
-import { CartProducts } from '@/types/CartProducts';
+import { CartProducts } from '../../types/CartProducts';
 import { toast } from 'react-toastify';
 import { destroyCookie, setCookie, parseCookies } from 'nookies';
 import "react-toastify/dist/ReactToastify.css";

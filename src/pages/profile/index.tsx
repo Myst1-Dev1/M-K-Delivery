@@ -1,26 +1,25 @@
 import styles from './styles.module.scss';
 import {FaBell, FaCartPlus, FaHeart, FaRocketchat, FaUser} from 'react-icons/fa';
 
-import { UserContext } from "../../services/hooks/useUsers";
 import { AuthContext } from "../../contexts/AuthContext";
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import { UserInfo } from './userInfo';
 import { UserFavorites } from './userFavorites';
 import { UserOrders } from './userOrders';
 import { UserNotifications } from './userNotifications';
 import { UserChat } from './userChat';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchUserData } from '../../store/user/user';
 
 export default function Profile() {
+    const user = useSelector((state:any) => state.userData.user);
+    const dispatch = useDispatch();
+
     const [profile, setProfile] = useState(true);
     const [favoritesProfile, setFavoritesProfile] = useState(false);
     const [orders, setOrders] = useState(false);
     const [notification, setNotification] = useState(false);
     const [userChat, setUserChat] = useState(false);
-
-    const { isAuthenticated } = useContext(AuthContext);
-    const { user } = useContext(UserContext);
-
-    console.log(user);
 
     function handleOpenProfile() {
         setProfile(true);
@@ -62,12 +61,15 @@ export default function Profile() {
         setUserChat(true);
     }
 
+    useEffect(() => {
+        dispatch(fetchUserData());
+      }, []);
+
 return (
     <div className={`container d-flex gap-5 m-auto py-5 ${styles.userContainer}`}>
         <div className={`${styles.userProfileBox}`}>
-            {isAuthenticated ?
                 <div>
-                    {user.map(user => {
+                    {user.map((user:any) => {
                         return (
                             <div key={user.data._id}>
                                 <div
@@ -133,8 +135,6 @@ return (
                         )
                     })}
                 </div>
-                : 'Sem dados'
-            }
         </div>
         {profile && <UserInfo />}
         {favoritesProfile && <UserFavorites />}

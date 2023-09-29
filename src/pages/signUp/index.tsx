@@ -2,12 +2,46 @@ import { PageBanner } from '../../components/pageBanner';
 import styles from './styles.module.scss';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
-import { useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
+import { api } from '../../services/api';
+import { toast } from 'react-toastify';
+import { SignUpData } from '../../types/SignUpData';
+import { useDispatch, useSelector } from 'react-redux';
+import { createUser } from '@/store/auth/auth';
 
 export default function signUp() {
     const { register, handleSubmit, formState: {errors} } = useForm();
-    const { signUp } = useContext(AuthContext);
+    const dispatch = useDispatch();
+    const user = useSelector((state:any) => state.auth.user);
+    console.log(user);
+
+    async function signUp({firstname, lastname, email, tel, password, isAdmin = false}:SignUpData) {
+        try {
+            const res = await api.post('/register', {
+              firstname,
+              lastname,
+              email,
+              tel,
+              password,
+              isAdmin
+            }, {
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            //setUser(res.data);
+            dispatch(createUser(res.data));
+    
+            toast.success('Conta criada com sucesso', {
+                position:toast.POSITION.TOP_CENTER
+              })
+          } catch (error) {
+            console.log(error);
+            toast.error('Capturamos um erro', {
+                position:toast.POSITION.TOP_CENTER
+            })
+          }
+    }
 
     async function handleSignUp(data:any) {
         await signUp(data);

@@ -1,29 +1,28 @@
 import styles from './styles.module.scss';
 
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { AuthContext } from '@/contexts/AuthContext';
-import { PageBanner } from '@/components/pageBanner';
+import { PageBanner } from '../../components/pageBanner';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { parseCookies } from 'nookies';
+import { signIn } from '../../store/auth/auth';
 
 export default function Login() {
     const { register, handleSubmit, formState:{errors} } = useForm();
-    const { signIn, user } = useContext(AuthContext);
 
     const router = useRouter();
 
-    console.log(user);
-
     async function handleSignIn(data:any) {
        await signIn(data);
+       router.push('/');
     }
 
     useEffect(() => {
         const {'mk-delivery.token': hasToken} = parseCookies();
         if(hasToken) {
             router.push('/');
+            router.reload();
         }
     }, [])
 

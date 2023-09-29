@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect ,ReactNode } from 'react';
-import { setCookie, parseCookies } from 'nookies';
+import { setCookie, parseCookies, destroyCookie } from 'nookies';
 import { Order } from '../../types/Order';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
@@ -8,15 +8,19 @@ export const OrdersContext = createContext(
     {} as OrdersContextData);
 
 type OrdersContextData = {
-    orders: any;
+    orders: Order[];
     handleCreateOrder:(order:Order) => void;
     orderStatus:string;
     setOrderStatus:any;
-    handleChangeOrderStatus:(status:string) => void;
+    handleChangeOrderStatus:(status:string, name:string) => void;
 }
 
 type OrdersProviderProps = {
     children: ReactNode
+}
+
+type Status = {
+    name:Order;
 }
 
 export function OrdersProvider({children}:OrdersProviderProps) {
@@ -39,30 +43,39 @@ export function OrdersProvider({children}:OrdersProviderProps) {
         })
     }
 
-    function handleChangeOrderStatus(status:string) {
-        setOrderStatus(status);
-
-        if(status === 'Em progresso') {
-            toast.success('Pedido aceito com sucesso', {
-                position:toast.POSITION.TOP_RIGHT,
-                theme:'colored'
+    function handleChangeOrderStatus(status:string, name:string) {
+        const newOrder = orders.find(order => order.name === name);
+        
+        if(newOrder) {
+            setOrderStatus(status);
+            setCookie(null, 'status-token', JSON.stringify(status), {
+                maxAge:30 * 24 * 60 * 60,
             })
+        } else {
+            console.log('tivemos um erro');
         }
 
-        if(status === 'Concluido') {
-            toast.success('Pedido recebido com sucesso', {
-                position:toast.POSITION.TOP_RIGHT,
-                theme:'colored'
-            })
-        }
-        if(status === 'Recusado') {
-            toast.error('Pedido recusado com sucesso', {
-                position:toast.POSITION.TOP_RIGHT,
-                theme:'colored'
-            })
-        }
+        // if(status === 'Em progresso') {
+        //     toast.success('Pedido aceito com sucesso', {
+        //         position:toast.POSITION.TOP_RIGHT,
+        //         theme:'colored'
+        //     })
+        //     router.push('/ordersInProgress');
+        // }
 
-        //router.push('/ordersInProgress');
+        // if(status === 'Concluido') {
+        //     toast.success('Pedido recebido com sucesso', {
+        //         position:toast.POSITION.TOP_RIGHT,
+        //         theme:'colored'
+        //     })
+        // }
+        // if(status === 'Recusado') {
+        //     toast.error('Pedido recusado com sucesso', {
+        //         position:toast.POSITION.TOP_RIGHT,
+        //         theme:'colored'
+        //     })
+        // }
+        console.log('achei ele', name);
     }
     
     useEffect(() => {
@@ -70,6 +83,15 @@ export function OrdersProvider({children}:OrdersProviderProps) {
         
         if(orderCookie) {
             setOrders(JSON.parse(orderCookie))
+        }
+
+    }, [])
+
+    useEffect(() => {
+        const {'status-token': statusCookie} = parseCookies();
+        
+        if(statusCookie) {
+            setOrderStatus(JSON.parse(statusCookie))
         }
 
     }, []) 
@@ -80,7 +102,8 @@ export function OrdersProvider({children}:OrdersProviderProps) {
             handleCreateOrder,
             orderStatus,
             setOrderStatus,
-            handleChangeOrderStatus}}>
+            handleChangeOrderStatus
+            }}>
             {children}
         </OrdersContext.Provider>
     )

@@ -29,8 +29,8 @@ export default function OrdersInProgress() {
                         </tr>
                     </thead>
                     <tbody>
-                        {orders.map((order:any, index:number) => (
-                            <tr key={order.id}>
+                        {orders?.map((order:any, index:number) => (
+                            <tr key={index}>
                             <th scope="row">{index + 1}</th>
                             <td>{order.name}</td>
                             <td>{order.tel}</td>
@@ -52,7 +52,9 @@ export default function OrdersInProgress() {
                                         {Intl.NumberFormat('pt-br', {
                                             style:'currency',
                                             currency:'BRL'
-                                        }).format(order.changeValue - (totalCart + 5))}
+                                        }).format(order.changeValue - (order.cartPrice.reduce
+                                            ((total:any, price:any) => 
+                                            total + parseFloat(price), 0) + 5))}
                                         </span>
                                     </div>
                                 }
@@ -85,7 +87,6 @@ export default function OrdersInProgress() {
                                         </div>
                                     </div>
                                  : ''}
-                                
                             </td>
                         </tr>
                         ))}

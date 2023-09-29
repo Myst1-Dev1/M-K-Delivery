@@ -14,10 +14,13 @@ export function OrderChat() {
         newMessage, 
         setMessage, 
         sendMessage,
-        setChat
+        setChat,
+        userName
     } = useContext(ChatContext);
 
     const { orders } = useContext(OrdersContext);
+
+    console.log('Isto é um teste', userName);
 
     const messageEndRef = useRef<HTMLInputElement>(null);
 
@@ -51,11 +54,14 @@ export function OrderChat() {
                         <div  className='d-flex align-items-center gap-3'>
                             <div className={styles.imgContainer}>
                                 <img src="/images/userImage.png" alt="user-image" />
-                            </div>
-                            <h6 className='fw-bold'>
-                                John Doe
-                            </h6>
-                    </div> 
+                            </div>  
+                                {userName.length === 0 ? 'John Doe' : 
+                                    userName?.map((userData, index:number) => (
+                                    <h6 key={index} className='fw-bold'>
+                                        {userData.data.name}
+                                    </h6>
+                                ))}
+                        </div> 
                     <FaTimes onClick={handleCloseChat} className={styles.icon} />
                 </div>
 
