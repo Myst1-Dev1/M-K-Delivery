@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllUserData, deleteUserData } from '../../store/user/user';
 import { toast } from 'react-toastify';
+import { ConfirmationBox } from '../../components/confirmationBox';
 
 export default function UsersList() {
     const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export default function UsersList() {
    function handleDelete(id:string) {
     try {
         dispatch(deleteUserData(id));
+        router.reload();
 
         toast.success('usuário deletado com sucesso', {
             position:toast.POSITION.TOP_RIGHT,
@@ -35,10 +37,6 @@ export default function UsersList() {
 
    function handleConfirmDeleteUser() {
     setConfirmationBox(true);
-   }
-
-   function handleCloseConfirmDeleteUser() {
-    setConfirmationBox(false);
    }
 
     // useEffect(() => {
@@ -93,23 +91,18 @@ return (
                                                         className={styles.deleteIcon} 
                                                     />
                                                     {confirmationBox && (
-                                                    <div className={styles.confirmationContainer}>
-                                                        <div className={styles.deleteConfirmationBox}>
-                                                            <p>Você tem certeza que deseja deletar o usuário?</p>
-                                                            <div className='d-flex justify-content-center gap-5'>
-                                                                <button
-                                                                    onClick={() => handleDelete(user._id)}
-                                                                    className={styles.confirmButton}>
-                                                                        Sim
-                                                                </button>
-                                                                <button
-                                                                    onClick={handleCloseConfirmDeleteUser}
-                                                                    className={styles.closeConfirmationBox}>
-                                                                        Não
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <ConfirmationBox
+                                                    children="Você tem certeza que deseja deletar o usuário?"
+                                                    handleConfirm={() => {
+                                                      // Lógica para confirmar a exclusão
+                                                      handleDelete(user._id)
+                                                    }}
+                                                    handleCancel={() => {
+                                                      // Lógica para cancelar a exclusão
+                                                      setConfirmationBox(false);
+                                                    }}
+                                                  />
+                                                  
                                                 )}
                                                 </div>
                                             }
