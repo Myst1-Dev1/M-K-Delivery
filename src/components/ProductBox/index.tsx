@@ -38,8 +38,6 @@ export function ProductBox({
 
     const [confirmationBox, setConfirmationBox] = useState(false);
 
-    //const isProductInFavorites = favorites.some(item => item.favorites._id === id);
-
     function handleAddToCart() {
         dispatch(addToCart({
             id,
@@ -73,7 +71,7 @@ export function ProductBox({
 
     return (
         <>
-            <div key={id} data-testid="name" className={`col-md-4 ${styles.disheBox}`}>
+            <div key={id} data-testid="name" className={`col-md-12 ${styles.disheBox}`}>
                 {isAuthenticated ?
                 <div>
                 {user.map((user:any) => {

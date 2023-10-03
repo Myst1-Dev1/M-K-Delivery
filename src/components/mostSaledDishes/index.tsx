@@ -3,15 +3,15 @@ import styles from './styles.module.scss';
 import Glider from 'react-glider';
 import 'glider-js/glider.min.css';
 
-import { FaShoppingCart, FaHeart, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProductsData } from '../../store/products/product';
+import { ProductBox } from '../ProductBox';
 
 export function MostSaledDishes() {
 
     const dispatch = useDispatch();
     const products = useSelector((state:any) => state.productsData.products);
-    console.log(products);
 
     const carouselDishes = products?.slice(0, 8);
 
@@ -65,40 +65,15 @@ export function MostSaledDishes() {
                     >
                         {carouselDishes && carouselDishes.map((item:any) => {
                           return (
-                                <div 
-                                    key={item.name}
-                                    className={`col-lg-4 mb-3 ${styles.disheBox}`}>
-                                    <img src={item.image} alt="item" />
-                                    <div className={styles.dishSubtitles}>
-                                        <div className='d-flex justify-content-between align-items-center'>
-                                            <h3 className='fw-bold'>{item.name}</h3>
-                                            <FaHeart
-                                              
-                                              className={styles.favoriteIcon} 
-                                            />
-                                        </div>
-                                        <p className='mb-0 mt-2'>{item.details}</p>
-                                        <h6 className='mb-4 fw-bold'>
-                                                {item.amount !== 1 ? `Porção com ${item.amount} únidades`
-                                                : `${item.amount} Porção`}
-                                        </h6>
-                                        <div className='d-flex gap-3 justify-content-between align-items-center'>
-                                            <h3 className='fw-bold'>
-                                                {Intl.NumberFormat('pt-BR', {
-                                                    style:'currency',
-                                                    currency:'BRL'
-                                                }).format(item.price)}
-                                            </h3>
-                                            <button 
-                                                className='d-flex align-items-center'>
-                                                <FaShoppingCart
-                                                    className={styles.icon}
-                                                />
-                                                Adicionar ao carrinho
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                              <ProductBox
+                                key={item._id}
+                                id={item._id}
+                                image={item.image}
+                                name={item.name}
+                                details={item.details}
+                                amount={item.amount}
+                                price={item.price}
+                              />
                             )
                         })}
                     </Glider>

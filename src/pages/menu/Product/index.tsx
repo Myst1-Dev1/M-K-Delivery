@@ -2,6 +2,8 @@ import { UpdateProductModal } from '../../../components/UpdateProductModal';
 import { Products } from '../../../types/Product';
 import { ProductBox } from '../../../components/ProductBox';
 
+import styles from './styles.module.scss';
+
 interface ProductBoxProps {
     onCurrentItems:Products[];
     onSetIsNewUpdateModalOpen:any;
@@ -19,7 +21,7 @@ export function Product({ onCurrentItems, onSetIsNewUpdateModalOpen
             {onCurrentItems && onCurrentItems.length === 0 ? <p>Sem resultados para sua pesquisa 😢</p> : ''}
             {onCurrentItems && Array.isArray(onCurrentItems) && onCurrentItems.map(item => {
                 return (
-                        <div key={item._id} className='row'>
+                        <div key={item._id} className={`row ${styles.containerProduct}`}>
                             <ProductBox
                                 onSetIsNewUpdateModalOpen= {onSetIsNewUpdateModalOpen}
                                 onSetSelectedProductId={onSetSelectedProductId}

@@ -90,5 +90,19 @@
         align-items: center;
         flex-direction: column;
         margin-top: 20px;
+        
+        img {
+            width: 280px;
+        }
+        .dishSubtitles {
+            width: 280px;
+
+            p {
+                font-size: 12px;
+            }
+            h3 {
+                font-size: 15px;
+            }
+        }
     }
 }
