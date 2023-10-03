@@ -1,13 +1,13 @@
 import { FaHeart, FaPencilAlt, FaShoppingCart, FaTrashAlt } from 'react-icons/fa';
 import styles from './styles.module.scss';
 import { useContext, useEffect, useState } from 'react';
-import { CartContext } from '../../services/hooks/useCart';
 import { FavoritesContext } from '../../services/hooks/useFavorites';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUserData } from '../../store/user/user';
-import { deleteProducts } from '@/store/products/product';
+import { deleteProducts } from '../../store/products/product';
 import { ConfirmationBox } from '../confirmationBox';
+import { addToCart } from '../../store/cart/cart';
 
 interface ProductBoxProps {
     id:string;
@@ -34,12 +34,21 @@ export function ProductBox({
     const dispatch = useDispatch();
 
     const isAuthenticated = !!user;
-    const { handleAddToCart } = useContext(CartContext);
     const { handleAddToFavorites, favorites, handleRemoveToFavorites } = useContext(FavoritesContext);
 
     const [confirmationBox, setConfirmationBox] = useState(false);
 
     //const isProductInFavorites = favorites.some(item => item.favorites._id === id);
+
+    function handleAddToCart() {
+        dispatch(addToCart({
+            id,
+            name,
+            image,
+            price,
+            amount
+        }));
+    }
 
     const router = useRouter();
 
@@ -64,7 +73,7 @@ export function ProductBox({
 
     return (
         <>
-            <div key={id} data-testid="name" className={`col-md-6 ${styles.disheBox}`}>
+            <div key={id} data-testid="name" className={`col-md-4 ${styles.disheBox}`}>
                 {isAuthenticated ?
                 <div>
                 {user.map((user:any) => {
@@ -114,7 +123,7 @@ export function ProductBox({
                         </h3>
                         <button
                             data-testid="addCartButton" 
-                            onClick={() => handleAddToCart(id)} 
+                            onClick={handleAddToCart} 
                             className='d-flex align-items-center'>
                             <FaShoppingCart className={styles.icon} />
                             Adicionar ao carrinho

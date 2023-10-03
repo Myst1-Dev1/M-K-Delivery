@@ -4,19 +4,14 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { FaTimes } from 'react-icons/fa';
 import { MdLogout } from 'react-icons/md';
-import { UserProfile } from '../../types/UserProfile';
 import { OrdersContext } from '@/services/hooks/useOrders';
 import { useSelector, useDispatch } from 'react-redux';
 import { destroyCookie } from 'nookies';
 import { logout } from '../../store/auth/auth';
 
-interface UserDataProps {
-    userData?: UserProfile[];
-}
-
-export function UserData({userData}:UserDataProps) {
+export function UserData() {
     const user = useSelector((state:any) => state.userData.user);
-    console.log(user);
+
     const isLoading = useSelector((state:any) => state.userData.isLoading);
 
     const dispatch = useDispatch();
@@ -24,8 +19,6 @@ export function UserData({userData}:UserDataProps) {
     const { orders } = useContext(OrdersContext);
 
     const [profileMenu, setProfileMenu] = useState(false);
-
-    console.log(userData);
 
     const router = useRouter();
 

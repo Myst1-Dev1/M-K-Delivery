@@ -8,15 +8,21 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { useForm } from 'react-hook-form';
 import { OrdersContext } from '../../services/hooks/useOrders';
 import { UserContext } from '@/services/hooks/useUsers';
+import { useSelector, useDispatch } from 'react-redux';
+import { totalCart } from '@/store/cart/cart';
 
 export default function paymentPage() {
+    const dispatch = useDispatch();
+
     const [cashOnDelivery, setCashOnDelivery] = useState(false);
     const [onlinePayment, setOnlinePayment] = useState(false);
 
-    const { cart, totalCart } = useContext(CartContext);
+    const cart = useSelector((state:any) => state.cartData.cart);
+    const totalPrice = useSelector((state:any) => state.cartData.totalPrice);
+    const user = useSelector((state:any) => state.userData.user);
+
     const { handleCreateOrder } = useContext(OrdersContext);
     const { isAuthenticated } = useContext(AuthContext);
-    const { user } = useContext(UserContext);
 
     const { register, handleSubmit } = useForm();
 
@@ -41,6 +47,10 @@ export default function paymentPage() {
         setOnlinePayment(!onlinePayment);
     }
 
+    useEffect(() => {
+        dispatch(totalCart());
+      }, [cart]);
+
     return (
         <>
             <PageBanner>Pagamento</PageBanner>
@@ -55,7 +65,7 @@ export default function paymentPage() {
                         <div className='row'>
                             <div className={`d-flex flex-column gap-2 d-none ${styles.inputBox}`}>
                                 <label className='fw-bold' htmlFor="name">Nome</label>
-                                {user.map(user => (
+                                {user?.map((user:any) => (
                                     <input
                                         type="text" 
                                         placeholder='John Doe' 
@@ -149,37 +159,37 @@ export default function paymentPage() {
                     <h3>Resumo do pedido</h3>
                     <div className={`d-flex flex-column justify-content-between mt-4 ${styles.orderBox}`}>
                        <div className={styles.orderProducts}>
-                            {cart.map((item, index) => {
+                            {cart.map((item:any, index:number) => {
                                 return (
-                                    <div key={item.product._id} 
+                                    <div key={item._id} 
                                         className={`d-flex gap-3 mb-4 ${styles.orderProductBox}`}>
                                         <div className={styles.imgContainer}>
-                                            <img src={item.product.image} alt="order" />
+                                            <img src={item.image} alt="order" />
                                         </div>
                                         <div>
-                                            <h5>{item.product.name} x {item.quantity}</h5>
+                                            <h5>{item.name} x {item.quantity}</h5>
                                             <input 
                                                 type="text"
                                                 placeholder='teste'
-                                                value={item.product.name}
+                                                value={item.name}
                                                 {...register(`cartValue[${index}]`, 
                                                 {required:true})} 
                                             />
                                             <input 
                                                 type="number"
                                                 placeholder='teste'
-                                                value={item.product.price}
+                                                value={item.price}
                                                 {...register(`cartPrice[${index}]`, 
                                                 {required:true})} 
                                             />
-                                            <p>{item.product.amount !== 1 ?
-                                                 `Porção com ${item.product.amount} únidades`
-                                                : `${item.product.amount} Porção`}
+                                            <p>{item.amount !== 1 ?
+                                                 `Porção com ${item.amount} únidades`
+                                                : `${item.amount} Porção`}
                                             </p>
                                             <h4>{Intl.NumberFormat('pt-br', {
                                                 style:'currency',
                                                 currency:'BRL'
-                                            }).format(item.product.price * item.quantity)}</h4>
+                                            }).format(item.price * item.quantity)}</h4>
                                         </div>
                                     </div>
                                 )
@@ -199,7 +209,7 @@ export default function paymentPage() {
                                     {Intl.NumberFormat('pt-br', {
                                     style:'currency',
                                     currency:'BRL'
-                                    }).format(totalCart + 5)}
+                                    }).format(totalPrice + 5)}
                                     <span> (+R$:5,00)</span> 
                                 </h5>
                             </div>

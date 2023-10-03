@@ -1,24 +1,21 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import { FaUser, FaShoppingCart, FaBars, FaBell } from 'react-icons/fa';
 import { Cart } from '../Cart';
-import { CartContext } from '../../services/hooks/useCart';
 import { ActiveLink } from './ActiveLink';
 import Link from 'next/link';
 import { ToastContainer } from 'react-toastify';
 import { ResponsiveMenu } from './responsiveMenu';
-import { parseCookies } from 'nookies';
 import { UserData } from './userData';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUserData } from '@/store/user/user';
+import { fetchUserData } from '../../store/user/user';
+import { openCart } from '../../store/cart/cart';
 
 export function Header() {
     const dispatch = useDispatch();
     const user = useSelector((state:any) => state.userData.user);
-    //const isAuthenticated = useSelector((state:any) => state.auth.isAuthenticated);
-    console.log(user);
-
-    const {cart, setCart ,openCart , setOpenCart } = useContext(CartContext);
+    const cartIsOpen = useSelector((state:any) => state.cartData.openCart);
+    const cart = useSelector((state:any) => state.cartData.cart);
 
     const [showOverlay, setShowOverlay] = useState(false);
     const [responsiveMenu, setResponsiveMenu] = useState(false);
@@ -27,7 +24,7 @@ export function Header() {
     const isAuthenticated = !!user;
 
     function handleOpenCart() {
-        setOpenCart(true);
+        dispatch(openCart());
         setShowOverlay(true);
     }
 
@@ -57,14 +54,6 @@ export function Header() {
           }
         };
       }, []);
-
-    useEffect(() => {
-    const {'cart-token': cartCookie} = parseCookies()
-
-    if(cartCookie) {
-        setCart(JSON.parse(cartCookie));
-    }
-    }, [])
 
     useEffect(() => {
         dispatch(fetchUserData());
@@ -130,7 +119,7 @@ export function Header() {
                 </div>
             </div>
             {showOverlay && <div data-testid="showOverlay" className="overlay"></div>}
-            {openCart && <Cart onSetShowOverlay = {setShowOverlay} />}
+            {cartIsOpen && <Cart onSetShowOverlay = {setShowOverlay} />}
             {responsiveMenu && 
             <ResponsiveMenu onSetResponsiveMenu = {setResponsiveMenu} onSetShowOverlay = {setShowOverlay} />}
             <ToastContainer />

@@ -7,8 +7,9 @@ import { Header } from "../components/Header";
 import Modal from 'react-modal';
 import { Footer } from "@/components/Footer";
 import { Provider } from 'react-redux';
-import store from "../store";
+import store, { persistor } from "../store";
 import { validateToken } from "../store/auth/auth";
+import { PersistGate } from "redux-persist/integration/react";
 
 Modal.setAppElement("#__next");
 
@@ -32,9 +33,11 @@ export default function MyApp({Component, pageProps}:AppProps) {
                 <div className="loadingBox"><img src="/images/loading.gif" alt="loading" /></div>
             ) : (
                 <Provider store={store}>
-                    <Header />
-                    <Component {...pageProps} />
-                    <Footer />
+                    <PersistGate persistor={persistor}>
+                        <Header />
+                        <Component {...pageProps} />
+                        <Footer />
+                    </PersistGate>
                 </Provider>
             )}
         </>

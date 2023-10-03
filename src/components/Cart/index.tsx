@@ -1,9 +1,10 @@
 import { FaTimes, FaTrashAlt } from 'react-icons/fa';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from './styles.module.scss';
-import { CartContext } from '../../services/hooks/useCart';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart, cleanCart, closeCart, reduceItemsInCart, removeToCart, totalCart } from '../../store/cart/cart';
 
 interface CartProps {
     onSetShowOverlay:any;
@@ -11,21 +12,33 @@ interface CartProps {
 
 export function Cart({ onSetShowOverlay }:CartProps) {
     const router = useRouter();
+    const dispatch = useDispatch();
 
-    const { 
-        cart,
-        setOpenCart,
-        totalCart, 
-        handleRemoveToCart,
-        handleReduceItems, 
-        handleAddToCart,
-        handleCleanCart }
-        = useContext(CartContext);
+    const cart = useSelector((state:any) => state.cartData.cart);
+    const totalPrice = useSelector((state:any) => state.cartData.totalPrice);
 
-        function handleCloseCart() {
-            setOpenCart(false);
-            onSetShowOverlay(false);
-        }
+    function handleCloseCart() {
+        dispatch(closeCart());
+        onSetShowOverlay(false);
+    };
+
+    function handleRemoveToCart(id:string) {
+        dispatch(removeToCart(id));
+    };
+
+    function handleAddToCart(id:string,name:string,image:string,price:number, amount:number) {
+        dispatch(addToCart({
+            id,
+            name,
+            image,
+            price,
+            amount
+        }));
+    };
+
+    function handleReduceItems(id:string) {
+        dispatch(reduceItemsInCart(id));
+    }
 
     useEffect(() => {
         const handleRouteChange = () => {
@@ -41,6 +54,10 @@ export function Cart({ onSetShowOverlay }:CartProps) {
           router.events.off('routeChangeStart', handleRouteChange);
         };
       }, [router.pathname]);
+
+    useEffect(() => {
+    dispatch(totalCart());
+    }, [cart]);
 
     return (
         <div className={`d-flex flex-column justify-content-between ${styles.cart}`}>
@@ -58,44 +75,51 @@ export function Cart({ onSetShowOverlay }:CartProps) {
                 </div>
 
                 <div className={`d-flex flex-column gap-4 ${styles.cartContainer}`}>
-                    {cart && cart.map(item => {
+                    {cart && cart.map((item:any) => {
                         return (
-                            <div key={item.product.name} className={`d-flex gap-3 ${styles.cartProductBox}`}>
+                            <div key={item.name} className={`d-flex gap-3 ${styles.cartProductBox}`}>
                                 <div className={styles.imgContainer}>
-                                    <img src={item.product.image} alt="cartImage" />
+                                    <img src={item.image} alt="cartImage" />
                                 </div>
                                 <div className='d-flex justify-content-between w-100'>
                                         <div className={styles.cartProductBoxSubtitles}>
-                                            <h5>{item.product.name}</h5>
+                                            <h5>{item.name}</h5>
                                             <h6 className='mt-3'>
-                                                {item.product.amount !== 1 ? 
-                                                `Porção com ${item.product.amount} únidades` 
-                                                : `${item.product.amount} Porção`}
+                                                {item.amount !== 1 ? 
+                                                `Porção com ${item.amount} únidades` 
+                                                : `${item.amount} Porção`}
                                             </h6>
                                             <h4 className='mt-3'>
                                                 {Intl.NumberFormat('pt-br', {
                                                     style:'currency',
                                                     currency:'BRL'
-                                                }).format(item.product.price * item.quantity)}
+                                                }).format(item.price * item.quantity)}
                                             </h4>
                                         </div>
                                         <div>
                                             <div className={`d-flex ${styles.amountContainer}`}>
                                                 <div
-                                                    onClick={() => handleReduceItems(item.product._id)}  
+                                                    onClick={() => handleReduceItems(item._id)}  
                                                     className={styles.amountBox}>
                                                     <h3>-</h3>
                                                 </div>
                                                 <div className={styles.amountBox}><h6>{item.quantity}</h6></div>
                                                 <div
-                                                    onClick={() => handleAddToCart(item.product._id)} 
+                                                    onClick={() => 
+                                                        handleAddToCart(
+                                                            item._id,
+                                                            item.name,
+                                                            item.image,
+                                                            item.price,
+                                                            item.amount
+                                                            )} 
                                                     className={styles.amountBox}>
                                                     <h3>+</h3>
                                                 </div>
                                             </div>
                                             <div className='d-flex justify-content-end mt-5'>
                                                 <FaTrashAlt 
-                                                onClick={() => handleRemoveToCart(item.product._id)} 
+                                                onClick={() => handleRemoveToCart(item._id)} 
                                                 className={styles.icon} 
                                             />
                                             </div>
@@ -107,7 +131,7 @@ export function Cart({ onSetShowOverlay }:CartProps) {
                 </div>
             </div>   
             <div className={`${styles.totalContainer}`}>
-                <h6 onClick={handleCleanCart} className='text-end'>Limpar carrinho</h6>
+                <h6 onClick={() => dispatch(cleanCart())} className='text-end'>Limpar carrinho</h6>
                 <hr />
                 <div className='d-flex justify-content-between align-items-center w-100'>
                     <h5>Subtotal</h5>
@@ -115,7 +139,7 @@ export function Cart({ onSetShowOverlay }:CartProps) {
                         {Intl.NumberFormat('pt-br', {
                                 style:'currency',
                                 currency:'BRL'
-                        }).format(totalCart)} 
+                        }).format(totalPrice)} 
                     </h5>
                 </div>
                 <hr />
@@ -125,7 +149,7 @@ export function Cart({ onSetShowOverlay }:CartProps) {
                         {Intl.NumberFormat('pt-br', {
                             style:'currency',
                             currency:'BRL'
-                        }).format(totalCart + 5)} 
+                        }).format(totalPrice + 5)} 
                         <span> (+ R$:5,00)</span>
                     </h5>
                 </div>
