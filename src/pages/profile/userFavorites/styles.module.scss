@@ -13,7 +13,11 @@
 
 @media(max-width:750px) {
     .favoritesBox {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
         .favoritesContainer{
+            margin: auto;
             flex-wrap: wrap;
         }
     }

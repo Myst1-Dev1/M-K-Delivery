@@ -1,13 +1,13 @@
 import { FaHeart, FaPencilAlt, FaShoppingCart, FaTrashAlt } from 'react-icons/fa';
 import styles from './styles.module.scss';
-import { useContext, useEffect, useState } from 'react';
-import { FavoritesContext } from '../../services/hooks/useFavorites';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUserData } from '../../store/user/user';
 import { deleteProducts } from '../../store/products/product';
 import { ConfirmationBox } from '../confirmationBox';
 import { addToCart } from '../../store/cart/cart';
+import { addToFavorites, removeToFavorites } from '@/store/favorites/favorites';
 
 interface ProductBoxProps {
     id:string;
@@ -31,10 +31,12 @@ export function ProductBox({
     onSetSelectedProductId
 }:ProductBoxProps) {
     const user = useSelector((state:any) => state.userData.user);
+    const favorites = useSelector((state:any) => state.favoritesData.favorites);
     const dispatch = useDispatch();
 
+   const isProductInFavorites = favorites.find((item:any) => item._id === id);
+
     const isAuthenticated = !!user;
-    const { handleAddToFavorites, favorites, handleRemoveToFavorites } = useContext(FavoritesContext);
 
     const [confirmationBox, setConfirmationBox] = useState(false);
 
@@ -46,6 +48,22 @@ export function ProductBox({
             price,
             amount
         }));
+    }
+
+    function handleAddToFavorites() {
+        dispatch(addToFavorites({
+            id,
+            name,
+            details,
+            image,
+            price,
+            amount
+        }))
+    }
+
+    function handleRemoveToFavorites(id:string) {
+        dispatch(removeToFavorites(id));
+        setConfirmationBox(false);
     }
 
     const router = useRouter();
@@ -71,28 +89,28 @@ export function ProductBox({
 
     return (
         <>
-            <div key={id} data-testid="name" className={`col-md-12 ${styles.disheBox}`}>
+            <div key={id} data-testid="name" className={`col-md-6 ${styles.disheBox}`}>
                 {isAuthenticated ?
                 <div>
                 {user.map((user:any) => {
                     return (
-                        <div key={user.data._id} className='d-flex align-items-center gap-3'>
+                        <div key={user.data._id} 
+                            className={`d-flex align-items-center gap-3`}>
                             {user.data.isAdmin === true || 
                             router.asPath === '/profile' ?
                             <div
                                 data-testid="removeProduct"
-                                onClick={router.asPath === '/profile' ? () => handleRemoveToFavorites(id) :
-                                 handleConfirmDeleteUser} 
+                                onClick={handleConfirmDeleteUser} 
                                 className={styles.deleteProduct}>
                                 <FaTrashAlt />
                             </div> : ''}
-                            {user.data.isAdmin === true  ?
+                            {router.asPath === '/profile' ? '' : user.data.isAdmin === true ?
                                 <div onClick={() => handleOpenUpdateModal(id)} 
                                     className={styles.updateProduct}
                                     >
                                     <FaPencilAlt />
                                 </div>
-                            :''}
+                            : ''}
                         </div>
                     )
                 })}
@@ -103,8 +121,8 @@ export function ProductBox({
                     <div className='d-flex justify-content-between align-items-center'>
                         <h3 className='fw-bold'>{name}</h3>
                         <FaHeart
-                            onClick={() => handleAddToFavorites(id)} 
-                            // className={isProductInFavorites ? styles.favoriteIconChecked : styles.favoriteIcon} 
+                            onClick={handleAddToFavorites} 
+                            className={isProductInFavorites ? styles.favoriteIconChecked : styles.favoriteIcon} 
                         />
                     </div>
                     <p className='mb-0'>{details}</p>
@@ -131,8 +149,11 @@ export function ProductBox({
             </div>
             {confirmationBox && (
                 <ConfirmationBox
-                    children="Você tem certeza que deseja deletar o produto?"
+                    children={router.asPath === '/profile' ? 
+                     "Você tem certeza que deseja deletar o favorito?"
+                    :"Você tem certeza que deseja deletar o produto?"}
                     handleConfirm={() => {
+                        router.asPath === '/profile' ? handleRemoveToFavorites(id) :
                         handleDeleteProduct(id)
                     }}
                     handleCancel={() => {

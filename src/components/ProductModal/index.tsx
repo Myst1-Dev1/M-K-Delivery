@@ -64,8 +64,8 @@ export function ProductModal({ isOpen, onRequestClose }:ProductModalProps) {
                     className={`mt-4 ${styles.formContainer}`}
                     encType="multipart/form-data"
                    >
-                    <div className='d-flex mb-3 align-items-center justify-content-between'>
-                        <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                    <div className='row m-auto'>
+                        <div className={`d-flex flex-column gap-2 col-md-6 ${styles.inputBox}`}>
                             <label className='d-flex gap-3' htmlFor="image">
                                 <FaUpload className={styles.icon} />
                                 <span>Enviar arquivo</span>
@@ -80,7 +80,7 @@ export function ProductModal({ isOpen, onRequestClose }:ProductModalProps) {
                                 }}
                             />
                         </div>
-                        <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                        <div className={`d-flex flex-column gap-2 col-md-6 ${styles.inputBox}`}>
                             <label htmlFor="name">Nome</label>
                             <input 
                                 {...register('name')} 
@@ -90,8 +90,8 @@ export function ProductModal({ isOpen, onRequestClose }:ProductModalProps) {
                             />
                         </div>
                     </div>
-                    <div className='d-flex mb-3 align-items-center justify-content-between'>
-                        <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                    <div className='row m-auto'>
+                        <div className={`d-flex flex-column gap-2 col-md-6 ${styles.inputBox}`}>
                             <label htmlFor="details">Detalhes</label>
                             <input 
                                 {...register('details')} 
@@ -100,7 +100,7 @@ export function ProductModal({ isOpen, onRequestClose }:ProductModalProps) {
                                 id='details' 
                             />
                         </div>
-                        <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                        <div className={`d-flex flex-column gap-2 col-md-6 ${styles.inputBox}`}>
                             <label htmlFor="price">Preço</label>
                             <input 
                                 {...register('price')} 
@@ -113,8 +113,8 @@ export function ProductModal({ isOpen, onRequestClose }:ProductModalProps) {
                             />
                         </div>
                     </div>
-                    <div className='d-flex mb-3 align-items-center justify-content-between'>
-                        <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                    <div className='row m-auto'>
+                        <div className={`d-flex flex-column gap-2 col-md-6 ${styles.inputBox}`}>
                             <label htmlFor="amount">Quantidade</label>
                             <input 
                                 {...register('amount')} 
@@ -123,7 +123,7 @@ export function ProductModal({ isOpen, onRequestClose }:ProductModalProps) {
                                 id='amount' 
                             />
                         </div>
-                        <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                        <div className={`d-flex flex-column gap-2 col-md-6 ${styles.inputBox}`}>
                             <label htmlFor="type">Tipo</label>
                             <select data-testid="select" id="type" {...register('type')} >
                                 <option value="Sushi">Sushi</option>

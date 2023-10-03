@@ -14,6 +14,7 @@ import authSlice from './auth/auth';
 import userSlice from './user/user';
 import productsSlice from './products/product';
 import cartSlice from './cart/cart';
+import favoritesSlice from './favorites/favorites';
 
 const persistConfig = {
     key: 'cart',
@@ -21,6 +22,7 @@ const persistConfig = {
 };
 
 const persistsReducer = persistReducer(persistConfig, cartSlice.reducer);
+const persistsFavorites = persistReducer(persistConfig, favoritesSlice.reducer);
 
 const store = configureStore({
     reducer: {
@@ -28,6 +30,7 @@ const store = configureStore({
         userData:userSlice.reducer,
         productsData:productsSlice.reducer,
         cartData: persistsReducer,
+        favoritesData: persistsFavorites,
     },
     middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

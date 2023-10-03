@@ -1,27 +1,22 @@
-import { FavoritesContext } from '../../../services/hooks/useFavorites';
 import { Search } from '../../../components/Search';
 import styles from './styles.module.scss';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ProductBox } from '../../../components/ProductBox';
-import { parseCookies } from 'nookies';
-import { Favorites } from '@/types/Favorites';
+import { useSelector, useDispatch } from 'react-redux';
+import { cleanFavorites } from '../../../store/favorites/favorites';
 
 export function UserFavorites() {
-    const [search, setSearch] = useState('');
-    const [filter, setFilter] = useState<Favorites[]>([]);
-    const { favorites, handleCleanFavorites, setFavorites } = useContext(FavoritesContext);
+    const dispatch = useDispatch();
+    const favorites = useSelector((state:any) => state.favoritesData.favorites);
 
-    // useEffect(() => {
-    //     const {'favorite-token': favoriteCookie} = parseCookies()
-    
-    //     if(favoriteCookie) {
-    //         setFavorites(JSON.parse(favoriteCookie));
-    //     }
-    //     }, [])
+    console.log(favorites);
+
+    const [search, setSearch] = useState('');
+    const [filter, setFilter] = useState<any>([]);
 
     function searchProducts() {
         if(search !== '') {
-            const filteredProducts = favorites.filter((e: Favorites) =>
+            const filteredProducts = favorites.filter((e: any) =>
                 e.favorites.name.toLowerCase().includes(search.toLowerCase())
             );
             setFilter(filteredProducts);
@@ -44,23 +39,23 @@ export function UserFavorites() {
                     setSearch={setSearch} 
                 />
                 <h6 
-                    onClick={handleCleanFavorites}
+                    onClick={() => dispatch(cleanFavorites())}
                     className={styles.cleanFavorites}
                 >
                         Limpar Favoritos
                 </h6>
             </div>
             <div className={`row ${styles.favoritesContainer}`}>
-                {filter?.map(favorite => {
+                {filter?.map((favorite:any) => {
                     return (
                         <ProductBox
-                            key={favorite.favorites._id}
-                            id={favorite.favorites._id}
-                            name={favorite.favorites.name}
-                            image={favorite.favorites.image}
-                            details={favorite.favorites.details}
-                            amount={favorite.favorites.amount}
-                            price={favorite.favorites.price}
+                            key={favorite._id}
+                            id={favorite._id}
+                            name={favorite.name}
+                            image={favorite.image}
+                            details={favorite.details}
+                            amount={favorite.amount}
+                            price={favorite.price}
                         />
                     )
                 })}

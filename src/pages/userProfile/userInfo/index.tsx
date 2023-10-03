@@ -10,8 +10,6 @@ import { fetchUserData } from '../../../store/user/user';
 
 export function UserInfo() {
     const [isNewProfileModalOpen, setIsNewProfileModalOpen] = useState(false);
-    const { isAuthenticated } = useContext(AuthContext);
-    const { allUser } = useContext(UserContext);
     const user = useSelector((state:any) => state.userData.user);
     const dispatch = useDispatch();
 

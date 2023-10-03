@@ -12,12 +12,11 @@ interface CartProducts {
 
 const cartSlice = createSlice({
     name:'cart',
-    initialState: {cart: [] as CartProducts[], openCart: false, totalQuantity: 0, totalPrice: 0},
+    initialState: {cart: [] as CartProducts[], openCart: false, totalPrice: 0},
     reducers: {
         addToCart(state, action) {
             const newItem = action.payload;
             const existingItem = state.cart.find(item => item._id === newItem.id);
-            state.totalQuantity++;
             if(!existingItem) {
                 state.cart.push({
                     _id: newItem.id,
@@ -29,7 +28,6 @@ const cartSlice = createSlice({
                     totalCart: newItem.price
                 })
             } else {
-                existingItem.quantity++;
                 existingItem.totalCart = existingItem.totalCart + newItem.price;
             }
         },

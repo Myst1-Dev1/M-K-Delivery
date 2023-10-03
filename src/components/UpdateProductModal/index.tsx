@@ -87,7 +87,7 @@ export function UpdateProductModal({ id ,isOpen, onRequestClose, dataItem }:Prod
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      backgroundColor: 'rgba(0,0,0,0.2)'
+                      backgroundColor: 'rgba(0,0,0,0.4)'
                     },
                     content: {
                       position: 'absolute',
@@ -113,8 +113,8 @@ export function UpdateProductModal({ id ,isOpen, onRequestClose, dataItem }:Prod
                     className={`mt-4 ${styles.formContainer}`}
                     encType="multipart/form-data"
                    >
-                    <div className='d-flex mb-3 align-items-center justify-content-between'>
-                        <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                    <div className='row m-auto'>
+                        <div className={`d-flex flex-column gap-2 col-md-6 ${styles.inputBox}`}>
                             <label className='d-flex gap-3' htmlFor="image">
                                 <FaUpload className={styles.icon} />
                                 <span>Enviar arquivo</span>
@@ -129,7 +129,7 @@ export function UpdateProductModal({ id ,isOpen, onRequestClose, dataItem }:Prod
                                 }}
                             />
                         </div>
-                        <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                        <div className={`d-flex flex-column gap-2 col-md-6 ${styles.inputBox}`}>
                             <label htmlFor="name">Nome</label>
                             <input 
                                 {...register('name' , {required:false})} 
@@ -139,8 +139,8 @@ export function UpdateProductModal({ id ,isOpen, onRequestClose, dataItem }:Prod
                             />
                         </div>
                     </div>
-                    <div className='d-flex mb-3 align-items-center justify-content-between'>
-                        <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                    <div className='row m-auto'>
+                        <div className={`d-flex flex-column gap-2 col-md-6 ${styles.inputBox}`}>
                             <label htmlFor="details">Detalhes</label>
                             <input 
                                 {...register('details', {required:false} )} 
@@ -149,7 +149,7 @@ export function UpdateProductModal({ id ,isOpen, onRequestClose, dataItem }:Prod
                                 id='details' 
                             />
                         </div>
-                        <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                        <div className={`d-flex flex-column gap-2 col-md-6 ${styles.inputBox}`}>
                             <label htmlFor="price">Preço</label>
                             <input 
                                 {...register('price', {required:false})} 
@@ -162,8 +162,8 @@ export function UpdateProductModal({ id ,isOpen, onRequestClose, dataItem }:Prod
                             />
                         </div>
                     </div>
-                    <div className='d-flex mb-3 align-items-center justify-content-between'>
-                        <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                    <div className='row m-auto'>
+                        <div className={`d-flex flex-column gap-2 col-md-6 ${styles.inputBox}`}>
                             <label htmlFor="amount">Quantidade</label>
                             <input 
                                 {...register('amount', {required:false})} 
@@ -172,7 +172,7 @@ export function UpdateProductModal({ id ,isOpen, onRequestClose, dataItem }:Prod
                                 id='amount' 
                             />
                         </div>
-                        <div className={`d-flex flex-column gap-2 ${styles.inputBox}`}>
+                        <div className={`d-flex flex-column gap-2 col-md-6 ${styles.inputBox}`}>
                             <label htmlFor="type">Tipo</label>
                             <select data-testid="select" id="type" 
                                 {...register('type', {required:false})} >

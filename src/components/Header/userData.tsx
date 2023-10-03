@@ -74,8 +74,9 @@ export function UserData() {
                                 <div className='d-flex justify-content-between'>
                                     <div className='d-flex flex-column gap-3'>
                                         <Link href='/profile'>
-                                            {user.data.isAdmin === true ? '' :
-                                            "Meu Perfil"}
+                                            {/* {user.data.isAdmin === true ? '' :
+                                            "Meu Perfil"} */}
+                                            Meu Perfil
                                         </Link>
                                         {user.data.isAdmin === true ?
                                         <Link href="/usersList">Usuários</Link>
