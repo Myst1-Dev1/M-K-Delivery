@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect ,ReactNode } from 'react';
-import { setCookie, parseCookies, destroyCookie } from 'nookies';
+import { setCookie, parseCookies } from 'nookies';
 import { Order } from '../../types/Order';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';

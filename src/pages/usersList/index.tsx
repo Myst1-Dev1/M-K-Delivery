@@ -14,6 +14,9 @@ export default function UsersList() {
     const [confirmationBox, setConfirmationBox] = useState(false);
 
     const allUser = useSelector((state:any) => state.userData.allUser);
+    const user = useSelector((state:any) => state.userData.user);
+
+    const isAuthenticated = !!user;
     console.log(allUser);
 
     const router = useRouter();
@@ -39,11 +42,11 @@ export default function UsersList() {
     setConfirmationBox(true);
    }
 
-    // useEffect(() => {
-    //     if(!isAuthenticated && allUser.map(user => user.isAdmin === false)) {
-    //         router.push('/page404');
-    //     }
-    // }, [])
+    useEffect(() => {
+        if(!isAuthenticated && allUser.map((user:any) => user.isAdmin === false)) {
+            router.push('/page401');
+        }
+    }, [])
 
     useEffect(() => {
         dispatch(fetchAllUserData());

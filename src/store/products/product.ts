@@ -1,4 +1,4 @@
-import { ProductsApi, api } from '@/services/api';
+import { ProductsApi, api } from '../../services/api';
 import { Products } from '../../types/Product';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { parseCookies } from 'nookies';

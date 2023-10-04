@@ -22,7 +22,6 @@ const persistConfig = {
 };
 
 const persistsReducer = persistReducer(persistConfig, cartSlice.reducer);
-const persistsFavorites = persistReducer(persistConfig, favoritesSlice.reducer);
 
 const store = configureStore({
     reducer: {
@@ -30,7 +29,7 @@ const store = configureStore({
         userData:userSlice.reducer,
         productsData:productsSlice.reducer,
         cartData: persistsReducer,
-        favoritesData: persistsFavorites,
+        favoritesData: favoritesSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
