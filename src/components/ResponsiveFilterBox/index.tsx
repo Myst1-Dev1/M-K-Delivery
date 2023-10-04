@@ -1,4 +1,4 @@
-import { ProductContext } from '../../../services/hooks/useProducts';
+import { ProductContext } from '../../services/hooks/useProducts';
 import { cleanSearch, searchBrazilianFood, searchDessertFood, searchMeatFood, searchNoodleFood, searchSaladFood, searchSeaFood, searchSushiFood } from '../FilterBox/FilterFunctions';
 import styles from './styles.module.scss';
 import { useContext } from 'react'

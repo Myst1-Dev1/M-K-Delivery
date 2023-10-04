@@ -1,4 +1,3 @@
-import { ProductContext } from '../../../services/hooks/useProducts';
 import { 
     cleanSearch, 
     searchBrazilianFood, 

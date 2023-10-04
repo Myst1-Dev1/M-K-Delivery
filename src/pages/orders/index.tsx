@@ -3,10 +3,8 @@ import { PageBanner } from '../../components/pageBanner';
 import styles from './styles.module.scss';
 import { FaRocketchat } from 'react-icons/fa';
 import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
-import { UserContext } from '../../services/hooks/useUsers';
 import { useRouter } from 'next/router';
-import { OrderChat } from './orderChat';
+import { OrderChat } from '../../components/orderChat';
 import { ChatContext } from '../../services/hooks/useChat';
 import { OrdersContext } from '../../services/hooks/useOrders';
 

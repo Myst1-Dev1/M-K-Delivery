@@ -5,19 +5,20 @@ import { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import ReactPaginate from 'react-paginate';
 
-import { FilterBox } from './FilterBox/FilterBox';
 import { Products } from '../../types/Product';
-import { Product } from './Product';
+import { Product } from '../../components/Product';
 import { PageBanner } from '../../components/pageBanner';
 import { ProductModal } from '../../components/ProductModal';
 import { GetStaticProps } from 'next';
 import { ProductsApi } from '../../services/api';
-import { ResponsiveFilterBox } from './ResponsiveFilterBox';
+
 import { Search } from '../../components/Search';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProductsData } from '../../store/products/product';
 import { fetchUserData } from '@/store/user/user';
 import { useRouter } from 'next/router';
+import { FilterBox } from '../../components/FilterBox';
+import { ResponsiveFilterBox } from '../../components/ResponsiveFilterBox';
 
 interface MenuProps {
     data:Products[];

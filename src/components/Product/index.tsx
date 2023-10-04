@@ -1,6 +1,6 @@
-import { UpdateProductModal } from '../../../components/UpdateProductModal';
-import { Products } from '../../../types/Product';
-import { ProductBox } from '../../../components/ProductBox';
+import { UpdateProductModal } from '../UpdateProductModal';
+import { Products } from '../../types/Product';
+import { ProductBox } from '../ProductBox';
 
 import styles from './styles.module.scss';
 

@@ -1,9 +1,8 @@
 import {fireEvent, render, screen} from '@testing-library/react';
+
+import { AuthContext } from '../../contexts/AuthContext';
+import { CartContext, useCart } from '../../services/hooks/useCart';
 import { Product } from '.';
-import { ProductContext } from '../../../services/hooks/useProducts';
-import { AuthContext } from '../../../contexts/AuthContext';
-import { mocked } from 'jest-mock';
-import { CartContext, useCart } from '../../../services/hooks/useCart';
 
 jest.mock('../../../contexts/AuthContext');
 jest.mock('../../../services/hooks/useCart');
@@ -20,9 +19,20 @@ const onCurrentItems = [
         price: 9.99 },
     ];
 
+    const onSetIsNewUpdateModalOpen = jest.fn()
+    const onRequestClose = jest.fn()
+    const onSetSelectedProductId = jest.fn()
+    const onSelectedProductId = jest.fn()
+
 describe('ProductBox component', () => {
     it('no render text when have products', () => {
-       render(<Product onCurrentItems={onCurrentItems} />)
+       render(<Product onCurrentItems={onCurrentItems} 
+        isNewUpdateModalOpen 
+        onRequestClose={onRequestClose}
+        onSelectedProductId={onSelectedProductId}
+        onSetIsNewUpdateModalOpen={onSetIsNewUpdateModalOpen}
+        onSetSelectedProductId={onSetSelectedProductId}
+        />)
 
        expect(screen.queryByText('Sem resultados para sua pesquisa 😢')).toBeNull();
     })
@@ -30,15 +40,25 @@ describe('ProductBox component', () => {
     it('render text when no have products', () => {
         const currentItems:any = []
 
-        render(<Product onCurrentItems={currentItems} />)
+         render(<Product onCurrentItems={onCurrentItems} 
+            isNewUpdateModalOpen 
+            onRequestClose={onRequestClose}
+            onSelectedProductId={onSelectedProductId}
+            onSetIsNewUpdateModalOpen={onSetIsNewUpdateModalOpen}
+            onSetSelectedProductId={onSetSelectedProductId}
+        />)
  
         expect(screen.queryByText('Sem resultados para sua pesquisa 😢')).toBeInTheDocument();
      })
 
     it('render data products', () => {
-        render(
-            <Product onCurrentItems={onCurrentItems} />
-        )
+        render(<Product onCurrentItems={onCurrentItems} 
+            isNewUpdateModalOpen 
+            onRequestClose={onRequestClose}
+            onSelectedProductId={onSelectedProductId}
+            onSetIsNewUpdateModalOpen={onSetIsNewUpdateModalOpen}
+            onSetSelectedProductId={onSetSelectedProductId}
+            />)
 
        expect(screen.getByText('Produto 1')).toBeInTheDocument();
        expect(screen.getByText('Detalhes 1')).toBeInTheDocument();
@@ -60,7 +80,13 @@ describe('ProductBox component', () => {
        
         render(
             <AuthContext.Provider value={mockAuthContext}>
-                <Product onCurrentItems={onCurrentItems} />
+                <Product onCurrentItems={onCurrentItems} 
+                    isNewUpdateModalOpen 
+                    onRequestClose={onRequestClose}
+                    onSelectedProductId={onSelectedProductId}
+                    onSetIsNewUpdateModalOpen={onSetIsNewUpdateModalOpen}
+                    onSetSelectedProductId={onSetSelectedProductId}
+            />
             </AuthContext.Provider>
         )
 
@@ -83,7 +109,13 @@ describe('ProductBox component', () => {
        
         render(
             <AuthContext.Provider value={mockAuthContext}>
-                <Product onCurrentItems={onCurrentItems} />
+                <Product onCurrentItems={onCurrentItems} 
+                    isNewUpdateModalOpen 
+                    onRequestClose={onRequestClose}
+                    onSelectedProductId={onSelectedProductId}
+                    onSetIsNewUpdateModalOpen={onSetIsNewUpdateModalOpen}
+                    onSetSelectedProductId={onSetSelectedProductId}
+            />
             </AuthContext.Provider>
         )
 
@@ -101,7 +133,13 @@ describe('ProductBox component', () => {
 
         render(
             <CartContext.Provider value={mockUseCart}>
-                <Product onCurrentItems={onCurrentItems} />
+                <Product onCurrentItems={onCurrentItems} 
+                    isNewUpdateModalOpen 
+                    onRequestClose={onRequestClose}
+                    onSelectedProductId={onSelectedProductId}
+                    onSetIsNewUpdateModalOpen={onSetIsNewUpdateModalOpen}
+                    onSetSelectedProductId={onSetSelectedProductId}
+                />
             </CartContext.Provider>
         )
 

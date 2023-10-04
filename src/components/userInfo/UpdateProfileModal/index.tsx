@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import Modal from 'react-modal';
 import { useForm } from 'react-hook-form';
 import { parseCookies } from 'nookies';
-import { api } from '../../../../services/api';
+import { api } from '../../../services/api';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';

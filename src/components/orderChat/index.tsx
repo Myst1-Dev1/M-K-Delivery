@@ -2,9 +2,9 @@ import { FaPaperPlane, FaTimes } from 'react-icons/fa';
 import styles from './styles.module.scss';
 
 import { useContext, useEffect, useRef } from 'react';
-import { ChatContext } from '../../../services/hooks/useChat';
+import { ChatContext } from '../../services/hooks/useChat';
 import { parseCookies } from 'nookies';
-import { OrdersContext } from '../../../services/hooks/useOrders';
+import { OrdersContext } from '../../services/hooks/useOrders';
 
 
 export function OrderChat() {

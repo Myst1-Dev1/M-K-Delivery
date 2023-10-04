@@ -1,5 +1,7 @@
 import {render, screen} from '@testing-library/react';
-import { FilterBox } from './FilterBox';
+
+
+import { FilterBox } from '.';
 import { cleanSearch, searchSushiFood } from './FilterFunctions';
 
 const setFilter = jest.fn();

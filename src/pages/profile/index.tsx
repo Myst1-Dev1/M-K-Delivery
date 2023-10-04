@@ -1,15 +1,17 @@
 import styles from './styles.module.scss';
 import {FaBell, FaCartPlus, FaHeart, FaRocketchat, FaUser} from 'react-icons/fa';
 
-import { AuthContext } from "../../contexts/AuthContext";
-import { useState, useContext, useEffect } from "react"
-import { UserInfo } from './userInfo';
-import { UserFavorites } from './userFavorites';
-import { UserOrders } from './userOrders';
-import { UserNotifications } from './userNotifications';
-import { UserChat } from './userChat';
+import { useState, useEffect } from "react"
+
+import { UserOrders } from '../../components/userOrders';
+import { UserNotifications } from '../../components/userNotifications';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchUserData } from '../../store/user/user';
+import { UserInfo } from '../userProfile/userInfo';
+import { UserFavorites } from '../userProfile/userFavorites';
+import { UserChat } from '../../components/userChat';
+
 
 export default function Profile() {
     const user = useSelector((state:any) => state.userData.user);

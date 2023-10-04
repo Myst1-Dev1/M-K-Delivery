@@ -1,8 +1,8 @@
 import { FaPencilAlt } from 'react-icons/fa';
 import styles from './styles.module.scss';
-import { UpdateProfileModal } from './UpdateProfileModal';
 import { useContext, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { UpdateProfileModal } from './UpdateProfileModal';
 
 export function UserInfo() {
     const [isNewProfileModalOpen, setIsNewProfileModalOpen] = useState(false);

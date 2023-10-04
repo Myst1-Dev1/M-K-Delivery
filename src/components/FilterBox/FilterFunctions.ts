@@ -1,4 +1,4 @@
-import { Products } from "../../../types/Product";
+import { Products } from "../../types/Product";
 
 export function searchSushiFood(products:Products[], onSetFilter:any) {
     const sushiProducts = products.filter(product => product.type === 'Sushi');

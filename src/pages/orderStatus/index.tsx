@@ -1,7 +1,7 @@
 import { FaRocketchat } from 'react-icons/fa';
 import { PageBanner } from '../../components/pageBanner';
 import styles from './styles.module.scss';
-import { OrderChat } from '../orders/orderChat';
+import { OrderChat } from '../../components/orderChat';
 import { useContext, useState, useEffect } from 'react';
 import { ChatContext } from '../../services/hooks/useChat';
 import { OrdersContext } from '../../services/hooks/useOrders';
